@@ -71,12 +71,9 @@ class itemClick {
     fun money(player: Player, item_name: String) {
         val point: Int
         point = when (item_name) {
-            "${ChatColor.GREEN}10p" -> {
-                10
-            }
-            "${ChatColor.GREEN}100p" -> {
-                100
-            }
+            "${ChatColor.GREEN}10p" -> 10
+            "${ChatColor.GREEN}100p" -> 100
+            "${ChatColor.GREEN}1000p" -> 1000
             else -> { return }
         }
         point().add(player, point, false)

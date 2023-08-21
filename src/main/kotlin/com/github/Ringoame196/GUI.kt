@@ -231,6 +231,7 @@ class GUI {
         player.openInventory(GUI)
         setGUIitem(GUI, 0, Material.EMERALD, "${ChatColor.GREEN}10p", "10p")
         setGUIitem(GUI, 1, Material.EMERALD, "${ChatColor.GREEN}100p", "100p")
+        setGUIitem(GUI, 1, Material.EMERALD, "${ChatColor.GREEN}1000p", "1000p")
         dividing_line(GUI, 9)
         setGUIitem(GUI, 18, Material.ZOMBIE_HEAD, "${ChatColor.GREEN}敵対されない帽子", "8000p")
         setGUIitem(GUI, 19, Material.GOLDEN_APPLE, "金リンゴ", "300p")
