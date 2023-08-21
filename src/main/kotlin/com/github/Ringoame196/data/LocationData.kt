@@ -13,7 +13,18 @@ data class LocationData(
     var blueshop: Location? = null,
     var redspawn: Location? = null,
     var bluespawn: Location? = null,
-    var randomChest: Location? = null
+    var randomChest: Location? = null,
+
+    var motiRedshop: Location? = null,
+    var motiBlueshop: Location? = null,
+    var motiRedspawn: Location? = null,
+    var motiBluespawn: Location? = null,
+    var motiRandomChest: Location? = null,
+    var motiRedzombiespwn1: Location? = null,
+    var motiRedzombiespwn2: Location? = null,
+    var motiBluezombiespwn1: Location? = null,
+    var motiBluezombiespwn2: Location? = null,
+
 ) {
     fun saveToFile(filePath: String) {
         val yamlConfiguration = YamlConfiguration()

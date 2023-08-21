@@ -46,12 +46,13 @@ class Team {
         player.sendTitle("", "${ChatColor.YELLOW}[${message}しました]")
         Sign().Numberdisplay("(参加中:${ParticipatingPlayer.size}人)")
     }
-    fun make(name: String, color: ChatColor) {
+    fun make(name: String, color: ChatColor, prefix: String) {
         Bukkit.getScoreboardManager()?.mainScoreboard?.registerNewTeam(name)
         Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam(name)?.let {
             it.setAllowFriendlyFire(false)
             it.color = color
             it.nameTagVisibility = NameTagVisibility.HIDE_FOR_OTHER_TEAMS
+            it.prefix = prefix
         }
     }
     fun delete() {
@@ -65,6 +66,9 @@ class Team {
         var team = true
         var blueCount = 0
         for (loopPlayer in Data.DataManager.gameData.ParticipatingPlayer) {
+            Data.DataManager.gameData.bossBar.addPlayer(loopPlayer)
+            loopPlayer.setPlayerListName(null)
+            loopPlayer.setDisplayName(null)
             if (team) {
                 redTeam?.addPlayer(loopPlayer)
                 loopPlayer.teleport(Data.DataManager.LocationData.redspawn!!)
@@ -75,6 +79,7 @@ class Team {
             }
             loopPlayer.scoreboardTags.remove("pvpjoin")
             loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, Int.MAX_VALUE, 100, true, false))
+            loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, Int.MAX_VALUE, 1, true, false))
             Equipment().Initial(loopPlayer)
             loopPlayer.gameMode = GameMode.SURVIVAL
             loopPlayer.health = 20.0

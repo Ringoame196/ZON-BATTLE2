@@ -75,7 +75,7 @@ class randomChest {
         item.add(setItem(Material.STONE_PICKAXE, ""))
         item.add(setItem(Material.ENCHANTED_GOLDEN_APPLE, ""))
         item.add(setItem(Material.FISHING_ROD, ""))
-        item.add(setItem(Material.SLIME_BALL, "${ChatColor.YELLOW}[召喚]ネザーライトゾンビ"))
+        item.add(setItem(Material.NETHERITE_INGOT, "${ChatColor.YELLOW}[ゾンビ召喚]ネザライトゾンビ"))
         item.add(setItem(Material.NETHERITE_BLOCK, "ネザライトゴーレム"))
         item.add(set_potionGUIitem(Material.SPLASH_POTION, PotionEffectType.HEAL, 2, 1))
         return item

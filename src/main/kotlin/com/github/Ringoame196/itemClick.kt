@@ -2,19 +2,22 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.IronGolem
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.plugin.Plugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 class itemClick {
-    fun system(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent) {
+    fun system(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
         val item_name = item?.itemMeta?.displayName.toString()
         val item_type = item?.type
         when {
@@ -39,12 +42,27 @@ class itemClick {
             }
             block?.type == Material.OAK_WALL_SIGN -> {
                 e.isCancelled = true
-                Sign().click(player, block)
+                Sign().click(player, block, plugin)
                 return
             }
             item_name == "${ChatColor.GREEN}リモートショップ" -> {
                 shop().GUI(player)
                 e.isCancelled = true
+            }
+            item_name == "${ChatColor.GREEN}テレポート" -> {
+                val coordinates = item?.itemMeta?.lore?.get(1)?.split(",")?.mapNotNull { it.toDoubleOrNull() }
+
+                if (coordinates?.size == 3) {
+                    val x = coordinates[0]
+                    val y = coordinates[1]
+                    val z = coordinates[2]
+
+                    val world = Bukkit.getWorld(item.itemMeta?.lore?.get(0)!!) ?: return
+                    player.teleport(Location(world, x, y, z))
+                    player.sendMessage("${ChatColor.GREEN}テレポートしました")
+                }
+                e.isCancelled = true
+                return
             }
             else -> return
         }

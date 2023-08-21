@@ -4,7 +4,6 @@ import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
 import org.bukkit.ChatColor
 import org.bukkit.Material
-import org.bukkit.Sound
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
@@ -96,6 +95,7 @@ class Events(private val plugin: Plugin) : Listener {
                     Material.IRON_AXE -> e.damage = 5.0
                     Material.DIAMOND_AXE -> e.damage = 6.0
                     Material.NETHERITE_AXE -> e.damage = 7.0
+                    else -> {}
                 }
             }
         }
@@ -109,7 +109,7 @@ class Events(private val plugin: Plugin) : Listener {
         val block = e.clickedBlock
         val action = e.action
         if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
-            itemClick().system(player, item, block, e)
+            itemClick().system(player, item, block, e, plugin)
         }
     }
 
@@ -117,6 +117,7 @@ class Events(private val plugin: Plugin) : Listener {
     fun onBlockBreakEvent(e: BlockBreakEvent) {
         // ブロックを破壊したとき
         val player = e.player
+        if (player.world.name != "BATTLE") { return }
         GameSystem().adventure(e, player)
         val team_name = GET().TeamName(player)
         val block = e.block
@@ -131,19 +132,7 @@ class Events(private val plugin: Plugin) : Listener {
     fun onBlockPlaceEvent(e: BlockPlaceEvent) {
         // ブロック設置阻止
         val player = e.player
-        val block = e.block
-        if (block.type == Material.OAK_FENCE) {
-            val location = block.location.clone()
-            if (location.add(0.0, -2.0, 0.0).block.type == Material.END_STONE) {
-                Data.DataManager.gameData.fence.add(block)
-            } else {
-                GameSystem().adventure(e, player)
-                player.sendMessage("${ChatColor.RED}ここで設置することはできません")
-                player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
-            }
-        } else {
-            GameSystem().adventure(e, player)
-        }
+        GameSystem().adventure(e, player)
     }
 
     @EventHandler
@@ -184,17 +173,11 @@ class Events(private val plugin: Plugin) : Listener {
 
     @EventHandler
     fun onEntityTargetEvent(e: EntityTargetEvent) {
-        val player = e.target
         val entity = e.entity
 
         if (entity.scoreboardTags.contains("targetshop")) {
-            e.target = Zombie().getNearestVillager(entity.location, 30.0)
+            e.target = Zombie().getNearestVillager(entity.location, 100.0)
         }
-        // 敵対されない帽子
-        if (player !is Player) { return }
-        val helmet = player.inventory.helmet
-        val displayname = helmet?.itemMeta?.displayName
-        if (helmet?.type == Material.ZOMBIE_HEAD && displayname == "${ChatColor.GREEN}敵対されない帽子") { e.isCancelled = true }
     }
     @EventHandler
     fun onSignChangeEvent(e: SignChangeEvent) {
@@ -224,6 +207,10 @@ class Events(private val plugin: Plugin) : Listener {
         val player = e.entity
         if (player !is Player) { return }
 
+        if (player.scoreboardTags.contains("invincible")) {
+            e.isCancelled = true
+            return
+        }
         // ダメージが0以上の場合（リスポーン判定）
         if (e.damage > 0 && player.health <= e.damage) {
             if (!GET().JoinTeam(player)) { return }

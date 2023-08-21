@@ -61,18 +61,18 @@ class GUIClick {
             "ショップ解放" -> shop().release(player, team_name, item_name)
             "攻撃力UP(3分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.INCREASE_DAMAGE, null, 0, 180)
             "再生UP(3分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.REGENERATION, null, 2, 180)
-            "採掘速度UP(5分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.FAST_DIGGING, null, 3, 300)
+            "採掘速度UP(5分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.FAST_DIGGING, null, 2, 300)
             "耐性(3分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.DAMAGE_RESISTANCE, null, 1, 180)
             "移動速度UP(3分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.SPEED, null, 1, 180)
-            "攻撃力UP&再生(1分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.REGENERATION, PotionEffectType.INCREASE_DAMAGE, 1, 60)
+            "攻撃力UP&再生(3分)" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.REGENERATION, PotionEffectType.INCREASE_DAMAGE, 0, 180)
             "鉱石復活速度UP" -> Team().fastbreaklevel(team_name, player, item_name)
             "村人体力増加" -> shop().TeamMaxHPadd(team_name, player, item_name, 10)
             "盲目(10秒)[妨害]" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.BLINDNESS, null, 255, 10)
             "弱体化(10秒)[妨害]" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.WEAKNESS, null, 255, 10)
             "採掘速度低下(10秒)[妨害]" -> PlayerSend().TeamGiveEffect(player, item_name, PotionEffectType.SLOW_DIGGING, null, 255, 10)
             "狼召喚" -> Wolf().summon(player)
-            "村人耐久1(3分)" -> shop().effect(player, item_name, PotionEffectType.DAMAGE_RESISTANCE, 180, 3)
-            "村人再生1(3分)" -> shop().effect(player, item_name, PotionEffectType.REGENERATION, 180, 3)
+            "村人耐久1(3分)" -> shop().effect(player, item_name, PotionEffectType.DAMAGE_RESISTANCE, 180, 1)
+            "村人再生1(3分)" -> shop().effect(player, item_name, PotionEffectType.REGENERATION, 180, 1)
         }
     }
 }

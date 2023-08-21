@@ -37,8 +37,23 @@ class GameSystem {
             }
             "${ChatColor.YELLOW}実験所へ" -> Bukkit.dispatchCommand(player, "mvtp jikken")
             "${ChatColor.YELLOW}ロビーへ" -> Bukkit.dispatchCommand(player, "mvtp world")
+            "${ChatColor.YELLOW}バトルへ" -> Bukkit.dispatchCommand(player, "mvtp BATTLE")
             "${ChatColor.BLUE}プレイヤー" -> {
                 GUI().JoinPlayers(player)
+                return
+            }
+            "${ChatColor.GREEN}テレポート" -> {
+                val location = "${player.location.x.toInt()}.5,${player.location.y.toInt()}.0,${player.location.z.toInt()}.5"
+                val item = ItemStack(Material.LANTERN)
+                val meta = item.itemMeta
+                meta?.setDisplayName("${ChatColor.GREEN}テレポート")
+                val loreList: MutableList<String> = mutableListOf(player.world.name, location)
+                meta?.lore = loreList
+                item.setItemMeta(meta)
+                player.inventory.addItem(item)
+            }
+            "${ChatColor.GREEN}OPチェスト" -> {
+                player.openInventory(Data.DataManager.gameData.opchest)
                 return
             }
         }
@@ -65,8 +80,8 @@ class GameSystem {
         }
         shop().summon(Data.DataManager.LocationData.redshop, "red")
         shop().summon(Data.DataManager.LocationData.blueshop, "blue")
-        if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED) }
-        if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE) }
+        if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
+        if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
         randomChest().set()
         val location = Data.DataManager.LocationData.randomChest?.clone()
         location?.add(0.5, -1.0, 0.0)
@@ -145,6 +160,7 @@ class GameSystem {
         gameEndSystem("${ChatColor.RED}攻防戦ゲーム終了！！", winTeam)
     }
     fun gameEndSystem(message: String, winTeam: String?) {
+        Data.DataManager.gameData.bossBar.removeAll()
         Bukkit.broadcastMessage("${ChatColor.YELLOW}[攻防戦]$message")
         for (loopPlayer in Data.DataManager.gameData.ParticipatingPlayer) {
             loopPlayer.sendMessage("${ChatColor.AQUA}[ゲーム時間]${GET().minutes(Data.DataManager.gameData.time)}")
@@ -180,8 +196,8 @@ class GameSystem {
         Sign().Numberdisplay("(参加中:0人)")
         Data.DataManager.gameData.status = false
         reset()
-        Team().make("red", ChatColor.RED)
-        Team().make("blue", ChatColor.BLUE)
+        Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]")
+        Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]")
         Ranking().updateRankingScoreboard()
     }
 
@@ -213,14 +229,18 @@ class GameSystem {
             PlayerSend().participantplaysound(Sound.BLOCK_ANVIL_USE)
             Data.DataManager.gameData.magnification = 2
         }
+        if (time <= 300) {
+            val remaining = 300 - time
+            Data.DataManager.gameData.bossBar.setTitle("${ChatColor.YELLOW}ゾンビ解放まで${GET().minutes(remaining)}")
+        } else if (time <= 1200) {
+            val remaining = 1200 - time
+            Data.DataManager.gameData.bossBar.setTitle("${ChatColor.AQUA}ポイント2倍まで${GET().minutes(remaining)}")
+        }
         if (time == 300) { PlayerSend().participantmessage("${ChatColor.YELLOW}ゾンビ解放!") }
         if (time % 300 == 0) { randomChest().set() }
-        if (time % 17 == 0) { Zombie().summonner("${ChatColor.DARK_PURPLE}エンペラー", "shield", "soldier") }
-        if (time % 5 == 0) {
-            Golem().Golden()
-            Zombie().breakcheck()
-        }
-        if (time % 7 == 0) { Zombie().summonner("${ChatColor.DARK_PURPLE}ネクロマンサー", "normal", "normal") }
+        if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }
+        if (time % 5 == 0) { Golem().Golden() }
+        if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "normal", "normal") }
     }
     fun playersJoin(PlayerName: String, sender: Player) {
         val player = Bukkit.getPlayer(PlayerName.replace("${ChatColor.YELLOW}", "")) ?: return

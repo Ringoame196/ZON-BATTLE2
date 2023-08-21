@@ -6,7 +6,7 @@ import org.bukkit.entity.Wolf
 class Wolf {
     fun summon(player: Player) {
         val world = player.world
-        val location = player.getLocation()
+        val location = player.location
         val wolf: Wolf = world.spawn(location, org.bukkit.entity.Wolf::class.java)
         wolf.owner = player
     }

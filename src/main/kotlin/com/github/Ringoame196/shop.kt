@@ -2,6 +2,7 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.PlayerData
+import com.github.Ringoame196.data.TeamData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -31,6 +32,7 @@ class shop {
             unopened(player)
         }
     }
+    @Suppress("UNUSED_CHANGED_VALUE")
     fun system(item: ItemStack, player: Player) {
         if (item.type == Material.RED_STAINED_GLASS_PANE) {
             return
@@ -49,6 +51,21 @@ class shop {
                 val meta = item.itemMeta
                 meta?.lore = null
                 giveitem.setItemMeta(meta)
+                if (it.itemMeta?.displayName?.contains("ゴーレム") == true) {
+                    var c = Data.DataManager.teamDataMap.getOrPut(GET().TeamName(player)) { TeamData() }.golem
+                    if (c >= 5) {
+                        player.sendMessage("${ChatColor.YELLOW}ゴーレムを5体以上購入できません")
+                        player.closeInventory()
+                        when (it.itemMeta?.displayName) {
+                            "${ChatColor.YELLOW}アイアンゴーレム" -> point().add(player, 500, false)
+                            "${ChatColor.YELLOW}ゴールデンゴーレム" -> point().add(player, 1500, false)
+                            "${ChatColor.YELLOW}ダイヤモンドゴーレム" -> point().add(player, 8000, false)
+                        }
+                        return
+                    }
+                    Data.DataManager.teamDataMap.getOrPut(GET().TeamName(player)) { TeamData() }.golem = c + 1
+                    shop().effect(player, "ゴーレム召喚($c/5)", PotionEffectType.REGENERATION, 180, 1)
+                }
                 if (it.itemMeta?.displayName?.contains("[装備]") == true) {
                     Give().Equipment(player, it)
                     return

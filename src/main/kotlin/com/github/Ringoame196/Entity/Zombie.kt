@@ -5,13 +5,18 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.Sound
-import org.bukkit.block.Block
+import org.bukkit.attribute.Attribute
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
 import org.bukkit.entity.Zombie
-import kotlin.random.Random
+import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
+import java.io.File
+import java.io.IOException
 
 class Zombie {
     fun getNearestVillager(location: Location, radius: Double): Villager? {
@@ -37,7 +42,7 @@ class Zombie {
         summon_name = summon_name.replace("${ChatColor.YELLOW}", "")
 
         val location = player.getLocation()
-        location.add(0.0, -3.0, 0.0)
+        location.add(0.0, -3.5, 0.0)
         val function = when (summon_name) {
             "ノーマルゾンビ" -> "normal"
             "チビゾンビ" -> "chibi"
@@ -46,57 +51,117 @@ class Zombie {
             "タンクマン" -> "tankman"
             "ダッシュマン" -> "dashman"
             "スケルトンマン" -> "skeletonman"
-            "ネザーライトゾンビ" -> "netherite"
+            "ネザライトゾンビ" -> "netherite"
             "シャーマン" -> "shaman"
             "ネクロマンサー" -> "necromancer"
             "エンペラー" -> "emperor"
+            "デスクイーン" -> "deathqueen"
             else -> { return }
         }
         summon(location, function)
     }
     @Suppress("DEPRECATION")
     fun summon(location: Location, function: String) {
-        val world = location.world
-        val zombie: Zombie? = world?.spawn(location, org.bukkit.entity.Zombie::class.java)
-        val command = "execute as ${zombie?.uniqueId} at @s run function akmob:$function"
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command)
-        zombie?.scoreboardTags?.add("targetshop")
-        if (function == "netherite") {
-            zombie?.maxHealth = 80.0
-            zombie?.health = 80.0
+        val zombieinfo = "plugins/ZON-BATTLE2/zombie/$function.yml"
+        val file = File(zombieinfo)
+
+        if (!file.exists()) {
+            Bukkit.getPlayer("Ringoame196")?.player?.sendMessage("[ゾンビ召喚]${ChatColor.RED}$function が未設定です")
+            return
         }
+
+        val yaml = YamlConfiguration.loadConfiguration(file)
+        val zombieSection = yaml.getConfigurationSection("Zombie")
+
+        val world = location.world
+        val zombie: Zombie? = world?.spawn(location, Zombie::class.java)
+        zombie?.scoreboardTags?.add("targetshop")
+
+        val customName = zombieSection?.getString("Name")
+        if (!customName.isNullOrBlank()) {
+            zombie?.customName = customName
+        }
+        val Baby = zombieSection?.getBoolean("Baby", false) ?: false
+        zombie?.isBaby = Baby
+
+        val health = zombieSection?.getDouble("HP", 20.0) ?: 20.0
+        zombie?.maxHealth = health + 10.0
+        zombie?.health = health + 10.0
+
+        val movementSpeed = zombieSection?.getDouble("SPEED", 0.2) ?: 0.2
+        zombie?.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = movementSpeed
+
+        val power = zombieSection?.getDouble("Power", 1.0) ?: 1.0
+        zombie?.damage(power)
+
+        val shield = zombieSection?.getBoolean("shield", false) ?: false
+        if (shield) zombie?.equipment?.setItemInOffHand(ItemStack(Material.SHIELD))
+
+        val Head = zombieSection?.getInt("Head", 0) ?: 0
+        val Chestplate = zombieSection?.getInt("Chestplate", 0) ?: 0
+        val Leggings = zombieSection?.getInt("Leggings", 0) ?: 0
+        val Boots = zombieSection?.getInt("Boots", 0) ?: 0
+        when (Head) {
+            1 -> zombie?.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
+            2 -> zombie?.equipment?.helmet = ItemStack(Material.IRON_HELMET)
+            3 -> zombie?.equipment?.helmet = ItemStack(Material.GOLDEN_HELMET)
+            4 -> zombie?.equipment?.helmet = ItemStack(Material.DIAMOND_HELMET)
+            5 -> zombie?.equipment?.helmet = ItemStack(Material.NETHERITE_HELMET)
+            6 -> zombie?.equipment?.helmet = ItemStack(Material.CHAINMAIL_HELMET)
+            7 -> zombie?.equipment?.helmet = ItemStack(Material.SKELETON_SKULL)
+        }
+        when (Chestplate) {
+            1 -> zombie?.equipment?.chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
+            2 -> zombie?.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
+            3 -> zombie?.equipment?.chestplate = ItemStack(Material.GOLDEN_CHESTPLATE)
+            4 -> zombie?.equipment?.chestplate = ItemStack(Material.DIAMOND_CHESTPLATE)
+            5 -> zombie?.equipment?.chestplate = ItemStack(Material.NETHERITE_CHESTPLATE)
+            6 -> zombie?.equipment?.chestplate = ItemStack(Material.CHAINMAIL_CHESTPLATE)
+        }
+        when (Leggings) {
+            1 -> zombie?.equipment?.leggings = ItemStack(Material.LEATHER_LEGGINGS)
+            2 -> zombie?.equipment?.leggings = ItemStack(Material.IRON_LEGGINGS)
+            3 -> zombie?.equipment?.leggings = ItemStack(Material.GOLDEN_LEGGINGS)
+            4 -> zombie?.equipment?.leggings = ItemStack(Material.DIAMOND_LEGGINGS)
+            5 -> zombie?.equipment?.leggings = ItemStack(Material.NETHERITE_LEGGINGS)
+            6 -> zombie?.equipment?.leggings = ItemStack(Material.CHAINMAIL_LEGGINGS)
+        }
+        when (Boots) {
+            1 -> zombie?.equipment?.boots = ItemStack(Material.LEATHER_BOOTS)
+            2 -> zombie?.equipment?.boots = ItemStack(Material.IRON_BOOTS)
+            3 -> zombie?.equipment?.boots = ItemStack(Material.GOLDEN_BOOTS)
+            4 -> zombie?.equipment?.boots = ItemStack(Material.DIAMOND_BOOTS)
+            5 -> zombie?.equipment?.boots = ItemStack(Material.NETHERITE_BOOTS)
+            6 -> zombie?.equipment?.boots = ItemStack(Material.CHAINMAIL_BOOTS)
+        }
+
+        when (function) {
+            "soldier" -> {
+                val sword = ItemStack(Material.IRON_SWORD)
+                sword.addEnchantment(Enchantment.KNOCKBACK, 1)
+                zombie?.equipment?.setItemInMainHand(sword)
+            }
+            "skeletonman" -> zombie?.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))
+            "shaman" -> zombie?.scoreboardTags?.add("shaman")
+            "deathqueen" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.NETHERITE_HOE))
+        }
+
         zombie?.let { Data.DataManager.gameData.zombie.add(it) }
     }
-    fun breakcheck() {
-        val breakBlock: MutableList<Block> = mutableListOf()
-        for (zombie in Data.DataManager.gameData.zombie) {
-            if (Bukkit.getWorld("BATTLE")?.entities?.contains(zombie) == false) {
-                Data.DataManager.gameData.zombie.remove(zombie)
-                continue
-            }
-            val location = zombie.location
-            breakFence(location)?.let { breakBlock.add(it) }
-        }
-        for (block in breakBlock) {
-            block.setType(Material.AIR)
-            block.world.playSound(block.location, Sound.BLOCK_BELL_USE, 1f, 1f)
-        }
-    }
-    fun breakFence(location: Location): Block? {
-        val fencelist: MutableList<Block> = mutableListOf()
-        for (xOffset in -1..1) {
-            for (yOffset in -1..1) {
-                for (zOffset in -1..1) {
-                    val block = location.clone().add(xOffset.toDouble(), yOffset.toDouble(), zOffset.toDouble()).block
-                    if (block.type == Material.OAK_FENCE) { fencelist.add(block) }
-                }
-            }
-        }
-        if (fencelist.isEmpty()) {
-            // fencelistが空の場合の処理を記述
-            return null // または何か適切な値を返す
-        } else {
-            return fencelist[Random.nextInt(fencelist.size)]
+    fun createZombieYaml() {
+        val yamlFile = File("plugins/ZON-BATTLE2/zombie/sample.yml")
+
+        val yamlConfig = YamlConfiguration()
+        yamlConfig["Zombie.Name"] = "ノーマルゾンビ"
+        yamlConfig["Zombie.HP"] = 20.0
+        yamlConfig["Zombie.SPEED"] = 0.2
+        yamlConfig["Zombie.Power"] = 10
+
+        try {
+            yamlConfig.save(yamlFile)
+            println("YAMLファイルが正常に作成されました。")
+        } catch (e: IOException) {
+            println("YAMLファイルの作成中にエラーが発生しました: ${e.message}")
         }
     }
 

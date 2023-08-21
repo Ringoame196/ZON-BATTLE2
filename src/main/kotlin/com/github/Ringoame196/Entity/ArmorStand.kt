@@ -15,7 +15,6 @@ class ArmorStand {
         armorStand.customName = name
         armorStand.isCustomNameVisible = true
         armorStand.setGravity(false)
-        armorStand.scoreboardTags.add("BATTLEmob")
         return armorStand
     }
 }

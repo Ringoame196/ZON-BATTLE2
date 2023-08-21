@@ -29,10 +29,8 @@ class GUI {
     }
     fun setGUIitem(GUI: Inventory, number: Int, set_item: Material, displayname: String, lore: String) {
         // GUIにアイテムを楽にセットする
-        val item = ItemStack(set_item)
+        val item = lore(set_item, displayname, lore)
         val itemMeta: ItemMeta? = item.itemMeta
-        itemMeta?.setDisplayName(displayname)
-        lore(itemMeta, lore)
         itemMeta?.isUnbreakable = true // 不破壊
         item.setItemMeta(itemMeta)
         GUI.setItem(number, item)
@@ -40,20 +38,17 @@ class GUI {
     @Suppress("DEPRECATION")
     fun set_playerHead(GUI: Inventory, number: Int, name: String, displayname: String, lore: String) {
         // GUIにアイテムを楽にセットする
-        val item = ItemStack(Material.PLAYER_HEAD)
+        val item = lore(Material.PLAYER_HEAD, displayname, lore)
         val itemMeta = item.itemMeta as SkullMeta
         itemMeta.owningPlayer = Bukkit.getOfflinePlayer(name) // プレイヤー名で設定
-        itemMeta.setDisplayName(displayname)
-        lore(itemMeta, lore)
         itemMeta.isUnbreakable = true // 不破壊
         item.setItemMeta(itemMeta)
         GUI.setItem(number, item)
     }
     fun set_potionGUIitem(GUI: Inventory, number: Int, item: Material, lore: String, typePotion: PotionEffectType, level: Int, time: Int) {
         // GUIにポーションを楽にセットする
-        val itemStack = ItemStack(item)
+        val itemStack = lore(item, "", lore)
         val potionMeta = itemStack.itemMeta as PotionMeta
-        lore(potionMeta, lore)
 
         val regenerationEffect = PotionEffect(typePotion, time * 20, level)
         potionMeta.addCustomEffect(regenerationEffect, true)
@@ -74,21 +69,24 @@ class GUI {
     }
 
     fun setPotionArrow(GUI: Inventory, number: Int, lore: String, typePotion: PotionEffectType, level: Int, time: Int) {
-        val itemStack = ItemStack(Material.TIPPED_ARROW)
+        val itemStack = lore(Material.TIPPED_ARROW, "効果付きの矢", lore)
         val potionMeta = itemStack.itemMeta as PotionMeta
-        lore(potionMeta, lore)
 
         val regenerationEffect = PotionEffect(typePotion, time * 20, level)
         potionMeta.addCustomEffect(regenerationEffect, true)
-        potionMeta.setDisplayName("効果付きの矢")
         itemStack.setItemMeta(potionMeta)
         GUI.setItem(number, itemStack)
     }
 
-    fun lore(meta: ItemMeta?, lore: String) {
+    fun lore(material: Material, name: String, lore: String): ItemStack {
+        val item = ItemStack(material)
         val loreList: MutableList<String> = mutableListOf(lore)
+        val meta = item.itemMeta
+        meta?.setDisplayName(name)
         if (meta?.displayName?.contains("★") == true) loreList.addAll(listOf("", "クリックで発動"))
         meta?.lore = loreList
+        item.setItemMeta(meta)
+        return item
     }
 
     fun no_set(GUI: Inventory, number: Int) {
@@ -151,12 +149,12 @@ class GUI {
         setGUIitem(GUI, 3, Material.CROSSBOW, "クロスボー", "300p")
         setGUIitem(GUI, 5, Material.ARROW, "矢", "1p")
         setPotionArrow(GUI, 7, "30p", PotionEffectType.HEAL, 0, 1)
-        set_enchant_GUIitem(GUI, 18, "40p", Enchantment.DAMAGE_ALL, 1)
-        set_enchant_GUIitem(GUI, 19, "300p", Enchantment.DAMAGE_ALL, 2)
-        set_enchant_GUIitem(GUI, 20, "600p", Enchantment.DAMAGE_ALL, 3)
-        set_enchant_GUIitem(GUI, 27, "40p", Enchantment.DAMAGE_UNDEAD, 1)
-        set_enchant_GUIitem(GUI, 28, "300p", Enchantment.DAMAGE_UNDEAD, 2)
-        set_enchant_GUIitem(GUI, 29, "600p", Enchantment.DAMAGE_UNDEAD, 3)
+        set_enchant_GUIitem(GUI, 18, "60p", Enchantment.DAMAGE_ALL, 1)
+        set_enchant_GUIitem(GUI, 19, "350p", Enchantment.DAMAGE_ALL, 2)
+        set_enchant_GUIitem(GUI, 20, "650p", Enchantment.DAMAGE_ALL, 3)
+        set_enchant_GUIitem(GUI, 27, "60p", Enchantment.DAMAGE_UNDEAD, 1)
+        set_enchant_GUIitem(GUI, 28, "350p", Enchantment.DAMAGE_UNDEAD, 2)
+        set_enchant_GUIitem(GUI, 29, "650p", Enchantment.DAMAGE_UNDEAD, 3)
 
         set_potionGUIitem(GUI, 33, Material.SPLASH_POTION, "15p", PotionEffectType.HEAL, 0, 1)
         set_potionGUIitem(GUI, 34, Material.SPLASH_POTION, "50p", PotionEffectType.HEAL, 1, 1)
@@ -167,9 +165,9 @@ class GUI {
         setGUIitem(GUI, 0, Material.GOLDEN_CHESTPLATE, "[装備]金のチェストプレート", "100p")
         setGUIitem(GUI, 1, Material.GOLDEN_LEGGINGS, "[装備]金のレギンス", "100p")
         setGUIitem(GUI, 2, Material.GOLDEN_BOOTS, "[装備]金のブーツ", "100p")
-        setGUIitem(GUI, 4, Material.DIAMOND_CHESTPLATE, "[装備]ダイヤモンドのチェストプレート", "1250p")
-        setGUIitem(GUI, 5, Material.DIAMOND_LEGGINGS, "[装備]ダイヤモンドのレギンス", "1250p")
-        setGUIitem(GUI, 6, Material.DIAMOND_BOOTS, "[装備]ダイヤモンドのブーツ", "1250p")
+        setGUIitem(GUI, 4, Material.DIAMOND_CHESTPLATE, "[装備]ダイヤモンドのチェストプレート", "1000p")
+        setGUIitem(GUI, 5, Material.DIAMOND_LEGGINGS, "[装備]ダイヤモンドのレギンス", "1000p")
+        setGUIitem(GUI, 6, Material.DIAMOND_BOOTS, "[装備]ダイヤモンドのブーツ", "1000p")
         setGUIitem(GUI, 9, Material.IRON_CHESTPLATE, "[装備]鉄のチェストプレート", "300p")
         setGUIitem(GUI, 10, Material.IRON_LEGGINGS, "[装備]鉄のレギンス", "300p")
         setGUIitem(GUI, 11, Material.IRON_BOOTS, "[装備]鉄のブーツ", "300p")
@@ -188,7 +186,7 @@ class GUI {
         setGUIitem(GUI, 2, Material.ORANGE_DYE, "${ChatColor.YELLOW}★チーム全員に採掘速度UP(5分)", "300p")
         setGUIitem(GUI, 3, Material.GRAY_DYE, "${ChatColor.YELLOW}★チーム全員に耐性(3分)", "300p")
         setGUIitem(GUI, 4, Material.LIGHT_BLUE_DYE, "${ChatColor.YELLOW}★チーム全員に移動速度UP(3分)", "300p")
-        setGUIitem(GUI, 5, Material.NETHER_STAR, "${ChatColor.YELLOW}★チーム全員に攻撃力UP&再生(1分)", "1000p")
+        setGUIitem(GUI, 5, Material.NETHER_STAR, "${ChatColor.YELLOW}★チーム全員に攻撃力UP&再生(3分)", "500p")
         player.openInventory(GUI)
     }
     fun zombieshop(player: Player) {
@@ -218,13 +216,15 @@ class GUI {
         setGUIitem(GUI, 38, Material.BOOK, "${ChatColor.YELLOW}[ゾンビ召喚]ネクロマンサー", "400p")
         setGUIitem(GUI, 39, Material.HONEYCOMB, "${ChatColor.YELLOW}[ゾンビ召喚]エンペラー", "400p")
 
+        setGUIitem(GUI, 47, Material.NETHERITE_SCRAP, "${ChatColor.YELLOW}[ゾンビ召喚]デスクイーン", "3000p")
+
         player.openInventory(GUI)
     }
     fun petshop(GUI: Inventory) {
         setGUIitem(GUI, 0, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p")
         dividing_line(GUI, 9)
         setGUIitem(GUI, 18, Material.IRON_BLOCK, "${ChatColor.YELLOW}アイアンゴーレム", "500p")
-        setGUIitem(GUI, 19, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1000p")
+        setGUIitem(GUI, 19, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p")
         setGUIitem(GUI, 20, Material.DIAMOND_BLOCK, "${ChatColor.YELLOW}ダイヤモンドゴーレム", "8000p")
     }
     fun general_merchandiseshop(GUI: Inventory, player: Player) {
@@ -268,24 +268,37 @@ class GUI {
         }
     }
     fun gamesettingGUI(player: Player) {
-        val GUI = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
+        val GUI = Bukkit.createInventory(null, 27, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
         if (GET().status()) {
             setGUIitem(GUI, 0, Material.BARRIER, "${ChatColor.RED}終了", "")
         } else {
             setGUIitem(GUI, 0, Material.EMERALD, "${ChatColor.AQUA}ゲームスタート", "")
         }
         setGUIitem(GUI, 1, Material.VILLAGER_SPAWN_EGG, "${ChatColor.YELLOW}ショップ召喚", "")
+        setGUIitem(GUI, 2, Material.DIAMOND, "${ChatColor.GREEN}参加", "")
+        setGUIitem(GUI, 3, Material.REDSTONE_BLOCK, "${ChatColor.RED}プラグインリロード", "")
+        setGUIitem(GUI, 4, Material.PLAYER_HEAD, "${ChatColor.BLUE}プレイヤー", "")
+        setGUIitem(GUI, 5, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}実験所へ", "")
+        setGUIitem(GUI, 6, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}ロビーへ", "")
+        setGUIitem(GUI, 7, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}バトルへ", "")
+        setGUIitem(GUI, 8, Material.LANTERN, "${ChatColor.GREEN}テレポート", "")
+        setGUIitem(GUI, 17, Material.ENDER_CHEST, "${ChatColor.GREEN}OPチェスト", "")
         val location = Data.DataManager.LocationData
-        setGUIitem(GUI, 2, Material.ENDER_EYE, "${ChatColor.RED}shop", GET().locationTitle(location.redshop))
-        setGUIitem(GUI, 3, Material.ENDER_EYE, "${ChatColor.BLUE}shop", GET().locationTitle(location.blueshop))
-        setGUIitem(GUI, 4, Material.ENDER_EYE, "${ChatColor.RED}spawn", GET().locationTitle(location.redspawn))
-        setGUIitem(GUI, 5, Material.ENDER_EYE, "${ChatColor.BLUE}spawn", GET().locationTitle(location.bluespawn))
-        setGUIitem(GUI, 6, Material.ENDER_EYE, "${ChatColor.YELLOW}ランダムチェスト", GET().locationTitle(location.randomChest))
-        setGUIitem(GUI, 7, Material.DIAMOND, "${ChatColor.GREEN}参加", "")
-        setGUIitem(GUI, 8, Material.REDSTONE_BLOCK, "${ChatColor.RED}プラグインリロード", "")
-        setGUIitem(GUI, 9, Material.PLAYER_HEAD, "${ChatColor.BLUE}プレイヤー", "")
-        setGUIitem(GUI, 10, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}実験所へ", "")
-        setGUIitem(GUI, 11, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}ロビーへ", "")
+        setGUIitem(GUI, 9, Material.ENDER_EYE, "${ChatColor.RED}shop", GET().locationTitle(location.redshop))
+        setGUIitem(GUI, 10, Material.ENDER_EYE, "${ChatColor.BLUE}shop", GET().locationTitle(location.blueshop))
+        setGUIitem(GUI, 11, Material.ENDER_EYE, "${ChatColor.RED}spawn", GET().locationTitle(location.redspawn))
+        setGUIitem(GUI, 12, Material.ENDER_EYE, "${ChatColor.BLUE}spawn", GET().locationTitle(location.bluespawn))
+        setGUIitem(GUI, 13, Material.ENDER_EYE, "${ChatColor.YELLOW}ランダムチェスト", GET().locationTitle(location.randomChest))
+
+        setGUIitem(GUI, 18, Material.ENDER_EYE, "${ChatColor.RED}Mshop", GET().locationTitle(location.motiRedshop))
+        setGUIitem(GUI, 19, Material.ENDER_EYE, "${ChatColor.BLUE}Mshop", GET().locationTitle(location.motiBlueshop))
+        setGUIitem(GUI, 20, Material.ENDER_EYE, "${ChatColor.RED}Mspawn", GET().locationTitle(location.motiRedspawn))
+        setGUIitem(GUI, 21, Material.ENDER_EYE, "${ChatColor.BLUE}Mspawn", GET().locationTitle(location.motiBluespawn))
+        setGUIitem(GUI, 22, Material.ENDER_EYE, "${ChatColor.YELLOW}Mランダムチェスト", GET().locationTitle(location.motiRandomChest))
+        setGUIitem(GUI, 23, Material.ENDER_EYE, "${ChatColor.RED}Mzombie1", GET().locationTitle(location.motiRedzombiespwn1))
+        setGUIitem(GUI, 24, Material.ENDER_EYE, "${ChatColor.RED}Mzombie2", GET().locationTitle(location.motiRedzombiespwn2))
+        setGUIitem(GUI, 25, Material.ENDER_EYE, "${ChatColor.BLUE}Mzombie1", GET().locationTitle(location.motiBluezombiespwn1))
+        setGUIitem(GUI, 26, Material.ENDER_EYE, "${ChatColor.BLUE}Mzombie2", GET().locationTitle(location.motiBluezombiespwn2))
         player.openInventory(GUI)
     }
     fun JoinPlayers(player: Player) {

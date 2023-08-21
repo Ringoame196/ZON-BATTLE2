@@ -3,19 +3,27 @@ package com.github.Ringoame196.Entity
 import com.github.Ringoame196.GET
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.point
+import org.bukkit.Bukkit
 
 class Golem {
     fun Golden() {
+        var RedPoint = 0
+        var BluePoint = 0
         for (golem in Data.DataManager.gameData.goldenGolem) {
-            val team = when {
-                golem.scoreboardTags.contains("red") -> "red"
-                golem.scoreboardTags.contains("blue") -> "blue"
-                else -> return
+            if (Bukkit.getWorld("BATTLE")?.entities?.contains(golem) == false) {
+                Data.DataManager.gameData.goldenGolem.remove(golem)
+                continue
             }
-            for (player in Data.DataManager.gameData.ParticipatingPlayer) {
-                if (GET().TeamName(player) == team) {
-                    point().add(player, 10, true)
-                }
+            when {
+                golem.scoreboardTags.contains("red") -> RedPoint += 10
+                golem.scoreboardTags.contains("blue") -> BluePoint += 10
+                else -> {}
+            }
+        }
+        for (player in Data.DataManager.gameData.ParticipatingPlayer) {
+            when (GET().TeamName(player)) {
+                "red" -> if (RedPoint != 0) { point().add(player, RedPoint, false) }
+                "blue" -> if (BluePoint != 0) { point().add(player, BluePoint, false) }
             }
         }
     }
