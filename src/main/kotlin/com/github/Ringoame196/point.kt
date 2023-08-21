@@ -35,7 +35,8 @@ class point {
         player.sendMessage("${ChatColor.RED}-$removepoint (${point}ポイント)")
         set(player, point)
     }
-    fun ore(e: org.bukkit.event.Event, player: Player, block: Block, team: String?, plugin: Plugin) {
+    fun ore(e: org.bukkit.event.Event, player: Player, block: Block, plugin: Plugin) {
+        val team = GET().TeamName(player)
         val block_type = block.type
         val blockData = block.blockData
         GameSystem().adventure(e, player)

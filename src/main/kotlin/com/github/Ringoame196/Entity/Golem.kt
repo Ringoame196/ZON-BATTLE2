@@ -1,9 +1,13 @@
 package com.github.Ringoame196.Entity
 
 import com.github.Ringoame196.GET
+import com.github.Ringoame196.GameSystem
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.point
 import org.bukkit.Bukkit
+import org.bukkit.entity.Entity
+import org.bukkit.entity.Player
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 class Golem {
     fun Golden() {
@@ -26,5 +30,9 @@ class Golem {
                 "blue" -> if (BluePoint != 0) { point().add(player, BluePoint, false) }
             }
         }
+    }
+    fun GuardPlayerAttack(damager: Entity, e: EntityDamageByEntityEvent) {
+        if (damager !is Player) { return }
+        GameSystem().adventure(e, damager)
     }
 }

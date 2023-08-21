@@ -126,6 +126,7 @@ class shop {
         shop.customName = "${ChatColor.RED}${HP}HP/${maxHP}HP"
     }
     fun attack(e: EntityDamageByEntityEvent, damager: Entity, shop: Villager) {
+        if (!inspection().shop(shop)) { return }
         if (damager is Player) {
             // プレイヤーが殴るのを禁止させる
             GameSystem().adventure(e, damager)
@@ -211,5 +212,15 @@ class shop {
         val entity = Data.DataManager.teamDataMap[GET().TeamName(player)]?.entities?.lastOrNull() as? LivingEntity ?: return
         entity.addPotionEffect(PotionEffect(potion, time * 20, level - 1))
         PlayerSend().TeamGiveEffect(player, itemName, null, null, 0, 0)
+    }
+    fun kill(mob: Villager) {
+        shop().deletename(mob.location)
+        val blockBelowBlock = mob.location.add(0.0, -1.0, 0.0).block.type
+        val winTeam: String? = when (blockBelowBlock) {
+            Material.RED_WOOL -> "blue"
+            Material.BLUE_WOOL -> "red"
+            else -> null
+        }
+        winTeam?.let { GameSystem().gameend(it) }
     }
 }

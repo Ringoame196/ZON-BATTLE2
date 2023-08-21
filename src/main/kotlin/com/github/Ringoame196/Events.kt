@@ -2,9 +2,7 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
-import org.bukkit.ChatColor
 import org.bukkit.Material
-import org.bukkit.entity.Arrow
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
@@ -59,32 +57,16 @@ class Events(private val plugin: Plugin) : Listener {
         GUI().close(title, player, inventory)
     }
 
-    @Suppress("DEPRECATION")
     @EventHandler
     fun onEntityDamageByEntityEvent(e: EntityDamageByEntityEvent) {
         val entity = e.entity
         val damager = e.damager
+        val damage = e.finalDamage.toInt()
         when (entity) {
-            is Villager -> {
-                if (!inspection().shop(entity)) { return }
-                shop().attack(e, damager, entity)
-            }
-            is org.bukkit.entity.Zombie -> {
-                Zombie().damage(entity)
-            }
-            is Player -> {
-                if (damager is Arrow && damager.shooter is Player) {
-                    val shooter = damager.shooter as Player
-                    val hp = entity.health - e.finalDamage // ダメージ後のHP
-                    val maxHp = entity.maxHealth // 最大HP
-
-                    shooter.sendMessage("${ChatColor.RED}HP: $hp / $maxHp")
-                }
-            }
-            is Golem -> {
-                if (damager !is Player) { return }
-                GameSystem().adventure(e, damager)
-            }
+            is Villager -> shop().attack(e, damager, entity)
+            is org.bukkit.entity.Zombie -> Zombie().damage(entity)
+            is Player -> player().showdamage(damager, entity, damage)
+            is Golem -> com.github.Ringoame196.Entity.Golem().GuardPlayerAttack(damager, e)
             else -> {}
         }
     }
@@ -105,42 +87,28 @@ class Events(private val plugin: Plugin) : Listener {
     fun onBlockBreakEvent(e: BlockBreakEvent) {
         // ブロックを破壊したとき
         val player = e.player
-        if (player.world.name != "BATTLE" && player.world.name != "jikken") { return }
+        val worldName = player.world.name
+        if (worldName != "BATTLE" && worldName != "jikken") { return }
         GameSystem().adventure(e, player)
-        val team_name = GET().TeamName(player)
         val block = e.block
         when (block.type) {
-            Material.OAK_LOG -> Wood().blockBreak(e, player, block, team_name, plugin)
-            Material.OAK_FENCE -> block.setType(Material.AIR)
-            else -> point().ore(e, player, block, team_name, plugin)
+            Material.OAK_LOG -> Wood().blockBreak(e, player, block, plugin)
+            else -> point().ore(e, player, block, plugin)
         }
     }
 
     @EventHandler
     fun onBlockPlaceEvent(e: BlockPlaceEvent) {
-        // ブロック設置阻止
-        val player = e.player
-        GameSystem().adventure(e, player)
+        GameSystem().adventure(e, e.player)
     }
 
     @EventHandler
     fun onEntityDeathEvent(e: EntityDeathEvent) {
         // キル
+        if (!GET().status()) { return }
         val killer = e.entity.killer
         val mob = e.entity
-        if (inspection().shop(mob)) {
-            shop().deletename(mob.location)
-            if (!GET().status()) {
-                return
-            }
-            val blockBelowBlock = mob.location.add(0.0, -1.0, 0.0).block.type
-            val winTeam: String? = when (blockBelowBlock) {
-                Material.RED_WOOL -> "blue"
-                Material.BLUE_WOOL -> "red"
-                else -> null
-            }
-            winTeam?.let { GameSystem().gameend(it) }
-        } else {
+        if (inspection().shop(mob)) { shop().kill(mob as Villager) } else {
             if (killer !is Player) { return }
             point().add(killer, 1, true)
             Data.DataManager.gameData.goldenGolem.remove(mob)
@@ -171,23 +139,17 @@ class Events(private val plugin: Plugin) : Listener {
     fun onSignChangeEvent(e: SignChangeEvent) {
         // 看板に文字を決定したとき
         val block = e.block.type == Material.OAK_WALL_SIGN
-        if (block) {
-            Sign().make(e)
-        }
+        if (block) { Sign().make(e) }
     }
 
     @EventHandler
     fun onPlayerQuitEvent(e: PlayerQuitEvent) {
         // プレイヤーが抜けたとき
-        val player = e.player
-        if (Data.DataManager.gameData.ParticipatingPlayer.contains(player)) {
-            Team().inAndout(player)
-        }
+        if (Data.DataManager.gameData.ParticipatingPlayer.contains(e.player)) { Team().inAndout(e.player) }
     }
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
-        val player = e.player
-        if (GET().JoinTeam(player)) { Data.DataManager.gameData.ParticipatingPlayer.add(player) }
+        if (GET().JoinTeam(e.player)) { Data.DataManager.gameData.ParticipatingPlayer.add(e.player) }
     }
     @EventHandler
     fun onPlayerRespawn(e: EntityDamageEvent) {
@@ -197,25 +159,12 @@ class Events(private val plugin: Plugin) : Listener {
 
         if (player.scoreboardTags.contains("invincible")) {
             e.isCancelled = true
-            return
-        }
-        // ダメージが0以上の場合（リスポーン判定）
-        if (e.damage > 0 && player.health <= e.damage) {
-            if (!GET().JoinTeam(player)) { return }
-            e.isCancelled = true
-            Team().respawn(player, plugin)
-
-            // ダメージを与えたエンティティがプレイヤーであればキル処理
-            if (e !is EntityDamageByEntityEvent) { return }
-            val damager = e.damager
-            if (damager !is Player) { return }
-            player().kill(damager)
+        } else if (e.damage > 0 && player.health <= e.damage) {
+            player().death(e, player, plugin)
         }
     }
     @EventHandler
     fun onBlockDamage(e: BlockDamageEvent) {
-        val player = e.player
-        val block = e.block
-        point().NotAppropriate(player.inventory.itemInMainHand, block, e)
+        point().NotAppropriate(e.player.inventory.itemInMainHand, e.block, e)
     }
 }

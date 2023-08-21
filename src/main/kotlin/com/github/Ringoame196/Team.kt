@@ -96,8 +96,8 @@ class Team {
             }
         }
     }
-    fun respawn(player: Player, plugin: Plugin) {
-        PlayerSend().participantmessage("${ChatColor.RED}[DEATH] ${player.name}")
+    fun respawn(player: Player, plugin: Plugin, deathmessage: String) {
+        PlayerSend().participantmessage("${ChatColor.RED}[DEATH] ${player.name} by" + deathmessage)
         player.health = 20.0
         player.gameMode = GameMode.SPECTATOR
         var c = 6
