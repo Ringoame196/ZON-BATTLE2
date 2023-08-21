@@ -51,7 +51,7 @@ class point {
             }
             Material.BEDROCK -> {
                 point = 10000
-                cooltime = 0
+                cooltime = -1
             }
             else -> return
         }

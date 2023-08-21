@@ -87,18 +87,6 @@ class Events(private val plugin: Plugin) : Listener {
             }
             else -> {}
         }
-        if (damager is Player) {
-            val mainHandType = damager.inventory.itemInMainHand.type
-            if (mainHandType.toString().contains("AXE")) {
-                when (mainHandType) {
-                    Material.STONE_AXE -> e.damage = 4.0
-                    Material.IRON_AXE -> e.damage = 5.0
-                    Material.DIAMOND_AXE -> e.damage = 6.0
-                    Material.NETHERITE_AXE -> e.damage = 7.0
-                    else -> {}
-                }
-            }
-        }
     }
 
     @EventHandler
@@ -117,7 +105,7 @@ class Events(private val plugin: Plugin) : Listener {
     fun onBlockBreakEvent(e: BlockBreakEvent) {
         // ブロックを破壊したとき
         val player = e.player
-        if (player.world.name != "BATTLE") { return }
+        if (player.world.name != "BATTLE" && player.world.name != "jikken") { return }
         GameSystem().adventure(e, player)
         val team_name = GET().TeamName(player)
         val block = e.block
