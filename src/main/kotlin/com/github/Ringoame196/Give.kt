@@ -1,8 +1,10 @@
 package com.github.Ringoame196
 
+import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.LeatherArmorMeta
 
 class Give {
     fun GameSetting(): ItemStack {
@@ -50,5 +52,14 @@ class Give {
         player.inventory.remove(Material.STONE_AXE)
         player.inventory.remove(Material.IRON_AXE)
         player.inventory.remove(Material.DIAMOND_AXE)
+    }
+    fun ColorLEATHER(material: Material, color: String): ItemStack {
+        val item = ItemStack(material)
+        val meta = item.itemMeta as LeatherArmorMeta
+        when (color) {
+            "GREEN" -> meta.setColor(Color.GREEN)
+        }
+        item.setItemMeta(meta)
+        return item
     }
 }

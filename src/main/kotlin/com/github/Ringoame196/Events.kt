@@ -2,7 +2,9 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
+import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
@@ -35,7 +37,7 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.rightClicked
         val team_name = GET().TeamName(player) ?: return
         if (inspection().shop(entity)) {
-            shop().open(e, player, entity as Villager, team_name)
+            if (entity.scoreboardTags.contains("center")) { } else { shop().open(e, player, entity as Villager, team_name) }
         }
     }
 
@@ -62,6 +64,9 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.entity
         val damager = e.damager
         val damage = e.finalDamage.toInt()
+        if (damager is org.bukkit.entity.Zombie) {
+            Zombie().attack(damager, entity)
+        }
         when (entity) {
             is Villager -> shop().attack(e, damager, entity)
             is org.bukkit.entity.Zombie -> Zombie().damage(entity)
@@ -78,6 +83,9 @@ class Events(private val plugin: Plugin) : Listener {
         val item = e.item
         val block = e.clickedBlock
         val action = e.action
+        if (item?.itemMeta?.displayName == "${ChatColor.YELLOW}[召喚の杖]") {
+            Hoe().system(player, e)
+        }
         if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
             itemClick().system(player, item, block, e, plugin)
         }
@@ -129,11 +137,15 @@ class Events(private val plugin: Plugin) : Listener {
 
     @EventHandler
     fun onEntityTargetEvent(e: EntityTargetEvent) {
+        // 敵対化
         val entity = e.entity
 
-        if (entity.scoreboardTags.contains("targetshop")) {
-            e.target = Zombie().getNearestVillager(entity.location, 100.0)
+        val target = when {
+            entity.scoreboardTags.contains("targetshop") -> EntityType.VILLAGER
+            entity.scoreboardTags.contains("targetPlayer") -> EntityType.PLAYER
+            else -> { return }
         }
+        e.target = Zombie().getNearestEntityOfType(entity.location, target, 100.0)
     }
     @EventHandler
     fun onSignChangeEvent(e: SignChangeEvent) {

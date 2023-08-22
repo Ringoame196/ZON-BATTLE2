@@ -1,6 +1,10 @@
 package com.github.Ringoame196.Entity
 
+import com.github.Ringoame196.GET
+import com.github.Ringoame196.Give
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.player
+import com.github.Ringoame196.point
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
@@ -8,34 +12,32 @@ import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
-import org.bukkit.entity.Villager
 import org.bukkit.entity.Zombie
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.io.File
-import java.io.IOException
 
 class Zombie {
-    fun getNearestVillager(location: Location, radius: Double): Villager? {
-        var nearestVillager: Villager? = null
+    fun getNearestEntityOfType(location: Location, target: EntityType, radius: Double): Entity? {
+        var nearestEntity: Entity? = null
         var nearestDistanceSquared = Double.MAX_VALUE
 
         for (entity in location.world!!.getNearbyEntities(location, radius, radius, radius)) {
-            if (entity.type == EntityType.VILLAGER && entity is Villager) {
-                val villager = entity
-                val distanceSquared = villager.location.distanceSquared(location)
+            if (entity.type == target) {
+                val distanceSquared = entity.location.distanceSquared(location)
 
                 if (distanceSquared < nearestDistanceSquared) {
                     nearestDistanceSquared = distanceSquared
-                    nearestVillager = villager
+                    nearestEntity = entity
                 }
             }
         }
 
-        return nearestVillager
+        return nearestEntity
     }
     fun summonSystem(player: Player, item_name: String) {
         var summon_name = item_name.replace("[ゾンビ召喚]", "")
@@ -56,17 +58,18 @@ class Zombie {
             "ネクロマンサー" -> "necromancer"
             "エンペラー" -> "emperor"
             "デスクイーン" -> "deathqueen"
+            "泥棒" -> "thief"
             else -> { return }
         }
-        summon(location, function)
+        summon(location, function, player)
     }
     @Suppress("DEPRECATION")
-    fun summon(location: Location, function: String) {
+    fun summon(location: Location, function: String, player: Player) {
         val zombieinfo = "plugins/ZON-BATTLE2/zombie/$function.yml"
         val file = File(zombieinfo)
 
         if (!file.exists()) {
-            Bukkit.getPlayer("Ringoame196")?.player?.sendMessage("[ゾンビ召喚]${ChatColor.RED}$function が未設定です")
+            Bukkit.broadcastMessage("[ゾンビ召喚]${ChatColor.RED}$function が未設定のため使用できません")
             return
         }
 
@@ -75,7 +78,7 @@ class Zombie {
 
         val world = location.world
         val zombie: Zombie? = world?.spawn(location, Zombie::class.java)
-        zombie?.scoreboardTags?.add("targetshop")
+        zombie?.scoreboardTags?.add("owner:${player.name}")
 
         val customName = zombieSection?.getString("Name")
         if (!customName.isNullOrBlank()) {
@@ -97,12 +100,19 @@ class Zombie {
         val shield = zombieSection?.getBoolean("shield", false) ?: false
         if (shield) zombie?.equipment?.setItemInOffHand(ItemStack(Material.SHIELD))
 
+        val setTag = zombieSection?.getString("tag", "") ?: ""
+        val taglist = setTag.split(",")
+        for (tag in taglist) {
+            zombie?.scoreboardTags?.add(tag)
+        }
+
         val Head = zombieSection?.getInt("Head", 0) ?: 0
         val Chestplate = zombieSection?.getInt("Chestplate", 0) ?: 0
         val Leggings = zombieSection?.getInt("Leggings", 0) ?: 0
         val Boots = zombieSection?.getInt("Boots", 0) ?: 0
+        val color = zombieSection?.getString("Color", "") ?: ""
         when (Head) {
-            1 -> zombie?.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
+            1 -> zombie?.equipment?.helmet = Give().ColorLEATHER(Material.LEATHER_HELMET, color)
             2 -> zombie?.equipment?.helmet = ItemStack(Material.IRON_HELMET)
             3 -> zombie?.equipment?.helmet = ItemStack(Material.GOLDEN_HELMET)
             4 -> zombie?.equipment?.helmet = ItemStack(Material.DIAMOND_HELMET)
@@ -111,7 +121,7 @@ class Zombie {
             7 -> zombie?.equipment?.helmet = ItemStack(Material.SKELETON_SKULL)
         }
         when (Chestplate) {
-            1 -> zombie?.equipment?.chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
+            1 -> zombie?.equipment?.chestplate = Give().ColorLEATHER(Material.LEATHER_CHESTPLATE, color)
             2 -> zombie?.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
             3 -> zombie?.equipment?.chestplate = ItemStack(Material.GOLDEN_CHESTPLATE)
             4 -> zombie?.equipment?.chestplate = ItemStack(Material.DIAMOND_CHESTPLATE)
@@ -119,7 +129,7 @@ class Zombie {
             6 -> zombie?.equipment?.chestplate = ItemStack(Material.CHAINMAIL_CHESTPLATE)
         }
         when (Leggings) {
-            1 -> zombie?.equipment?.leggings = ItemStack(Material.LEATHER_LEGGINGS)
+            1 -> zombie?.equipment?.leggings = Give().ColorLEATHER(Material.LEATHER_LEGGINGS, color)
             2 -> zombie?.equipment?.leggings = ItemStack(Material.IRON_LEGGINGS)
             3 -> zombie?.equipment?.leggings = ItemStack(Material.GOLDEN_LEGGINGS)
             4 -> zombie?.equipment?.leggings = ItemStack(Material.DIAMOND_LEGGINGS)
@@ -127,7 +137,7 @@ class Zombie {
             6 -> zombie?.equipment?.leggings = ItemStack(Material.CHAINMAIL_LEGGINGS)
         }
         when (Boots) {
-            1 -> zombie?.equipment?.boots = ItemStack(Material.LEATHER_BOOTS)
+            1 -> zombie?.equipment?.boots = Give().ColorLEATHER(Material.LEATHER_BOOTS, color)
             2 -> zombie?.equipment?.boots = ItemStack(Material.IRON_BOOTS)
             3 -> zombie?.equipment?.boots = ItemStack(Material.GOLDEN_BOOTS)
             4 -> zombie?.equipment?.boots = ItemStack(Material.DIAMOND_BOOTS)
@@ -135,39 +145,23 @@ class Zombie {
             6 -> zombie?.equipment?.boots = ItemStack(Material.CHAINMAIL_BOOTS)
         }
 
-        when (function) {
+        when (function) { // 追加能力
             "soldier" -> {
                 val sword = ItemStack(Material.IRON_SWORD)
                 sword.addEnchantment(Enchantment.KNOCKBACK, 1)
                 zombie?.equipment?.setItemInMainHand(sword)
             }
             "skeletonman" -> zombie?.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))
-            "shaman" -> zombie?.scoreboardTags?.add("shaman")
             "deathqueen" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.NETHERITE_HOE))
         }
 
         zombie?.let { Data.DataManager.gameData.zombie.add(it) }
     }
-    fun createZombieYaml() {
-        val yamlFile = File("plugins/ZON-BATTLE2/zombie/sample.yml")
-
-        val yamlConfig = YamlConfiguration()
-        yamlConfig["Zombie.Name"] = "ノーマルゾンビ"
-        yamlConfig["Zombie.HP"] = 20.0
-        yamlConfig["Zombie.SPEED"] = 0.2
-        yamlConfig["Zombie.Power"] = 10
-
-        try {
-            yamlConfig.save(yamlFile)
-            println("YAMLファイルが正常に作成されました。")
-        } catch (e: IOException) {
-            println("YAMLファイルの作成中にエラーが発生しました: ${e.message}")
-        }
-    }
 
     fun damage(zombie: Zombie) {
-        if (!zombie.scoreboardTags.contains("targetshop")) { return }
-        zombie.scoreboardTags.remove("targetshop")
+        if (zombie.scoreboardTags.contains("targetshop")) {
+            zombie.scoreboardTags.remove("targetshop")
+        }
     }
     fun summonner(zombieName: String, function1: String, function2: String) {
         val selectZombie = mutableListOf<Zombie>()
@@ -178,9 +172,23 @@ class Zombie {
         }
         for (zombie in selectZombie) {
             val location = zombie.location
+            val owner = GET().owner(zombie)
             location.add(0.0, 1.0, 0.0)
-            summon(location, function1)
-            summon(location, function2)
+            summon(location, function1, owner!!)
+            summon(location, function2, owner)
+        }
+    }
+    fun attack(zombie: Zombie, entity: Entity) {
+        val zombieName = zombie.customName
+        when (zombieName) {
+            "泥棒" -> {
+                val owner = GET().owner(zombie)
+                if (entity !is Player) { return }
+                val removeCoin: Int = GET().point(entity) / 2
+                point().remove(entity, removeCoin)
+                entity.sendTitle("", "${ChatColor.RED}泥棒に${removeCoin}p盗まれた")
+                point().add(owner!!, removeCoin, false)
+            }
         }
     }
 }

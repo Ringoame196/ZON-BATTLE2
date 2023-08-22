@@ -92,18 +92,18 @@ class shop {
         val point = Data.DataManager.playerDataMap.getOrPut(player.uniqueId) { PlayerData() }.point
         val GUIclass = GUI()
 
-        GUIclass.setGUIitem(GUI, 0, Material.EMERALD, "${ChatColor.GREEN}所持ポイント:" + point + "p", "")
-        GUIclass.setGUIitem(GUI, 1, Material.IRON_PICKAXE, "${ChatColor.YELLOW}ツール", "")
-        GUIclass.setGUIitem(GUI, 3, Material.IRON_SWORD, "${ChatColor.YELLOW}武器", "")
-        GUIclass.setGUIitem(GUI, 5, Material.IRON_CHESTPLATE, "${ChatColor.YELLOW}防具", "")
-        GUIclass.setGUIitem(GUI, 7, Material.TNT, "${ChatColor.YELLOW}お邪魔アイテム", "")
+        GUIclass.setGUIitem(GUI, 0, Material.EMERALD, "${ChatColor.GREEN}所持ポイント:" + point + "p", "", true)
+        GUIclass.setGUIitem(GUI, 1, Material.IRON_PICKAXE, "${ChatColor.YELLOW}ツール", "", true)
+        GUIclass.setGUIitem(GUI, 3, Material.IRON_SWORD, "${ChatColor.YELLOW}武器", "", true)
+        GUIclass.setGUIitem(GUI, 5, Material.IRON_CHESTPLATE, "${ChatColor.YELLOW}防具", "", true)
+        GUIclass.setGUIitem(GUI, 7, Material.TNT, "${ChatColor.YELLOW}お邪魔アイテム", "", true)
         if (Data.DataManager.gameData.time >= 300 || player.gameMode == GameMode.CREATIVE) {
-            GUIclass.setGUIitem(GUI, 10, Material.ZOMBIE_SPAWN_EGG, "${ChatColor.YELLOW}ゾンビ", "")
+            GUIclass.setGUIitem(GUI, 10, Material.ZOMBIE_SPAWN_EGG, "${ChatColor.YELLOW}ゾンビ", "", true)
         } else {
-            GUIclass.setGUIitem(GUI, 10, Material.BARRIER, "${ChatColor.RED}選択禁止", "")
+            GUIclass.setGUIitem(GUI, 10, Material.BARRIER, "${ChatColor.RED}選択禁止", "", true)
         }
-        GUIclass.setGUIitem(GUI, 12, Material.WOLF_SPAWN_EGG, "${ChatColor.YELLOW}ペット", "")
-        GUIclass.setGUIitem(GUI, 14, Material.BEACON, "${ChatColor.YELLOW}その他", "")
+        GUIclass.setGUIitem(GUI, 12, Material.WOLF_SPAWN_EGG, "${ChatColor.YELLOW}ペット", "", true)
+        GUIclass.setGUIitem(GUI, 14, Material.BEACON, "${ChatColor.YELLOW}その他", "", true)
         GUIclass.no_set(GUI, 16)
         GUIclass.no_set(GUI, 19)
         GUIclass.no_set(GUI, 21)
@@ -113,7 +113,7 @@ class shop {
     }
     fun unopened(player: Player) {
         val GUI = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
-        GUI().setGUIitem(GUI, 4, Material.GOLD_BLOCK, "${ChatColor.YELLOW}★ショップ解放", "15p")
+        GUI().setGUIitem(GUI, 4, Material.GOLD_BLOCK, "${ChatColor.YELLOW}★ショップ解放", "15p", true)
         player.openInventory(GUI)
     }
     fun recovery(shop: Villager, amount: Double) {

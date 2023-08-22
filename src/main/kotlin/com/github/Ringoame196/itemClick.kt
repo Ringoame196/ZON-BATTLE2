@@ -1,6 +1,5 @@
 package com.github.Ringoame196
 
-import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -21,13 +20,6 @@ class itemClick {
         val item_name = item?.itemMeta?.displayName.toString()
         val item_type = item?.type
         when {
-            item_name.contains("[ゾンビ召喚]") -> {
-                if (player.location.subtract(0.0, 1.0, 0.0).block.type != Material.GLASS) {
-                    player.sendMessage("${ChatColor.RED}ガラスの上で実行してください")
-                    return
-                }
-                Zombie().summonSystem(player, item_name)
-            }
             item_type == Material.EMERALD -> {
                 money(player, item_name)
             }

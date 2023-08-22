@@ -56,6 +56,14 @@ class GameSystem {
                 player.openInventory(Data.DataManager.gameData.opchest)
                 return
             }
+            "${ChatColor.GREEN}座標設定" -> {
+                GUI().Selectworld(player)
+                return
+            }
+            "マップ1" -> {
+                GUI().LocationWorld1(player)
+                return
+            }
         }
         player.closeInventory()
         if (item.type == Material.ENDER_EYE && e.isShiftClick) {
@@ -80,11 +88,12 @@ class GameSystem {
         }
         shop().summon(Data.DataManager.LocationData.redshop, "red")
         shop().summon(Data.DataManager.LocationData.blueshop, "blue")
+        shop().summon(Data.DataManager.LocationData.centerShop, "center")
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
         randomChest().set()
         val location = Data.DataManager.LocationData.randomChest?.clone()
-        location?.add(0.5, -1.0, 0.0)
+        location?.add(0.0, -1.0, 0.0)
         val armorStand = location?.let { ArmorStand().summon(it, "") }
         Data.DataManager.gameData.randomChestTitle = armorStand
 
@@ -142,6 +151,7 @@ class GameSystem {
             "${ChatColor.RED}spawn" -> Data.DataManager.LocationData.redspawn = player.location
             "${ChatColor.BLUE}spawn" -> Data.DataManager.LocationData.bluespawn = player.location
             "${ChatColor.YELLOW}ランダムチェスト" -> randomChest().setLocation(player)
+            "${ChatColor.YELLOW}中央ショップ" -> Data.DataManager.LocationData.centerShop = player.location
         }
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
 
