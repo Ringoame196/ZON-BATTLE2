@@ -7,8 +7,10 @@ import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
+import org.bukkit.entity.Blaze
 import org.bukkit.entity.IronGolem
 import org.bukkit.entity.Player
+import org.bukkit.entity.Shulker
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
@@ -55,6 +57,17 @@ class itemClick {
                 }
                 e.isCancelled = true
                 return
+            }
+            item_name == "${ChatColor.YELLOW}シュルカー" -> {
+                val shulker: Shulker = player.world.spawn(player.location, Shulker::class.java)
+                shulker.scoreboardTags.add("targetZombie")
+                shulker.isAware = true
+            }
+            item_name == "${ChatColor.RED}ブレイズ" -> {
+                val blaze: Blaze = player.world.spawn(player.location, Blaze::class.java)
+                blaze.scoreboardTags.add("friendship")
+                blaze.setAI(false)
+                Data.DataManager.gameData.blaze.add(blaze)
             }
             else -> return
         }

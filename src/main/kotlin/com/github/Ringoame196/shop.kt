@@ -32,7 +32,6 @@ class shop {
             unopened(player)
         }
     }
-    @Suppress("UNUSED_CHANGED_VALUE")
     fun system(item: ItemStack, player: Player) {
         if (item.type == Material.RED_STAINED_GLASS_PANE) {
             return
@@ -51,15 +50,17 @@ class shop {
                 val meta = item.itemMeta
                 meta?.lore = null
                 giveitem.setItemMeta(meta)
-                if (it.itemMeta?.displayName?.contains("ゴーレム") == true) {
-                    var c = Data.DataManager.teamDataMap.getOrPut(GET().TeamName(player)) { TeamData() }.golem
+                val itemname = it.itemMeta?.displayName
+                if (itemname?.contains("ゴーレム") == true || itemname == "${ChatColor.RED}ブレイズ" || itemname == "${ChatColor.YELLOW}シュルカー") {
+                    val c = Data.DataManager.teamDataMap.getOrPut(GET().TeamName(player)) { TeamData() }.golem
                     if (c >= 5) {
                         player.sendMessage("${ChatColor.YELLOW}ゴーレムを5体以上購入できません")
                         player.closeInventory()
                         when (it.itemMeta?.displayName) {
                             "${ChatColor.YELLOW}アイアンゴーレム" -> point().add(player, 500, false)
                             "${ChatColor.YELLOW}ゴールデンゴーレム" -> point().add(player, 1500, false)
-                            "${ChatColor.YELLOW}ダイヤモンドゴーレム" -> point().add(player, 8000, false)
+                            "${ChatColor.RED}ブレイズ" -> point().add(player, 400, false)
+                            "${ChatColor.YELLOW}シュルカー" -> point().add(player, 800, false)
                         }
                         return
                     }

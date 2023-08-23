@@ -3,6 +3,7 @@ package com.github.Ringoame196
 import com.github.Ringoame196.Entity.ArmorStand
 import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Zombie
+import com.github.Ringoame196.Entity.blaze
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.Gamedata
 import com.github.Ringoame196.data.TeamData
@@ -88,7 +89,6 @@ class GameSystem {
         }
         shop().summon(Data.DataManager.LocationData.redshop, "red")
         shop().summon(Data.DataManager.LocationData.blueshop, "blue")
-        shop().summon(Data.DataManager.LocationData.centerShop, "center")
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
         randomChest().set()
@@ -151,7 +151,6 @@ class GameSystem {
             "${ChatColor.RED}spawn" -> Data.DataManager.LocationData.redspawn = player.location
             "${ChatColor.BLUE}spawn" -> Data.DataManager.LocationData.bluespawn = player.location
             "${ChatColor.YELLOW}ランダムチェスト" -> randomChest().setLocation(player)
-            "${ChatColor.YELLOW}中央ショップ" -> Data.DataManager.LocationData.centerShop = player.location
         }
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
 
@@ -249,7 +248,10 @@ class GameSystem {
         if (time == 300) { PlayerSend().participantmessage("${ChatColor.YELLOW}ゾンビ解放!") }
         if (time % 300 == 0) { randomChest().set() }
         if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }
-        if (time % 5 == 0) { Golem().Golden() }
+        if (time % 5 == 0) {
+            Golem().Golden()
+            blaze().attack()
+        }
         if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "normal", "normal") }
     }
     fun playersJoin(PlayerName: String, sender: Player) {

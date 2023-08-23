@@ -206,6 +206,7 @@ class GUI {
         setGUIitem(GUI, 3, Material.IRON_NUGGET, "${ChatColor.YELLOW}[ゾンビ召喚]チビゾンビ", "40p", true)
         setGUIitem(GUI, 4, Material.RAW_COPPER, "${ChatColor.YELLOW}[ゾンビ召喚]ゾンビソルジャー", "40p", true)
         setGUIitem(GUI, 5, Material.FEATHER, "${ChatColor.YELLOW}[ゾンビ召喚]ダッシュマン", "250p", true)
+        setGUIitem(GUI, 6, Material.BLAZE_POWDER, "${ChatColor.YELLOW}[ゾンビ召喚]バトルロード", "850p", true)
 
         setGUIitem(GUI, 11, Material.RAW_IRON, "${ChatColor.YELLOW}[ゾンビ召喚]シールドゾンビ", "40p", true)
         setGUIitem(GUI, 12, Material.IRON_INGOT, "${ChatColor.YELLOW}[ゾンビ召喚]タンクマン", "300p", true)
@@ -225,9 +226,10 @@ class GUI {
     fun petshop(GUI: Inventory) {
         setGUIitem(GUI, 0, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
         dividing_line(GUI, 9)
-        setGUIitem(GUI, 18, Material.IRON_BLOCK, "${ChatColor.YELLOW}アイアンゴーレム", "500p", true)
+        setGUIitem(GUI, 18, Material.IRON_BLOCK, "${ChatColor.YELLOW}アイアンゴーレム", "1000p", true)
         setGUIitem(GUI, 19, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p", true)
-        setGUIitem(GUI, 20, Material.DIAMOND_BLOCK, "${ChatColor.YELLOW}ダイヤモンドゴーレム", "8000p", true)
+        setGUIitem(GUI, 20, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)
+        setGUIitem(GUI, 21, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", true)
     }
     fun general_merchandiseshop(GUI: Inventory, player: Player) {
         player.openInventory(GUI)
@@ -303,7 +305,6 @@ class GUI {
         setGUIitem(GUI, 2, Material.ENDER_EYE, "${ChatColor.RED}spawn", GET().locationTitle(location.redspawn), true)
         setGUIitem(GUI, 3, Material.ENDER_EYE, "${ChatColor.BLUE}spawn", GET().locationTitle(location.bluespawn), true)
         setGUIitem(GUI, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}ランダムチェスト", GET().locationTitle(location.randomChest), true)
-        setGUIitem(GUI, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}中央ショップ", GET().locationTitle(location.centerShop), true)
         player.openInventory(GUI)
     }
     fun JoinPlayers(player: Player) {

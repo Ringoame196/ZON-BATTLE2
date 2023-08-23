@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Entity
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
 import org.bukkit.ChatColor
@@ -65,7 +66,7 @@ class Events(private val plugin: Plugin) : Listener {
         val damager = e.damager
         val damage = e.finalDamage.toInt()
         if (damager is org.bukkit.entity.Zombie) {
-            Zombie().attack(damager, entity)
+            Zombie().attack(damager, entity, e)
         }
         when (entity) {
             is Villager -> shop().attack(e, damager, entity)
@@ -139,13 +140,14 @@ class Events(private val plugin: Plugin) : Listener {
     fun onEntityTargetEvent(e: EntityTargetEvent) {
         // 敵対化
         val entity = e.entity
-
         val target = when {
             entity.scoreboardTags.contains("targetshop") -> EntityType.VILLAGER
             entity.scoreboardTags.contains("targetPlayer") -> EntityType.PLAYER
+            entity.scoreboardTags.contains("targetZombie") -> EntityType.ZOMBIE
+            entity.scoreboardTags.contains("friendship") -> null
             else -> { return }
         }
-        e.target = Zombie().getNearestEntityOfType(entity.location, target, 100.0)
+        e.target = Entity().getNearestEntityOfType(entity.location, target, 100.0)
     }
     @EventHandler
     fun onSignChangeEvent(e: SignChangeEvent) {

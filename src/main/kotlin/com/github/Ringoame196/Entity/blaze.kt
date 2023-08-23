@@ -1,0 +1,25 @@
+package com.github.Ringoame196.Entity
+
+import com.github.Ringoame196.data.Data
+import org.bukkit.Bukkit
+import org.bukkit.entity.EntityType
+import org.bukkit.entity.Fireball
+
+class blaze {
+    fun attack() {
+        for (blaze in Data.DataManager.gameData.blaze) {
+            if (Bukkit.getWorld("BATTLE")?.entities?.contains(blaze) == false) {
+                Data.DataManager.gameData.blaze.remove(blaze)
+                continue
+            }
+            val target = Entity().getNearestEntityOfType(blaze.location, EntityType.ZOMBIE, 100.0)
+
+            if (target != null) {
+                val fireball = blaze.launchProjectile(Fireball::class.java)
+                val targetDirection = target.location.subtract(blaze.location).toVector().normalize()
+                fireball.direction = targetDirection
+                fireball.yield = 2.0F
+            }
+        }
+    }
+}

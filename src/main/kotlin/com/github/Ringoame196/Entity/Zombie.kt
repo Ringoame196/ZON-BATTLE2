@@ -13,32 +13,15 @@ import org.bukkit.attribute.Attribute
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Entity
-import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.io.File
 
 class Zombie {
-    fun getNearestEntityOfType(location: Location, target: EntityType, radius: Double): Entity? {
-        var nearestEntity: Entity? = null
-        var nearestDistanceSquared = Double.MAX_VALUE
-
-        for (entity in location.world!!.getNearbyEntities(location, radius, radius, radius)) {
-            if (entity.type == target) {
-                val distanceSquared = entity.location.distanceSquared(location)
-
-                if (distanceSquared < nearestDistanceSquared) {
-                    nearestDistanceSquared = distanceSquared
-                    nearestEntity = entity
-                }
-            }
-        }
-
-        return nearestEntity
-    }
     fun summonSystem(player: Player, item_name: String) {
         var summon_name = item_name.replace("[ゾンビ召喚]", "")
         summon_name = summon_name.replace("${ChatColor.YELLOW}", "")
@@ -59,6 +42,7 @@ class Zombie {
             "エンペラー" -> "emperor"
             "デスクイーン" -> "deathqueen"
             "泥棒" -> "thief"
+            "バトルロード" -> "battleLord"
             else -> { return }
         }
         summon(location, function, player)
@@ -153,6 +137,7 @@ class Zombie {
             }
             "skeletonman" -> zombie?.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))
             "deathqueen" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.NETHERITE_HOE))
+            "battleLord" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.DIAMOND_SWORD))
         }
 
         zombie?.let { Data.DataManager.gameData.zombie.add(it) }
@@ -178,12 +163,13 @@ class Zombie {
             summon(location, function2, owner)
         }
     }
-    fun attack(zombie: Zombie, entity: Entity) {
+    fun attack(zombie: Zombie, entity: Entity, e: EntityDamageByEntityEvent) {
         val zombieName = zombie.customName
         when (zombieName) {
             "泥棒" -> {
                 val owner = GET().owner(zombie)
                 if (entity !is Player) { return }
+                e.isCancelled = true
                 val removeCoin: Int = GET().point(entity) / 2
                 point().remove(entity, removeCoin)
                 entity.sendTitle("", "${ChatColor.RED}泥棒に${removeCoin}p盗まれた")

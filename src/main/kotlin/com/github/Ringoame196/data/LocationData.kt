@@ -14,7 +14,6 @@ data class LocationData(
     var redspawn: Location? = null,
     var bluespawn: Location? = null,
     var randomChest: Location? = null,
-    var centerShop: Location? = null,
 
 ) {
     fun saveToFile(filePath: String) {
@@ -40,7 +39,6 @@ data class LocationData(
         yamlConfiguration.set("redspawn", createSectionFromLocation(redspawn))
         yamlConfiguration.set("bluespawn", createSectionFromLocation(bluespawn))
         yamlConfiguration.set("randomChest", createSectionFromLocation(randomChest))
-        yamlConfiguration.set("centerShop", createSectionFromLocation(centerShop))
 
         try {
             yamlConfiguration.save(File(filePath))
@@ -89,10 +87,6 @@ data class LocationData(
         val randomChestSection = yaml.getConfigurationSection("randomChest")
         if (randomChestSection != null) {
             locationData.randomChest = getLocationFromSection(randomChestSection)
-        }
-        val centerShopSection = yaml.getConfigurationSection("centerShop")
-        if (centerShopSection != null) {
-            locationData.centerShop = getLocationFromSection(centerShopSection)
         }
     }
 }

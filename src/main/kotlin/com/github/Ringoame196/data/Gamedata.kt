@@ -7,6 +7,7 @@ import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Blaze
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
@@ -26,4 +27,5 @@ class Gamedata {
     var magnification = 1
     val bossBar: BossBar = Bukkit.createBossBar("ゾンビ解放まで", BarColor.BLUE, BarStyle.SEGMENTED_10)
     val opchest: Inventory = Bukkit.createInventory(null, 27, "${ChatColor.RED}OP用チェスト(一時)")
+    var blaze: MutableList<Blaze> = mutableListOf()
 }
