@@ -1,9 +1,9 @@
 package com.github.Ringoame196.Entity
 
-import com.github.Ringoame196.GET
 import com.github.Ringoame196.Give
 import com.github.Ringoame196.Point
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
@@ -42,6 +42,7 @@ class Zombie {
             "デスクイーン" -> "deathqueen"
             "泥棒" -> "thief"
             "バトルロード" -> "battleLord"
+            "カスタムロード" -> "customLoad"
             else -> { return }
         }
         summon(location, function, player)
@@ -137,12 +138,14 @@ class Zombie {
             "skeletonman" -> zombie?.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))
             "deathqueen" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.NETHERITE_HOE))
             "battleLord" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.DIAMOND_SWORD))
+            "customLoad" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.DIAMOND_SWORD))
         }
 
         zombie?.let { Data.DataManager.gameData.zombie.add(it) }
     }
 
     fun damage(zombie: Zombie) {
+        if (zombie.scoreboardTags.contains("noChange")) { return }
         if (zombie.scoreboardTags.contains("targetshop")) {
             zombie.scoreboardTags.remove("targetshop")
         }

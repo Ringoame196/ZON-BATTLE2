@@ -2,6 +2,7 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.ArmorStand
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
@@ -9,8 +10,7 @@ import org.bukkit.block.data.BlockData
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
-class BreakBlock {
-
+class Block {
     fun revival(plugin: Plugin, location: Location, cool: Int, type: Material, blockData: BlockData) {
         var cooltime = cool
         val setLocation = location.clone()

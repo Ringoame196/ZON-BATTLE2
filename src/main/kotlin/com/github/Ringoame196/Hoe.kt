@@ -29,14 +29,13 @@ class Hoe {
             player.sendTitle("", "[$select]$zombieName")
         } else {
             if (player.location.subtract(0.0, 1.0, 0.0).block.type != Material.GLASS) {
-                player.sendMessage("${ChatColor.RED}ガラスの上で実行してください")
+                Player().errormessage("${ChatColor.RED}ガラスの上で実行してください", player)
                 return
             }
 
             val zombie = gui?.getItem(select)
             if (zombie == null) {
-                player.sendMessage("${ChatColor.RED}このスロットにはゾンビがいません")
-                player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
+                Player().errormessage("${ChatColor.RED}このスロットにはゾンビがいません", player)
                 return
             }
 

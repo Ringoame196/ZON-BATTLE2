@@ -1,7 +1,5 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.data
 
-import com.github.Ringoame196.data.Data
-import com.github.Ringoame196.data.PlayerData
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Location

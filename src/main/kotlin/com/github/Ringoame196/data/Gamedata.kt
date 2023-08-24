@@ -28,4 +28,5 @@ class Gamedata {
     val bossBar: BossBar = Bukkit.createBossBar("ゾンビ解放まで", BarColor.BLUE, BarStyle.SEGMENTED_10)
     val opchest: Inventory = Bukkit.createInventory(null, 27, "${ChatColor.RED}OP用チェスト(一時)")
     var blaze: MutableList<Blaze> = mutableListOf()
+    var playMap: String = "map1"
 }

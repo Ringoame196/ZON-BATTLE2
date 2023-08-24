@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.TeamData
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -15,6 +16,6 @@ class Wood {
         GameSystem().adventure(e, player)
         val cooltime = com.github.Ringoame196.data.Data.DataManager.teamDataMap.getOrPut(team) { TeamData() }.blockTime
         player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
-        BreakBlock().revival(plugin, block.location, cooltime, block.type, block.blockData)
+        Block().revival(plugin, block.location, cooltime, block.type, block.blockData)
     }
 }

@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.TeamData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -207,6 +208,7 @@ class GUI {
         setGUIitem(gui, 4, Material.RAW_COPPER, "${ChatColor.YELLOW}[ゾンビ召喚]ゾンビソルジャー", "40p", true)
         setGUIitem(gui, 5, Material.FEATHER, "${ChatColor.YELLOW}[ゾンビ召喚]ダッシュマン", "250p", true)
         setGUIitem(gui, 6, Material.BLAZE_POWDER, "${ChatColor.YELLOW}[ゾンビ召喚]バトルロード", "850p", true)
+        setGUIitem(gui, 7, Material.BONE_MEAL, "${ChatColor.YELLOW}[ゾンビ召喚]カスタムロード", "1000p", true)
 
         setGUIitem(gui, 11, Material.RAW_IRON, "${ChatColor.YELLOW}[ゾンビ召喚]シールドゾンビ", "40p", true)
         setGUIitem(gui, 12, Material.IRON_INGOT, "${ChatColor.YELLOW}[ゾンビ召喚]タンクマン", "300p", true)

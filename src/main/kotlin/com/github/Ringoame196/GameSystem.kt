@@ -5,6 +5,7 @@ import com.github.Ringoame196.Entity.Blaze
 import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.Gamedata
 import com.github.Ringoame196.data.TeamData
 import org.bukkit.Bukkit
@@ -215,7 +216,7 @@ class GameSystem {
         if (e is Cancellable) { e.isCancelled = true }
     }
     fun reset() {
-        BreakBlock().deleteRevival()
+        Block().deleteRevival()
         for (entity in Bukkit.getWorld("BATTLE")?.entities!!) {
             if (entity !is Player) {
                 entity.remove()

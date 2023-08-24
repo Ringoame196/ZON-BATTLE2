@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.TeamData
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -57,7 +58,7 @@ class Point {
             else -> return
         }
         add(player, point, true)
-        BreakBlock().revival(plugin, block.location, cooltime, blockType, blockData)
+        Block().revival(plugin, block.location, cooltime, blockType, blockData)
     }
 
     fun purchase(player: Player, price: String): Boolean {
