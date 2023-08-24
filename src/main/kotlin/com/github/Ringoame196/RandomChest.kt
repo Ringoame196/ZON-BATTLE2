@@ -33,8 +33,8 @@ class RandomChest {
         if (chest?.type == Material.CHEST) {
             val chest = chest.state as Chest
             chest.inventory.addItem(items[randomNumber])
-            PlayerSend().participantmessage("${ChatColor.YELLOW}チェストを補充しました")
-            PlayerSend().participantplaysound(Sound.BLOCK_CHEST_OPEN)
+            ParticipatingPlayer().message("${ChatColor.YELLOW}チェストを補充しました")
+            ParticipatingPlayer().sound(Sound.BLOCK_CHEST_OPEN)
         }
     }
     @Suppress("NAME_SHADOWING")

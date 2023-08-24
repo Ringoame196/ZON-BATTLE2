@@ -188,12 +188,12 @@ class Shop {
     fun release(player: Player, teamname: String, itemname: String) {
         val teamData = Data.DataManager.teamDataMap[teamname]
         if (teamData?.opening == null) {
-            PlayerSend().errormessage("${ChatColor.RED}鉱石を破壊してお金をゲットしてください", player)
+            Player().errormessage("${ChatColor.RED}鉱石を破壊してお金をゲットしてください", player)
             Point().add(player, 30, false)
         } else {
             teamData.opening = true
             GUI().selectGUI(player)
-            PlayerSend().teamGiveEffect(player, itemname, null, null, 0, 0)
+            Team().GiveEffect(player, itemname, null, null, 0, 0)
         }
     }
     fun teamMaxHPadd(teamname: String, player: Player, itemname: String, add: Int) {
@@ -206,12 +206,12 @@ class Shop {
         // 村人の名前を更新（HP表示を変更する場合）
         Shop().name(entity as Villager, GET().hp(entity).toString(), currentMaxHP.toString())
         GUI().villagerlevelup(player.openInventory.topInventory, player)
-        PlayerSend().teamGiveEffect(player, itemname, null, null, 0, 0)
+        Team().GiveEffect(player, itemname, null, null, 0, 0)
     }
     fun effect(player: Player, itemName: String, potion: PotionEffectType, time: Int, level: Int) {
         val entity = Data.DataManager.teamDataMap[GET().teamName(player)]?.entities?.lastOrNull() as? LivingEntity ?: return
         entity.addPotionEffect(PotionEffect(potion, time * 20, level - 1))
-        PlayerSend().teamGiveEffect(player, itemName, null, null, 0, 0)
+        Team().GiveEffect(player, itemName, null, null, 0, 0)
     }
     fun kill(mob: Villager) {
         Shop().deletename(mob.location)

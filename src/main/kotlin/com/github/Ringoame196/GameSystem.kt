@@ -101,8 +101,8 @@ class GameSystem {
         object : BukkitRunnable() {
             override fun run() {
                 if (c > 0) {
-                    PlayerSend().participantmessage("${ChatColor.GREEN}[カウントダウン]開始まで$c")
-                    PlayerSend().participantplaysound(Sound.BLOCK_DISPENSER_FAIL)
+                    ParticipatingPlayer().message("${ChatColor.GREEN}[カウントダウン]開始まで$c")
+                    ParticipatingPlayer().sound(Sound.BLOCK_DISPENSER_FAIL)
                     c--
                 } else {
                     Team().division()
@@ -112,14 +112,14 @@ class GameSystem {
                         val teamDataMap = Data.DataManager.teamDataMap
                         val blocktime = teamDataMap.getOrPut("blue") { TeamData() }.blockTime
                         if (blocktime == teamDataMap.getOrPut("red") { TeamData() }.blockTime) {
-                            PlayerSend().participantmessage("${ChatColor.RED}人数不足のため 青チームのポイントが2倍になりました")
+                            ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームのポイントが2倍になりました")
                         } else {
-                            PlayerSend().participantmessage("${ChatColor.RED}人数不足のため 青チームの復活速度が1上がりになりました")
+                            ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームの復活速度が1上がりになりました")
                             Data.DataManager.gameData.shortage = false
                         }
-                        PlayerSend().participantplaysound(Sound.BLOCK_BELL_USE)
+                        ParticipatingPlayer().sound(Sound.BLOCK_BELL_USE)
                     }
-                    PlayerSend().participantplaysound(Sound.ENTITY_ENDER_DRAGON_AMBIENT)
+                    ParticipatingPlayer().sound(Sound.ENTITY_ENDER_DRAGON_AMBIENT)
                     timer(plugin)
                     this.cancel()
                 }
@@ -234,8 +234,8 @@ class GameSystem {
     fun regularly() {
         val time = Data.DataManager.gameData.time
         if (time == 1200) {
-            PlayerSend().participantmessage("${ChatColor.RED}20分経ったためポイントが2倍になりました")
-            PlayerSend().participantplaysound(Sound.BLOCK_ANVIL_USE)
+            ParticipatingPlayer().message("${ChatColor.RED}20分経ったためポイントが2倍になりました")
+            ParticipatingPlayer().sound(Sound.BLOCK_ANVIL_USE)
             Data.DataManager.gameData.magnification = 2
         }
         if (time <= 300) {
@@ -245,7 +245,7 @@ class GameSystem {
             val remaining = 1200 - time
             Data.DataManager.gameData.bossBar.setTitle("${ChatColor.AQUA}ポイント2倍まで${GET().minutes(remaining)}")
         }
-        if (time == 300) { PlayerSend().participantmessage("${ChatColor.YELLOW}ゾンビ解放!") }
+        if (time == 300) { ParticipatingPlayer().message("${ChatColor.YELLOW}ゾンビ解放!") }
         if (time % 300 == 0) { RandomChest().set() }
         if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }
         if (time % 5 == 0) {

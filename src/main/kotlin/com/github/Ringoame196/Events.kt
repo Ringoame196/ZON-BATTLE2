@@ -1,6 +1,5 @@
 package com.github.Ringoame196
 
-import com.github.Ringoame196.Entity.Entity
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
 import org.bukkit.ChatColor
@@ -147,7 +146,7 @@ class Events(private val plugin: Plugin) : Listener {
             entity.scoreboardTags.contains("friendship") -> null
             else -> { return }
         }
-        e.target = Entity().getNearestEntityOfType(entity.location, target, 100.0)
+        e.target = GET().getNearestEntityOfType(entity.location, target, 100.0)
     }
     @EventHandler
     fun onSignChangeEvent(e: SignChangeEvent) {

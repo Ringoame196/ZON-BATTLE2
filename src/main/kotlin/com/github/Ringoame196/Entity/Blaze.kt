@@ -1,5 +1,6 @@
 package com.github.Ringoame196.Entity
 
+import com.github.Ringoame196.GET
 import com.github.Ringoame196.data.Data
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
@@ -12,7 +13,7 @@ class Blaze {
                 Data.DataManager.gameData.blaze.remove(blaze)
                 continue
             }
-            val target = Entity().getNearestEntityOfType(blaze.location, EntityType.ZOMBIE, 100.0)
+            val target = GET().getNearestEntityOfType(blaze.location, EntityType.ZOMBIE, 100.0)
 
             if (target != null) {
                 val fireball = blaze.launchProjectile(Fireball::class.java)

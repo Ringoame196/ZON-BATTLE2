@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import org.bukkit.ChatColor
+import org.bukkit.Sound
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
@@ -34,5 +35,10 @@ class Player {
         Team().respawn(player, plugin, damager.name)
         if (damager !is Player) { return }
         kill(damager)
+    }
+    fun errormessage(message: String, player: Player) {
+        player.sendMessage("${ChatColor.RED}$message")
+        player.closeInventory()
+        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
     }
 }

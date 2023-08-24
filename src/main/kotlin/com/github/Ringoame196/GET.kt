@@ -3,8 +3,11 @@ package com.github.Ringoame196
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.PlayerData
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
+import org.bukkit.Location
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Entity
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
 
@@ -82,5 +85,23 @@ class GET {
     }
     fun shop(entity: Entity): Boolean {
         return entity.scoreboardTags.contains("shop")
+    }
+    fun getNearestEntityOfType(location: Location, target: EntityType?, radius: Double): Entity? {
+        var nearestEntity: Entity? = null
+        var nearestDistanceSquared = Double.MAX_VALUE
+
+        for (entity in location.world!!.getNearbyEntities(location, radius, radius, radius)) {
+            if (entity.type == target) {
+                if (entity is Player && entity.gameMode != GameMode.SURVIVAL) { continue }
+                val distanceSquared = entity.location.distanceSquared(location)
+
+                if (distanceSquared < nearestDistanceSquared) {
+                    nearestDistanceSquared = distanceSquared
+                    nearestEntity = entity
+                }
+            }
+        }
+
+        return nearestEntity
     }
 }

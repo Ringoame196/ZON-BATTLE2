@@ -25,13 +25,13 @@ class Team {
         val setTime = Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.blockTime - 1
         Data.DataManager.teamDataMap[teamName]?.blockTime = setTime
         GUI().villagerlevelup(player.openInventory.topInventory, player)
-        PlayerSend().teamGiveEffect(player, itemName, null, null, 6 - setTime, 0)
+        Team().GiveEffect(player, itemName, null, null, 6 - setTime, 0)
     }
 
     fun inAndout(player: Player) {
         val participatingPlayer = Data.DataManager.gameData.participatingPlayer
         if (GET().status()) {
-            PlayerSend().errormessage("ゲームが終わるまでしばらくお待ち下さい", player)
+            Player().errormessage("ゲームが終わるまでしばらくお待ち下さい", player)
             return
         }
         val message: String = if (participatingPlayer.contains(player)) {
@@ -42,7 +42,7 @@ class Team {
             "参加"
         }
         val size = "(参加人数:${participatingPlayer.size}人)"
-        PlayerSend().participantmessage("${ChatColor.AQUA}[$message] ${player.name}$size")
+        ParticipatingPlayer().message("${ChatColor.AQUA}[$message] ${player.name}$size")
         player.sendTitle("", "${ChatColor.YELLOW}[${message}しました]")
         Sign().numberdisplay("(参加中:${participatingPlayer.size}人)")
     }
@@ -97,7 +97,7 @@ class Team {
         }
     }
     fun respawn(player: Player, plugin: Plugin, deathmessage: String) {
-        PlayerSend().participantmessage("${ChatColor.RED}[DEATH] ${player.name} by" + deathmessage)
+        ParticipatingPlayer().message("${ChatColor.RED}[DEATH] ${player.name} by" + deathmessage)
         player.health = 20.0
         player.gameMode = GameMode.SPECTATOR
         var c = 6
@@ -120,6 +120,43 @@ class Team {
             "red" -> player.teleport(Data.DataManager.LocationData.redspawn!!)
             "blue" -> player.teleport(Data.DataManager.LocationData.bluespawn!!)
             else -> player.teleport(player.world.spawnLocation)
+        }
+    }
+    fun GiveEffect(
+        player: Player,
+        itemName: String,
+        effect1: PotionEffectType? = null,
+        effect2: PotionEffectType? = null,
+        level: Int,
+        time: Int
+    ) {
+        val playerName = player.name
+        val playerTeamName = GET().teamName(player)
+        var effectTeamName = GET().teamName(player)
+        if (itemName.contains("[妨害]")) {
+            // 反対チーム名にする
+            effectTeamName = GET().opposingTeamname(playerTeamName!!)
+        }
+        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+            val loopPlayerTeam = GET().teamName(loopPlayer)
+
+            if (loopPlayerTeam == playerTeamName) {
+                loopPlayer.sendMessage("${ChatColor.AQUA}[チーム]${playerName}さんが${itemName}${ChatColor.AQUA}を発動しました(レベル$level)")
+                if (loopPlayerTeam == effectTeamName) {
+                    effect1?.let { loopPlayer.addPotionEffect(PotionEffect(it, time * 20, level - 1)) }
+                    effect2?.let {
+                        loopPlayer.addPotionEffect(PotionEffect(it, time * 20, level - 1))
+                        loopPlayer.playSound(loopPlayer.location, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f)
+                    }
+                }
+            } else if (loopPlayerTeam == effectTeamName) {
+                loopPlayer.sendMessage("${ChatColor.RED}[妨害]${playerTeamName}チームが${itemName}${ChatColor.RED}を発動しました(レベル $level)")
+                effect1?.let { loopPlayer.addPotionEffect(PotionEffect(it, time * 20, level - 1)) }
+                effect2?.let {
+                    loopPlayer.addPotionEffect(PotionEffect(it, time * 20, level - 1))
+                    loopPlayer.playSound(loopPlayer.location, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f)
+                }
+            }
         }
     }
 }

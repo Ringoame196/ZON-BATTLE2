@@ -64,7 +64,7 @@ class Point {
         val priceInt: Int = price.replace("p", "").toInt()
         val point = GET().point(player)
         return if (priceInt > point) {
-            PlayerSend().errormessage("${ChatColor.RED}" + (priceInt - point) + "ポイント足りません", player)
+            Player().errormessage("${ChatColor.RED}" + (priceInt - point) + "ポイント足りません", player)
             false
         } else {
             player.playSound(player, Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f)
