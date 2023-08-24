@@ -90,7 +90,7 @@ class Events(private val plugin: Plugin) : Listener {
             Hoe().system(player, e)
         }
         if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
-            ItemClick().system(player, item, block, e, plugin)
+            Item().clickSystem(player, item, block, e, plugin)
         }
     }
 

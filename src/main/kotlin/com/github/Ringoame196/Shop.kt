@@ -53,11 +53,11 @@ class Shop {
                 val meta = item.itemMeta
                 meta?.lore = null
                 giveitem.setItemMeta(meta)
-                val itemname = it.itemMeta?.displayName
-                if (itemname?.contains("ゴーレム") == true || itemname == "${ChatColor.RED}ブレイズ" || itemname == "${ChatColor.YELLOW}シュルカー") {
+                val itemName = it.itemMeta?.displayName
+                if (itemName?.contains("ゴーレム") == true || itemname == "${ChatColor.RED}ブレイズ" || itemname == "${ChatColor.YELLOW}シュルカー") {
                     val c = Data.DataManager.teamDataMap.getOrPut(GET().teamName(player)) { TeamData() }.golem
                     if (c >= 5) {
-                        player.sendMessage("${ChatColor.YELLOW}ゴーレムを5体以上購入できません")
+                        player.sendMessage("${ChatColor.YELLOW}ゴーレムやシュルカー、ブレイズを5体以上購入できません")
                         player.closeInventory()
                         when (it.itemMeta?.displayName) {
                             "${ChatColor.YELLOW}アイアンゴーレム" -> Point().add(player, 500, false)

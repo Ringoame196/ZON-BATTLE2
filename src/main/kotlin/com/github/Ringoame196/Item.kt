@@ -1,6 +1,5 @@
 package com.github.Ringoame196
 
-import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.data.Data
 import org.bukkit.Bukkit
@@ -10,14 +9,15 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Blaze
+import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 
-class ItemClick {
-    fun system(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
+class Item {
+    fun clickSystem(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
         val itemName = item?.itemMeta?.displayName.toString()
         val itemType = item?.type
         when {
@@ -26,7 +26,7 @@ class ItemClick {
             }
             itemName.contains("ゴーレム") -> {
                 e.isCancelled = true
-                Golem().summon(player, item?.type, itemName)
+                com.github.Ringoame196.Entity.Golem().summon(player, item?.type, itemName)
             }
             itemType == Material.COMMAND_BLOCK && itemName == "ゲーム設定" -> {
                 e.isCancelled = true
@@ -81,7 +81,7 @@ class ItemClick {
         }
         Point().add(player, point, false)
     }
-    fun removeitem(player: Player) {
+    fun removeitem(player: org.bukkit.entity.Player) {
         if (player.gameMode == GameMode.CREATIVE) { return }
         val itemInHand = player.inventory.itemInMainHand
         val oneItem = itemInHand.clone()
