@@ -51,8 +51,12 @@ class Shop {
             val giveitem = ItemStack(item)
             giveitem.let {
                 val meta = item.itemMeta
-                meta?.lore = null
-                giveitem.setItemMeta(meta)
+                val lore = meta?.lore
+                if (!lore.isNullOrEmpty()) {
+                    lore.removeAt(0) // 1行目を削除
+                    meta.lore = lore
+                }
+                giveitem.itemMeta = meta
                 val itemName = it.itemMeta?.displayName
                 if (itemName?.contains("ゴーレム") == true || itemname == "${ChatColor.RED}ブレイズ" || itemname == "${ChatColor.YELLOW}シュルカー") {
                     val c = Data.DataManager.teamDataMap.getOrPut(GET().teamName(player)) { TeamData() }.golem
@@ -95,18 +99,18 @@ class Shop {
         val gui = Bukkit.createInventory(null, 27, ChatColor.BLUE.toString() + "攻防戦ショップ[BATTLEGUI]")
         val point = Data.DataManager.playerDataMap.getOrPut(player.uniqueId) { PlayerData() }.point
 
-        GUI().setGUIitem(gui, 0, Material.EMERALD, "${ChatColor.GREEN}所持ポイント:" + point + "p", "", true)
-        GUI().setGUIitem(gui, 1, Material.IRON_PICKAXE, "${ChatColor.YELLOW}ツール", "", true)
-        GUI().setGUIitem(gui, 3, Material.IRON_SWORD, "${ChatColor.YELLOW}武器", "", true)
-        GUI().setGUIitem(gui, 5, Material.IRON_CHESTPLATE, "${ChatColor.YELLOW}防具", "", true)
-        GUI().setGUIitem(gui, 7, Material.TNT, "${ChatColor.YELLOW}お邪魔アイテム", "", true)
+        GUI().guiItem(gui, 0, Material.EMERALD, "${ChatColor.GREEN}所持ポイント:" + point + "p", "", true)
+        GUI().guiItem(gui, 1, Material.IRON_PICKAXE, "${ChatColor.YELLOW}ツール", "", true)
+        GUI().guiItem(gui, 3, Material.IRON_SWORD, "${ChatColor.YELLOW}武器", "", true)
+        GUI().guiItem(gui, 5, Material.IRON_CHESTPLATE, "${ChatColor.YELLOW}防具", "", true)
+        GUI().guiItem(gui, 7, Material.TNT, "${ChatColor.YELLOW}お邪魔アイテム", "", true)
         if (Data.DataManager.gameData.time >= 300 || player.gameMode == GameMode.CREATIVE) {
-            GUI().setGUIitem(gui, 10, Material.ZOMBIE_SPAWN_EGG, "${ChatColor.YELLOW}ゾンビ", "", true)
+            GUI().guiItem(gui, 10, Material.ZOMBIE_SPAWN_EGG, "${ChatColor.YELLOW}ゾンビ", "", true)
         } else {
-            GUI().setGUIitem(gui, 10, Material.BARRIER, "${ChatColor.RED}選択禁止", "", true)
+            GUI().guiItem(gui, 10, Material.BARRIER, "${ChatColor.RED}選択禁止", "", true)
         }
-        GUI().setGUIitem(gui, 12, Material.WOLF_SPAWN_EGG, "${ChatColor.YELLOW}ペット", "", true)
-        GUI().setGUIitem(gui, 14, Material.BEACON, "${ChatColor.YELLOW}その他", "", true)
+        GUI().guiItem(gui, 12, Material.WOLF_SPAWN_EGG, "${ChatColor.YELLOW}ペット", "", true)
+        GUI().guiItem(gui, 14, Material.BEACON, "${ChatColor.YELLOW}その他", "", true)
         GUI().noSet(gui, 16)
         GUI().noSet(gui, 19)
         GUI().noSet(gui, 21)
@@ -116,7 +120,7 @@ class Shop {
     }
     fun unopened(player: Player) {
         val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
-        GUI().setGUIitem(gui, 4, Material.GOLD_BLOCK, "${ChatColor.YELLOW}★ショップ解放", "15p", true)
+        GUI().guiItem(gui, 4, Material.GOLD_BLOCK, "${ChatColor.YELLOW}★ショップ解放", "15p", true)
         player.openInventory(gui)
     }
     fun recovery(shop: Villager, amount: Double) {

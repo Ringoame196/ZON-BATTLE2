@@ -68,6 +68,7 @@ class Item {
                 blaze.setAI(false)
                 Data.DataManager.gameData.blaze.add(blaze)
             }
+            itemName == "${ChatColor.YELLOW}チャット" -> GUI().messageBook(player)
             else -> return
         }
         removeitem(player)

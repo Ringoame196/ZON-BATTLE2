@@ -56,12 +56,12 @@ class Anvil {
     fun set(player: Player) {
         val anvil: Inventory = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}金床")
         for (i in 0..7) {
-            GUI().setGUIitem(anvil, i, Material.RED_STAINED_GLASS_PANE, " ", "", true)
+            GUI().guiItem(anvil, i, Material.RED_STAINED_GLASS_PANE, " ", "", true)
         }
-        GUI().setGUIitem(anvil, 3, Material.AIR, "", "", true)
-        GUI().setGUIitem(anvil, 5, Material.AIR, "", "", true)
+        GUI().guiItem(anvil, 3, Material.AIR, "", "", true)
+        GUI().guiItem(anvil, 5, Material.AIR, "", "", true)
 
-        GUI().setGUIitem(anvil, 8, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}合成", "", true)
+        GUI().guiItem(anvil, 8, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}合成", "", true)
         player.openInventory(anvil)
     }
     fun close(player: Player, inventory: Inventory) {

@@ -21,30 +21,11 @@ import org.bukkit.potion.PotionEffectType
 import java.io.File
 
 class Zombie {
-    fun summonSystem(player: Player, itemName: String) {
-        var summonName = itemName.replace("[ゾンビ召喚]", "")
-        summonName = summonName.replace("${ChatColor.YELLOW}", "")
+    fun summonSystem(player: Player, item: ItemStack) {
 
         val location = player.getLocation()
         location.add(0.0, -3.5, 0.0)
-        val function = when (summonName) {
-            "ノーマルゾンビ" -> "normal"
-            "チビゾンビ" -> "chibi"
-            "シールドゾンビ" -> "shield"
-            "ゾンビソルジャー" -> "soldier"
-            "タンクマン" -> "tankman"
-            "ダッシュマン" -> "dashman"
-            "スケルトンマン" -> "skeletonman"
-            "ネザライトゾンビ" -> "netherite"
-            "シャーマン" -> "shaman"
-            "ネクロマンサー" -> "necromancer"
-            "エンペラー" -> "emperor"
-            "デスクイーン" -> "deathqueen"
-            "泥棒" -> "thief"
-            "バトルロード" -> "battleLord"
-            "カスタムロード" -> "customLoad"
-            else -> { return }
-        }
+        val function = item.itemMeta?.lore?.get(0).toString()
         summon(location, function, player)
     }
     @Suppress("DEPRECATION")

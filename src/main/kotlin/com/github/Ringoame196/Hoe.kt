@@ -39,8 +39,7 @@ class Hoe {
                 return
             }
 
-            val zombieName = zombie.itemMeta?.displayName ?: return
-            Zombie().summonSystem(player, zombieName)
+            Zombie().summonSystem(player, zombie)
             durable(player)
 
             // アイテムの数を1減らす
