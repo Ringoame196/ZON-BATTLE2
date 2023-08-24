@@ -1,5 +1,7 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Game.GameSystem
+import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.PlayerData

@@ -1,4 +1,4 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.Game
 
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
@@ -58,14 +58,14 @@ class Point {
             else -> return
         }
         add(player, point, true)
-        Block().revival(plugin, block.location, cooltime, blockType, blockData)
+        com.github.Ringoame196.Block().revival(plugin, block.location, cooltime, blockType, blockData)
     }
 
     fun purchase(player: Player, price: String): Boolean {
         val priceInt: Int = price.replace("p", "").toInt()
         val point = GET().point(player)
         return if (priceInt > point) {
-            Player().errormessage("${ChatColor.RED}" + (priceInt - point) + "ポイント足りません", player)
+            com.github.Ringoame196.Player().errormessage("${ChatColor.RED}" + (priceInt - point) + "ポイント足りません", player)
             false
         } else {
             player.playSound(player, Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f)

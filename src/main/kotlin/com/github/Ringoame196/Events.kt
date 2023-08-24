@@ -1,6 +1,8 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Zombie
+import com.github.Ringoame196.Game.GameSystem
+import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -140,14 +142,27 @@ class Events(private val plugin: Plugin) : Listener {
     fun onEntityTargetEvent(e: EntityTargetEvent) {
         // 敵対化
         val entity = e.entity
-        val target = when {
-            entity.scoreboardTags.contains("targetshop") -> EntityType.VILLAGER
-            entity.scoreboardTags.contains("targetPlayer") -> EntityType.PLAYER
-            entity.scoreboardTags.contains("targetZombie") -> EntityType.ZOMBIE
-            entity.scoreboardTags.contains("friendship") -> null
+        var radius = 0.0
+        var target: EntityType? = null
+        when {
+            entity.scoreboardTags.contains("targetshop") -> {
+                target = EntityType.VILLAGER
+                radius = 100.0
+            }
+            entity.scoreboardTags.contains("targetPlayer") -> {
+                target = EntityType.PLAYER
+                radius = 10.0
+            }
+            entity.scoreboardTags.contains("targetZombie") -> {
+                target = EntityType.ZOMBIE
+                radius = 100.0
+            }
+            entity.scoreboardTags.contains("friendship") -> {
+                target = null
+            }
             else -> { return }
         }
-        e.target = GET().getNearestEntityOfType(entity.location, target, 100.0)
+        e.target = GET().getNearestEntityOfType(entity.location, target, radius)
     }
     @EventHandler
     fun onSignChangeEvent(e: SignChangeEvent) {

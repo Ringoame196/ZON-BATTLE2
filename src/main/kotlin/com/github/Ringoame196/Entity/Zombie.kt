@@ -1,7 +1,7 @@
 package com.github.Ringoame196.Entity
 
+import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Give
-import com.github.Ringoame196.Point
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit

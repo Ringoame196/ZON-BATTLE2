@@ -1,9 +1,17 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.Game
 
+import com.github.Ringoame196.Block
 import com.github.Ringoame196.Entity.ArmorStand
 import com.github.Ringoame196.Entity.Blaze
 import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Zombie
+import com.github.Ringoame196.GUI
+import com.github.Ringoame196.Give
+import com.github.Ringoame196.ParticipatingPlayer
+import com.github.Ringoame196.RandomChest
+import com.github.Ringoame196.Shop
+import com.github.Ringoame196.Sign
+import com.github.Ringoame196.Team
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.Gamedata

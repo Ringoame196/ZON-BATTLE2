@@ -1,7 +1,8 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Golem
+import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.data.Data
-import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -9,14 +10,11 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Blaze
-import org.bukkit.entity.IronGolem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 
 class ItemClick {
     fun system(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
@@ -28,7 +26,7 @@ class ItemClick {
             }
             itemName.contains("ゴーレム") -> {
                 e.isCancelled = true
-                summonGolem(player, item?.type, itemName)
+                Golem().summon(player, item?.type, itemName)
             }
             itemType == Material.COMMAND_BLOCK && itemName == "ゲーム設定" -> {
                 e.isCancelled = true
@@ -82,36 +80,6 @@ class ItemClick {
             else -> { return }
         }
         Point().add(player, point, false)
-    }
-    fun summonGolem(player: Player, type: Material?, name: String) {
-        val location = player.location
-        val golem = location.world?.spawn(location, IronGolem::class.java) ?: return
-
-        golem.customName = name
-        golem.isCustomNameVisible = true
-        golem.isPlayerCreated = true
-
-        when (type) {
-            Material.GOLD_BLOCK -> {
-                golem.health = 5.0
-                golem.customName = "${ChatColor.RED}ゴールデンゴーレム"
-                golem.addPotionEffect(PotionEffect(PotionEffectType.WEAKNESS, Int.MAX_VALUE, 255))
-                golem.scoreboardTags.add(GET().teamName(player))
-                Data.DataManager.gameData.goldenGolem.add(golem)
-            }
-            Material.DIAMOND_BLOCK -> {
-                golem.maxHealth = 300.0
-                golem.health = 300.0
-                golem.damage(10.0)
-            }
-            Material.NETHERITE_BLOCK -> {
-                golem.maxHealth = 600.0
-                golem.health = 600.0
-                golem.damage(15.0)
-            }
-            else -> return
-        }
-        player.sendMessage("${ChatColor.YELLOW}ゴーレム召喚")
     }
     fun removeitem(player: Player) {
         if (player.gameMode == GameMode.CREATIVE) { return }

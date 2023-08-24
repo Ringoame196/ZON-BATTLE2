@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Wolf
+import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -26,7 +27,7 @@ class GUIClick {
             "${ChatColor.DARK_GREEN}ショップ" -> Shop().system(item, player)
             "${ChatColor.DARK_GREEN}設定画面" -> GameSystem().system(plugin, player, item, e)
             "${ChatColor.DARK_GREEN}参加プレイヤー" -> item.itemMeta?.let { GameSystem().playersJoin(it.displayName, player) }
-            "${ChatColor.DARK_GREEN}選択画面" -> SelectGUI().system(player, item)
+            "${ChatColor.DARK_GREEN}選択画面" -> GUI().selectGUI(player, item)
         }
     }
 

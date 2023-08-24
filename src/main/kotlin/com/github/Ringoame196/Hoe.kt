@@ -29,7 +29,7 @@ class Hoe {
             player.sendTitle("", "[$select]$zombieName")
         } else {
             if (player.location.subtract(0.0, 1.0, 0.0).block.type != Material.GLASS) {
-                Player().errormessage("${ChatColor.RED}ガラスの上で実行してください", player)
+                Player().errormessage("${ChatColor.RED}ガラスの上で実行してください(ガラスの上に行くには、自陣の後ろにあるボタンをクリック)", player)
                 return
             }
 
