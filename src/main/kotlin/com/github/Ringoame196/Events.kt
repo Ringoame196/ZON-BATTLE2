@@ -50,7 +50,7 @@ class Events(private val plugin: Plugin) : Listener {
         val player = e.whoClicked as Player
         val item = e.currentItem ?: return
         val guiName = e.view.title
-        GUIClick().system(plugin, e, player, guiName, item)
+        GUI().clickSystem(plugin, e, player, guiName, item)
     }
 
     @EventHandler

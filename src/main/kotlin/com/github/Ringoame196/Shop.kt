@@ -46,7 +46,7 @@ class Shop {
 
         if (itemname?.contains("★")!!) {
             val setteamname = GET().teamName(player) ?: return
-            GUIClick().clickInvocation(player, itemname, setteamname)
+            GUI().clickInvocation(player, itemname, setteamname)
         } else {
             val giveitem = ItemStack(item)
             giveitem.let {
