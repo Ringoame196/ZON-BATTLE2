@@ -17,19 +17,19 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class itemClick {
+class ItemClick {
     fun system(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
-        val item_name = item?.itemMeta?.displayName.toString()
-        val item_type = item?.type
+        val itemName = item?.itemMeta?.displayName.toString()
+        val itemType = item?.type
         when {
-            item_type == Material.EMERALD -> {
-                money(player, item_name)
+            itemType == Material.EMERALD -> {
+                money(player, itemName)
             }
-            item_name.contains("ゴーレム") -> {
+            itemName.contains("ゴーレム") -> {
                 e.isCancelled = true
-                summon_golem(player, item?.type, item_name)
+                summonGolem(player, item?.type, itemName)
             }
-            item_type == Material.COMMAND_BLOCK && item_name == "ゲーム設定" -> {
+            itemType == Material.COMMAND_BLOCK && itemName == "ゲーム設定" -> {
                 e.isCancelled = true
                 GUI().gamesettingGUI(player)
                 return
@@ -39,11 +39,11 @@ class itemClick {
                 Sign().click(player, block, plugin)
                 return
             }
-            item_name == "${ChatColor.GREEN}リモートショップ" -> {
-                shop().GUI(player)
+            itemName == "${ChatColor.GREEN}リモートショップ" -> {
+                Shop().gui(player)
                 e.isCancelled = true
             }
-            item_name == "${ChatColor.GREEN}テレポート" -> {
+            itemName == "${ChatColor.GREEN}テレポート" -> {
                 val coordinates = item?.itemMeta?.lore?.get(1)?.split(",")?.mapNotNull { it.toDoubleOrNull() }
 
                 if (coordinates?.size == 3) {
@@ -58,12 +58,12 @@ class itemClick {
                 e.isCancelled = true
                 return
             }
-            item_name == "${ChatColor.YELLOW}シュルカー" -> {
+            itemName == "${ChatColor.YELLOW}シュルカー" -> {
                 val shulker: Shulker = player.world.spawn(player.location, Shulker::class.java)
                 shulker.scoreboardTags.add("targetZombie")
                 shulker.isAware = true
             }
-            item_name == "${ChatColor.RED}ブレイズ" -> {
+            itemName == "${ChatColor.RED}ブレイズ" -> {
                 val blaze: Blaze = player.world.spawn(player.location, Blaze::class.java)
                 blaze.scoreboardTags.add("friendship")
                 blaze.setAI(false)
@@ -73,17 +73,16 @@ class itemClick {
         }
         removeitem(player)
     }
-    fun money(player: Player, item_name: String) {
-        val point: Int
-        point = when (item_name) {
+    fun money(player: Player, itemName: String) {
+        val point: Int = when (itemName) {
             "${ChatColor.GREEN}10p" -> 10
             "${ChatColor.GREEN}100p" -> 100
             "${ChatColor.GREEN}1000p" -> 1000
             else -> { return }
         }
-        point().add(player, point, false)
+        Point().add(player, point, false)
     }
-    fun summon_golem(player: Player, type: Material?, name: String) {
+    fun summonGolem(player: Player, type: Material?, name: String) {
         val location = player.location
         val golem = location.world?.spawn(location, IronGolem::class.java) ?: return
 
@@ -96,7 +95,7 @@ class itemClick {
                 golem.health = 5.0
                 golem.customName = "${ChatColor.RED}ゴールデンゴーレム"
                 golem.addPotionEffect(PotionEffect(PotionEffectType.WEAKNESS, Int.MAX_VALUE, 255))
-                golem.scoreboardTags.add(GET().TeamName(player))
+                golem.scoreboardTags.add(GET().teamName(player))
                 Data.DataManager.gameData.goldenGolem.add(golem)
             }
             Material.DIAMOND_BLOCK -> {

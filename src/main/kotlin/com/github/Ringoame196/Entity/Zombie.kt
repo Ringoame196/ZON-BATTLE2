@@ -2,9 +2,8 @@ package com.github.Ringoame196.Entity
 
 import com.github.Ringoame196.GET
 import com.github.Ringoame196.Give
+import com.github.Ringoame196.Point
 import com.github.Ringoame196.data.Data
-import com.github.Ringoame196.player
-import com.github.Ringoame196.point
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
@@ -22,13 +21,13 @@ import org.bukkit.potion.PotionEffectType
 import java.io.File
 
 class Zombie {
-    fun summonSystem(player: Player, item_name: String) {
-        var summon_name = item_name.replace("[ゾンビ召喚]", "")
-        summon_name = summon_name.replace("${ChatColor.YELLOW}", "")
+    fun summonSystem(player: Player, itemName: String) {
+        var summonName = itemName.replace("[ゾンビ召喚]", "")
+        summonName = summonName.replace("${ChatColor.YELLOW}", "")
 
         val location = player.getLocation()
         location.add(0.0, -3.5, 0.0)
-        val function = when (summon_name) {
+        val function = when (summonName) {
             "ノーマルゾンビ" -> "normal"
             "チビゾンビ" -> "chibi"
             "シールドゾンビ" -> "shield"
@@ -68,8 +67,8 @@ class Zombie {
         if (!customName.isNullOrBlank()) {
             zombie?.customName = customName
         }
-        val Baby = zombieSection?.getBoolean("Baby", false) ?: false
-        zombie?.isBaby = Baby
+        val baby = zombieSection?.getBoolean("Baby", false) ?: false
+        zombie?.isBaby = baby
 
         val health = zombieSection?.getDouble("HP", 20.0) ?: 20.0
         zombie?.maxHealth = health + 10.0
@@ -90,13 +89,13 @@ class Zombie {
             zombie?.scoreboardTags?.add(tag)
         }
 
-        val Head = zombieSection?.getInt("Head", 0) ?: 0
-        val Chestplate = zombieSection?.getInt("Chestplate", 0) ?: 0
-        val Leggings = zombieSection?.getInt("Leggings", 0) ?: 0
-        val Boots = zombieSection?.getInt("Boots", 0) ?: 0
+        val head = zombieSection?.getInt("Head", 0) ?: 0
+        val chestplate = zombieSection?.getInt("Chestplate", 0) ?: 0
+        val leggings = zombieSection?.getInt("Leggings", 0) ?: 0
+        val boots = zombieSection?.getInt("Boots", 0) ?: 0
         val color = zombieSection?.getString("Color", "") ?: ""
-        when (Head) {
-            1 -> zombie?.equipment?.helmet = Give().ColorLEATHER(Material.LEATHER_HELMET, color)
+        when (head) {
+            1 -> zombie?.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, color)
             2 -> zombie?.equipment?.helmet = ItemStack(Material.IRON_HELMET)
             3 -> zombie?.equipment?.helmet = ItemStack(Material.GOLDEN_HELMET)
             4 -> zombie?.equipment?.helmet = ItemStack(Material.DIAMOND_HELMET)
@@ -104,24 +103,24 @@ class Zombie {
             6 -> zombie?.equipment?.helmet = ItemStack(Material.CHAINMAIL_HELMET)
             7 -> zombie?.equipment?.helmet = ItemStack(Material.SKELETON_SKULL)
         }
-        when (Chestplate) {
-            1 -> zombie?.equipment?.chestplate = Give().ColorLEATHER(Material.LEATHER_CHESTPLATE, color)
+        when (chestplate) {
+            1 -> zombie?.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, color)
             2 -> zombie?.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
             3 -> zombie?.equipment?.chestplate = ItemStack(Material.GOLDEN_CHESTPLATE)
             4 -> zombie?.equipment?.chestplate = ItemStack(Material.DIAMOND_CHESTPLATE)
             5 -> zombie?.equipment?.chestplate = ItemStack(Material.NETHERITE_CHESTPLATE)
             6 -> zombie?.equipment?.chestplate = ItemStack(Material.CHAINMAIL_CHESTPLATE)
         }
-        when (Leggings) {
-            1 -> zombie?.equipment?.leggings = Give().ColorLEATHER(Material.LEATHER_LEGGINGS, color)
+        when (leggings) {
+            1 -> zombie?.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, color)
             2 -> zombie?.equipment?.leggings = ItemStack(Material.IRON_LEGGINGS)
             3 -> zombie?.equipment?.leggings = ItemStack(Material.GOLDEN_LEGGINGS)
             4 -> zombie?.equipment?.leggings = ItemStack(Material.DIAMOND_LEGGINGS)
             5 -> zombie?.equipment?.leggings = ItemStack(Material.NETHERITE_LEGGINGS)
             6 -> zombie?.equipment?.leggings = ItemStack(Material.CHAINMAIL_LEGGINGS)
         }
-        when (Boots) {
-            1 -> zombie?.equipment?.boots = Give().ColorLEATHER(Material.LEATHER_BOOTS, color)
+        when (boots) {
+            1 -> zombie?.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, color)
             2 -> zombie?.equipment?.boots = ItemStack(Material.IRON_BOOTS)
             3 -> zombie?.equipment?.boots = ItemStack(Material.GOLDEN_BOOTS)
             4 -> zombie?.equipment?.boots = ItemStack(Material.DIAMOND_BOOTS)
@@ -164,16 +163,15 @@ class Zombie {
         }
     }
     fun attack(zombie: Zombie, entity: Entity, e: EntityDamageByEntityEvent) {
-        val zombieName = zombie.customName
-        when (zombieName) {
+        when (zombie.customName) {
             "泥棒" -> {
                 val owner = GET().owner(zombie)
                 if (entity !is Player) { return }
                 e.isCancelled = true
                 val removeCoin: Int = GET().point(entity) / 2
-                point().remove(entity, removeCoin)
+                Point().remove(entity, removeCoin)
                 entity.sendTitle("", "${ChatColor.RED}泥棒に${removeCoin}p盗まれた")
-                point().add(owner!!, removeCoin, false)
+                Point().add(owner!!, removeCoin, false)
             }
         }
     }

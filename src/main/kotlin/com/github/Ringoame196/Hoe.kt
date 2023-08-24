@@ -15,17 +15,17 @@ class Hoe {
     fun system(player: Player, e: PlayerInteractEvent) {
         val shift = player.isSneaking
         val action = e.action
-        val GUI = Data.DataManager.playerDataMap[player.uniqueId]?.GUI
-        var select = Data.DataManager.playerDataMap[player.uniqueId]?.Hoeselect ?: 0
+        val gui = Data.DataManager.playerDataMap[player.uniqueId]?.gui
+        var select = Data.DataManager.playerDataMap[player.uniqueId]?.hoeselect ?: 0
         e.isCancelled = true
         if (shift) {
-            GUI?.let { player.openInventory(it) }
+            gui?.let { player.openInventory(it) }
             return
         }
         if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR) {
             select = (select + 1) % 9
-            Data.DataManager.playerDataMap[player.uniqueId]?.Hoeselect = select
-            val zombieName = GUI?.getItem(select)?.itemMeta?.displayName ?: "未設定"
+            Data.DataManager.playerDataMap[player.uniqueId]?.hoeselect = select
+            val zombieName = gui?.getItem(select)?.itemMeta?.displayName ?: "未設定"
             player.sendTitle("", "[$select]$zombieName")
         } else {
             if (player.location.subtract(0.0, 1.0, 0.0).block.type != Material.GLASS) {
@@ -33,7 +33,7 @@ class Hoe {
                 return
             }
 
-            val zombie = GUI?.getItem(select)
+            val zombie = gui?.getItem(select)
             if (zombie == null) {
                 player.sendMessage("${ChatColor.RED}このスロットにはゾンビがいません")
                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
@@ -42,18 +42,18 @@ class Hoe {
 
             val zombieName = zombie.itemMeta?.displayName ?: return
             Zombie().summonSystem(player, zombieName)
-            Durable(player)
+            durable(player)
 
             // アイテムの数を1減らす
             if (zombie.amount > 1) {
                 zombie.amount -= 1
-                GUI.setItem(select, zombie)
+                gui.setItem(select, zombie)
             } else {
-                GUI.setItem(select, null)
+                gui.setItem(select, null)
             }
         }
     }
-    fun Durable(player: Player) {
+    fun durable(player: Player) {
         val itemInHand = player.inventory.itemInMainHand
         val damageableMeta = itemInHand.itemMeta as org.bukkit.inventory.meta.Damageable
         val currentDamage = damageableMeta.damage

@@ -1,6 +1,5 @@
 package com.github.Ringoame196.data
 
-import com.github.Ringoame196.randomChest
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection

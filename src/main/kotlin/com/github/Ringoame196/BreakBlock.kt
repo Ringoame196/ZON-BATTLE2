@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class BreakBlock {
 
-    fun revival(plugin: Plugin, location: Location, cool: Int, type: Material, BlockData: BlockData) {
+    fun revival(plugin: Plugin, location: Location, cool: Int, type: Material, blockData: BlockData) {
         var cooltime = cool
         val setLocation = location.clone()
         setLocation.block.type = Material.LIGHT_BLUE_STAINED_GLASS
@@ -29,7 +29,7 @@ class BreakBlock {
                     cooltime--
                 } else {
                     location.block.setType(type)
-                    location.block.setBlockData(BlockData)
+                    location.block.setBlockData(blockData)
                     armorStand.remove()
                     this.cancel()
                 }

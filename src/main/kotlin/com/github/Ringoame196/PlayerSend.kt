@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffectType
 
 class PlayerSend {
     fun participantmessage(message: String) {
-        for (loopPlayer in Data.DataManager.gameData.ParticipatingPlayer) {
+        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
             loopPlayer.sendMessage(message)
         }
     }
@@ -20,7 +20,7 @@ class PlayerSend {
         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
     }
 
-    fun TeamGiveEffect(
+    fun teamGiveEffect(
         player: Player,
         itemName: String,
         effect1: PotionEffectType? = null,
@@ -29,14 +29,14 @@ class PlayerSend {
         time: Int
     ) {
         val playerName = player.name
-        val playerTeamName = GET().TeamName(player)
-        var effectTeamName = GET().TeamName(player)
+        val playerTeamName = GET().teamName(player)
+        var effectTeamName = GET().teamName(player)
         if (itemName.contains("[妨害]")) {
             // 反対チーム名にする
-            effectTeamName = GET().OpposingTeamname(playerTeamName!!)
+            effectTeamName = GET().opposingTeamname(playerTeamName!!)
         }
-        for (loopPlayer in Data.DataManager.gameData.ParticipatingPlayer) {
-            val loopPlayerTeam = GET().TeamName(loopPlayer)
+        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+            val loopPlayerTeam = GET().teamName(loopPlayer)
 
             if (loopPlayerTeam == playerTeamName) {
                 loopPlayer.sendMessage("${ChatColor.AQUA}[チーム]${playerName}さんが${itemName}${ChatColor.AQUA}を発動しました(レベル$level)")
@@ -59,7 +59,7 @@ class PlayerSend {
     }
 
     fun participantplaysound(sound: Sound) {
-        for (player in Data.DataManager.gameData.ParticipatingPlayer) {
+        for (player in Data.DataManager.gameData.participatingPlayer) {
             player.playSound(player.location, sound, 1f, 1f)
         }
     }

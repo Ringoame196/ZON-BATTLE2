@@ -7,14 +7,14 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
 class Give {
-    fun GameSetting(): ItemStack {
-        val Gamesetting = ItemStack(Material.COMMAND_BLOCK)
-        val meta = Gamesetting.itemMeta
+    fun gameSetting(): ItemStack {
+        val gameSetting = ItemStack(Material.COMMAND_BLOCK)
+        val meta = gameSetting.itemMeta
         meta?.setDisplayName("ゲーム設定")
-        Gamesetting.setItemMeta(meta)
-        return Gamesetting
+        gameSetting.setItemMeta(meta)
+        return gameSetting
     }
-    fun Equipment(player: Player, item: ItemStack) {
+    fun equipment(player: Player, item: ItemStack) {
         val type = item.type.toString()
         if (type.contains("HELMET")) {
             player.inventory.helmet = item
@@ -28,13 +28,13 @@ class Give {
             player.inventory.boots = item
         }
     }
-    fun Sword(player: Player) {
+    fun sword(player: Player) {
         player.inventory.remove(Material.WOODEN_SWORD)
         player.inventory.remove(Material.STONE_SWORD)
         player.inventory.remove(Material.IRON_SWORD)
         player.inventory.remove(Material.DIAMOND_SWORD)
     }
-    fun Pickaxe(player: Player) {
+    fun pickaxe(player: Player) {
         player.inventory.remove(Material.WOODEN_PICKAXE)
         player.inventory.remove(Material.STONE_PICKAXE)
         player.inventory.remove(Material.IRON_PICKAXE)
@@ -47,13 +47,13 @@ class Give {
         coin.setItemMeta(meta)
         return coin
     }
-    fun Axe(player: Player) {
+    fun axe(player: Player) {
         player.inventory.remove(Material.WOODEN_AXE)
         player.inventory.remove(Material.STONE_AXE)
         player.inventory.remove(Material.IRON_AXE)
         player.inventory.remove(Material.DIAMOND_AXE)
     }
-    fun ColorLEATHER(material: Material, color: String): ItemStack {
+    fun colorLEATHER(material: Material, color: String): ItemStack {
         val item = ItemStack(material)
         val meta = item.itemMeta as LeatherArmorMeta
         when (color) {

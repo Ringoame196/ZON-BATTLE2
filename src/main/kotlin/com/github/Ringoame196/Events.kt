@@ -36,9 +36,9 @@ class Events(private val plugin: Plugin) : Listener {
         // ショップGUIを開く
         val player = e.player
         val entity = e.rightClicked
-        val team_name = GET().TeamName(player) ?: return
-        if (inspection().shop(entity)) {
-            if (entity.scoreboardTags.contains("center")) { } else { shop().open(e, player, entity as Villager, team_name) }
+        val teamName = GET().teamName(player) ?: return
+        if (GET().shop(entity)) {
+            if (entity.scoreboardTags.contains("center")) { } else { Shop().open(e, player, entity as Villager, teamName) }
         }
     }
 
@@ -47,8 +47,8 @@ class Events(private val plugin: Plugin) : Listener {
         // GUIクリック
         val player = e.whoClicked as Player
         val item = e.currentItem ?: return
-        val GUI_name = e.view.title
-        GUIClick().system(plugin, e, player, GUI_name, item)
+        val guiName = e.view.title
+        GUIClick().system(plugin, e, player, guiName, item)
     }
 
     @EventHandler
@@ -69,10 +69,10 @@ class Events(private val plugin: Plugin) : Listener {
             Zombie().attack(damager, entity, e)
         }
         when (entity) {
-            is Villager -> shop().attack(e, damager, entity)
+            is Villager -> Shop().attack(e, damager, entity)
             is org.bukkit.entity.Zombie -> Zombie().damage(entity)
-            is Player -> player().showdamage(damager, entity, damage)
-            is Golem -> com.github.Ringoame196.Entity.Golem().GuardPlayerAttack(damager, e)
+            is Player -> Player().showdamage(damager, entity, damage)
+            is Golem -> com.github.Ringoame196.Entity.Golem().guardPlayerAttack(damager, e)
             else -> {}
         }
     }
@@ -88,7 +88,7 @@ class Events(private val plugin: Plugin) : Listener {
             Hoe().system(player, e)
         }
         if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
-            itemClick().system(player, item, block, e, plugin)
+            ItemClick().system(player, item, block, e, plugin)
         }
     }
 
@@ -102,7 +102,7 @@ class Events(private val plugin: Plugin) : Listener {
         val block = e.block
         when (block.type) {
             Material.OAK_LOG -> Wood().blockBreak(e, player, block, plugin)
-            else -> point().ore(e, player, block, plugin)
+            else -> Point().ore(e, player, block, plugin)
         }
     }
 
@@ -117,9 +117,9 @@ class Events(private val plugin: Plugin) : Listener {
         if (!GET().status()) { return }
         val killer = e.entity.killer
         val mob = e.entity
-        if (inspection().shop(mob)) { shop().kill(mob as Villager) } else {
+        if (GET().shop(mob)) { Shop().kill(mob as Villager) } else {
             if (killer !is Player) { return }
-            point().add(killer, 1, true)
+            Point().add(killer, 1, true)
             Data.DataManager.gameData.goldenGolem.remove(mob)
             Data.DataManager.gameData.zombie.remove(mob)
         }
@@ -131,8 +131,8 @@ class Events(private val plugin: Plugin) : Listener {
         if (e.entity !is Villager) { return }
         val shop = e.entity as Villager
         val amout = e.amount
-        if (inspection().shop(shop)) {
-            shop().recovery(shop, amout)
+        if (GET().shop(shop)) {
+            Shop().recovery(shop, amout)
         }
     }
 
@@ -159,11 +159,11 @@ class Events(private val plugin: Plugin) : Listener {
     @EventHandler
     fun onPlayerQuitEvent(e: PlayerQuitEvent) {
         // プレイヤーが抜けたとき
-        if (Data.DataManager.gameData.ParticipatingPlayer.contains(e.player)) { Team().inAndout(e.player) }
+        if (Data.DataManager.gameData.participatingPlayer.contains(e.player)) { Team().inAndout(e.player) }
     }
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
-        if (GET().JoinTeam(e.player)) { Data.DataManager.gameData.ParticipatingPlayer.add(e.player) }
+        if (GET().joinTeam(e.player)) { Data.DataManager.gameData.participatingPlayer.add(e.player) }
     }
     @EventHandler
     fun onPlayerRespawn(e: EntityDamageEvent) {
@@ -174,11 +174,11 @@ class Events(private val plugin: Plugin) : Listener {
         if (player.scoreboardTags.contains("invincible")) {
             e.isCancelled = true
         } else if (e.damage > 0 && player.health <= e.damage) {
-            player().death(e, player, plugin)
+            Player().death(e, player, plugin)
         }
     }
     @EventHandler
     fun onBlockDamage(e: BlockDamageEvent) {
-        point().NotAppropriate(e.player.inventory.itemInMainHand, e.block, e)
+        Point().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
     }
 }

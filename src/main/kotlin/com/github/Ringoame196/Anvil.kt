@@ -10,7 +10,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 
-class anvil {
+class Anvil {
     fun click(e: InventoryClickEvent) {
         val item = e.currentItem?.type
         val player = e.whoClicked as Player
@@ -30,10 +30,10 @@ class anvil {
             PlayerSend().errormessage("${ChatColor.RED}エンチャント本をセットしてください(右)", player)
             return
         }
-        val enchantitem_name = enchantitem.type.toString()
+        val enchantitemName = enchantitem.type.toString()
         val shouldExecute: Boolean
         val supportedItems = listOf("PICKAXE", "SWORD", "CHESTPLATE", "LEGGINGS", "BOOTS", "AXE")
-        shouldExecute = supportedItems.any { enchantitem_name.contains(it) }
+        shouldExecute = supportedItems.any { enchantitemName.contains(it) }
         if (!shouldExecute) {
             PlayerSend().errormessage("${ChatColor.RED}対応しているアイテムをセットしてください(左)", player)
             return

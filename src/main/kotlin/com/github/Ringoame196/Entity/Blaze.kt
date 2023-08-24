@@ -5,7 +5,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Fireball
 
-class blaze {
+class Blaze {
     fun attack() {
         for (blaze in Data.DataManager.gameData.blaze) {
             if (Bukkit.getWorld("BATTLE")?.entities?.contains(blaze) == false) {

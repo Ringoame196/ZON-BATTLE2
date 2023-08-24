@@ -1,9 +1,0 @@
-package com.github.Ringoame196
-
-import org.bukkit.entity.Entity
-
-class inspection { // 調査
-    fun shop(entity: Entity): Boolean {
-        return entity.scoreboardTags.contains("shop")
-    }
-}

@@ -3,20 +3,18 @@ package com.github.Ringoame196
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.PlayerData
 import org.bukkit.Bukkit
-import org.bukkit.Location
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
 
 class GET {
-    fun TeamName(player: Player): String? {
-        val teamName = player.scoreboard.teams.firstOrNull { it.hasEntry(player.name) }?.name
-        return teamName
+    fun teamName(player: Player): String? {
+        return player.scoreboard.teams.firstOrNull { it.hasEntry(player.name) }?.name
     }
 
-    fun JoinTeam(player: Player): Boolean {
-        val jointeam = when (TeamName(player)) {
+    fun joinTeam(player: Player): Boolean {
+        val jointeam = when (teamName(player)) {
             "red" -> true
             "blue" -> true
             else -> false
@@ -24,28 +22,25 @@ class GET {
         return jointeam
     }
 
-    fun MaxHP(shop: Villager): Double? {
-        val maxHP = shop.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
-        return maxHP
+    fun maxHP(shop: Villager): Double? {
+        return shop.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
     }
 
-    fun HP(shop: Villager): Double {
-        val HP = shop.health
-        return HP
+    fun hp(shop: Villager): Double {
+        return shop.health
     }
 
     fun point(player: Player): Int {
-        val point = Data.DataManager.playerDataMap.getOrPut(player.uniqueId) { PlayerData() }.point
-        return point
+        return Data.DataManager.playerDataMap.getOrPut(player.uniqueId) { PlayerData() }.point
     }
 
-    fun OpposingTeamname(TeamName: String): String? {
-        val OpoposingTeamname = when (TeamName) {
+    fun opposingTeamname(teamName: String): String? {
+        val opoposingTeamname = when (teamName) {
             "red" -> "blue"
             "blue" -> "red"
             else -> null
         }
-        return OpoposingTeamname
+        return opoposingTeamname
     }
 
     fun status(): Boolean {
@@ -72,7 +67,7 @@ class GET {
 
     fun owner(entity: Entity): Player? {
         for (tag in entity.scoreboardTags) {
-            if (tag.contains("owner:") == false) {
+            if (!tag.contains("owner:")) {
                 continue
             }
             val name = tag.replace("owner:", "")
@@ -84,5 +79,8 @@ class GET {
             }
         }
         return null
+    }
+    fun shop(entity: Entity): Boolean {
+        return entity.scoreboardTags.contains("shop")
     }
 }

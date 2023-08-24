@@ -8,9 +8,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.plugin.Plugin
 
-class player {
+class Player {
     fun kill(killer: Player) {
-        point().add(killer, 300, true)
+        Point().add(killer, 300, true)
     }
     fun showdamage(damager: Entity, entity: Player, damage: Int) {
         if (damager is Arrow && damager.shooter is Player) {
@@ -22,7 +22,7 @@ class player {
         }
     }
     fun death(e: EntityDamageEvent, player: Player, plugin: Plugin) {
-        if (!GET().JoinTeam(player)) { return }
+        if (!GET().joinTeam(player)) { return }
         e.isCancelled = true
 
         // ダメージを与えたエンティティがプレイヤーであればキル処理
@@ -33,6 +33,6 @@ class player {
         val damager = e.damager
         Team().respawn(player, plugin, damager.name)
         if (damager !is Player) { return }
-        player().kill(damager)
+        kill(damager)
     }
 }

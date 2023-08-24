@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
 
-class randomChest {
+class RandomChest {
     fun setLocation(player: Player) {
         val location = player.location
         if (location.block.type != Material.CHEST) {
@@ -46,16 +46,16 @@ class randomChest {
             chest.inventory.clear()
         }
     }
-    fun setItem(Material: Material, name: String): ItemStack {
-        val item = ItemStack(Material)
+    fun setItem(material: Material, name: String): ItemStack {
+        val item = ItemStack(material)
         val meta = item.itemMeta
         meta?.setDisplayName(name)
         item.setItemMeta(meta)
         return item
     }
-    fun set_potionGUIitem(Material: Material, typePotion: PotionEffectType, level: Int, time: Int): ItemStack {
+    fun setPotionGUIitem(material: Material, typePotion: PotionEffectType, level: Int, time: Int): ItemStack {
         // GUIにポーションを楽にセットする
-        val itemStack = ItemStack(Material)
+        val itemStack = ItemStack(material)
         val potionMeta = itemStack.itemMeta as PotionMeta
 
         val regenerationEffect = PotionEffect(typePotion, time * 20, level)
@@ -70,17 +70,17 @@ class randomChest {
         item.add(setItem(Material.NETHERITE_LEGGINGS, ""))
         item.add(setItem(Material.NETHERITE_BOOTS, ""))
         item.add(setItem(Material.NETHERITE_SWORD, ""))
-        item.add(set_enchant_GUIitem(Material.NETHERITE_PICKAXE, Enchantment.DIG_SPEED, 3))
+        item.add(setEnchantGUIitem(Material.NETHERITE_PICKAXE, Enchantment.DIG_SPEED, 3))
         item.add(setItem(Material.STONE_SWORD, ""))
         item.add(setItem(Material.STONE_PICKAXE, ""))
         item.add(setItem(Material.ENCHANTED_GOLDEN_APPLE, ""))
         item.add(setItem(Material.FISHING_ROD, ""))
         item.add(setItem(Material.NETHERITE_INGOT, "${ChatColor.YELLOW}[ゾンビ召喚]ネザライトゾンビ"))
         item.add(setItem(Material.NETHERITE_BLOCK, "ネザライトゴーレム"))
-        item.add(set_potionGUIitem(Material.SPLASH_POTION, PotionEffectType.HEAL, 2, 1))
+        item.add(setPotionGUIitem(Material.SPLASH_POTION, PotionEffectType.HEAL, 2, 1))
         return item
     }
-    fun set_enchant_GUIitem(item: Material, enchant: Enchantment, level: Int): ItemStack {
+    fun setEnchantGUIitem(item: Material, enchant: Enchantment, level: Int): ItemStack {
         // GUIにエンチャント本を楽にセットする
         val item = ItemStack(item)
         val itemMeta: ItemMeta = item.itemMeta!!

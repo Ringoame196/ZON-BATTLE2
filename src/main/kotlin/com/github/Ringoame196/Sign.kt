@@ -11,7 +11,7 @@ import org.bukkit.event.block.SignChangeEvent
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
-class Sign() {
+class Sign {
     fun make(e: SignChangeEvent) {
         val lines = e.lines
         if (lines[0] == "[BATTLE]") {
@@ -46,7 +46,7 @@ class Sign() {
             }.runTaskLater(plugin, 40L) // 1秒は20L
         }
     }
-    fun Numberdisplay(text: String) {
+    fun numberdisplay(text: String) {
         val sign = Data.DataManager.gameData.signLocation?.block?.state
         if (sign !is Sign) { return }
         sign.setLine(1, "${ChatColor.GREEN}$text")

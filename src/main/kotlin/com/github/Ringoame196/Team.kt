@@ -17,34 +17,34 @@ import org.bukkit.scoreboard.NameTagVisibility
 
 @Suppress("DEPRECATION")
 class Team {
-    fun chest(player: Player, team_name: String) {
+    fun chest(player: Player, teamName: String) {
         player.playSound(player, Sound.BLOCK_CHEST_OPEN, 1f, 1f)
-        player.openInventory(Data.DataManager.teamDataMap.getOrPut(team_name) { TeamData() }.chest)
+        player.openInventory(Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.chest)
     }
-    fun fastbreaklevel(team_name: String, player: Player, item_name: String) {
-        val set_time = Data.DataManager.teamDataMap.getOrPut(team_name) { TeamData() }.blockTime - 1
-        Data.DataManager.teamDataMap[team_name]?.blockTime = set_time
+    fun fastbreaklevel(teamName: String, player: Player, itemName: String) {
+        val setTime = Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.blockTime - 1
+        Data.DataManager.teamDataMap[teamName]?.blockTime = setTime
         GUI().villagerlevelup(player.openInventory.topInventory, player)
-        PlayerSend().TeamGiveEffect(player, item_name, null, null, 6 - set_time, 0)
+        PlayerSend().teamGiveEffect(player, itemName, null, null, 6 - setTime, 0)
     }
 
     fun inAndout(player: Player) {
-        val ParticipatingPlayer = Data.DataManager.gameData.ParticipatingPlayer
+        val participatingPlayer = Data.DataManager.gameData.participatingPlayer
         if (GET().status()) {
             PlayerSend().errormessage("ゲームが終わるまでしばらくお待ち下さい", player)
             return
         }
-        val message: String = if (ParticipatingPlayer.contains(player)) {
-            ParticipatingPlayer.remove(player)
+        val message: String = if (participatingPlayer.contains(player)) {
+            participatingPlayer.remove(player)
             "退出"
         } else {
-            ParticipatingPlayer.add(player)
+            participatingPlayer.add(player)
             "参加"
         }
-        val size = "(参加人数:${ParticipatingPlayer.size}人)"
+        val size = "(参加人数:${participatingPlayer.size}人)"
         PlayerSend().participantmessage("${ChatColor.AQUA}[$message] ${player.name}$size")
         player.sendTitle("", "${ChatColor.YELLOW}[${message}しました]")
-        Sign().Numberdisplay("(参加中:${ParticipatingPlayer.size}人)")
+        Sign().numberdisplay("(参加中:${participatingPlayer.size}人)")
     }
     fun make(name: String, color: ChatColor, prefix: String) {
         Bukkit.getScoreboardManager()?.mainScoreboard?.registerNewTeam(name)
@@ -65,7 +65,7 @@ class Team {
         val blueTeam = Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue")
         var team = true
         var blueCount = 0
-        for (loopPlayer in Data.DataManager.gameData.ParticipatingPlayer) {
+        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
             Data.DataManager.gameData.bossBar.addPlayer(loopPlayer)
             loopPlayer.setPlayerListName(null)
             loopPlayer.setDisplayName(null)
@@ -80,11 +80,11 @@ class Team {
             loopPlayer.scoreboardTags.remove("pvpjoin")
             loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, Int.MAX_VALUE, 100, true, false))
             loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.NIGHT_VISION, Int.MAX_VALUE, 1, true, false))
-            Equipment().Initial(loopPlayer)
+            Equipment().initial(loopPlayer)
             loopPlayer.gameMode = GameMode.SURVIVAL
             loopPlayer.health = 20.0
             if (loopPlayer.isOp) {
-                loopPlayer.inventory.addItem(Give().GameSetting())
+                loopPlayer.inventory.addItem(Give().gameSetting())
             }
             team = !team
         }
@@ -116,7 +116,7 @@ class Team {
         }.runTaskTimer(plugin, 0, 20)
     }
     fun respawnTP(player: Player) {
-        when (GET().TeamName(player)) {
+        when (GET().teamName(player)) {
             "red" -> player.teleport(Data.DataManager.LocationData.redspawn!!)
             "blue" -> player.teleport(Data.DataManager.LocationData.bluespawn!!)
             else -> player.teleport(player.world.spawnLocation)
