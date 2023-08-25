@@ -105,6 +105,7 @@ class GameSystem {
         location?.add(0.0, -1.0, 0.0)
         val armorStand = location?.let { ArmorStand().summon(it, "") }
         Data.DataManager.gameData.randomChestTitle = armorStand
+        Timer().feverSet()
 
         var c = 5
         object : BukkitRunnable() {
@@ -147,7 +148,7 @@ class GameSystem {
                     return
                 }
                 Data.DataManager.gameData.time += 1
-                regularly()
+                regularly(plugin)
                 val randomChestTime = 300 - (Data.DataManager.gameData.time % 300)
                 Data.DataManager.gameData.randomChestTitle?.customName = "${ChatColor.AQUA}${GET().minutes(randomChestTime)}"
             }
@@ -240,7 +241,7 @@ class GameSystem {
         if (GET().status()) { return }
         Data.DataManager.gameData = Gamedata() // gameData を新しい Gamedata インスタンスに置き換える
     }
-    fun regularly() {
+    fun regularly(plugin: Plugin) {
         val time = Data.DataManager.gameData.time
         if (time == 1200) {
             ParticipatingPlayer().message("${ChatColor.RED}20分経ったためポイントが2倍になりました")
@@ -262,6 +263,7 @@ class GameSystem {
             Blaze().attack()
         }
         if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "normal", "normal") }
+        if (time == Data.DataManager.gameData.feverTime) { Timer().feverActivation(plugin) }
     }
     fun playersJoin(playerName: String, sender: Player) {
         val player = Bukkit.getPlayer(playerName.replace("${ChatColor.YELLOW}", "")) ?: return

@@ -29,4 +29,6 @@ class Gamedata {
     val opchest: Inventory = Bukkit.createInventory(null, 27, "${ChatColor.RED}OP用チェスト(一時)")
     var blaze: MutableList<Blaze> = mutableListOf()
     var playMap: String = "map1"
+    var feverTime = 0
+    var fever = false
 }
