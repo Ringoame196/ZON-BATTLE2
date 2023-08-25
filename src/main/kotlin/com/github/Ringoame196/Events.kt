@@ -116,14 +116,24 @@ class Events(private val plugin: Plugin) : Listener {
     @EventHandler
     fun onEntityDeathEvent(e: EntityDeathEvent) {
         // キル
-        if (!GET().status()) { return }
         val killer = e.entity.killer
         val mob = e.entity
-        if (GET().shop(mob)) { Shop().kill(mob as Villager) } else {
-            if (killer !is Player) { return }
-            Point().add(killer, 1, true)
-            Data.DataManager.gameData.goldenGolem.remove(mob)
-            Data.DataManager.gameData.zombie.remove(mob)
+        if (!GET().status()) {
+            if (GET().shop(mob)) {
+                Shop().kill(mob as Villager)
+            } else {
+                if (killer !is Player) {
+                    return
+                }
+                Point().add(killer, 1, true)
+                Data.DataManager.gameData.goldenGolem.remove(mob)
+                Data.DataManager.gameData.zombie.remove(mob)
+            }
+        }
+        if (mob.scoreboardTags.contains("redPet")) {
+            Data.DataManager.teamDataMap["red"]?.petCount = Data.DataManager.teamDataMap["red"]?.petCount!! - 1
+        } else if (mob.scoreboardTags.contains("bluePet")) {
+            Data.DataManager.teamDataMap["blue"]?.petCount = Data.DataManager.teamDataMap["blue"]?.petCount!! - 1
         }
     }
 

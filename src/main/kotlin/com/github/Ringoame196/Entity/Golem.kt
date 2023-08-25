@@ -48,6 +48,7 @@ class Golem {
         golem.isCustomNameVisible = true
         golem.isPlayerCreated = true
         golem.scoreboardTags.add("targetZombie")
+        golem.scoreboardTags.add("${GET().teamName(player)}Pet")
 
         when (type) {
             Material.GOLD_BLOCK -> {
