@@ -434,7 +434,7 @@ class GUI {
             "ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)" -> {
                 Data.DataManager.teamDataMap[GET().teamName(player)]?.zombieNotification = true
                 GUI().potionshop(player.openInventory.topInventory, player)
-                Team().sendMessage("ゾンビが召喚されたときに ゾンビの声が聞こえるようになりました", GET().teamName(player).toString())
+                Team().sendMessage("${player.name}さんが「ゾンビ襲撃警報」を発動しました ※ゾンビが召喚されたときに ゾンビの声が聞こえるようになりました", GET().teamName(player).toString())
             }
         }
     }

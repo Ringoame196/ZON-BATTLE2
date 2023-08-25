@@ -5,7 +5,6 @@ import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.PlayerData
-import com.github.Ringoame196.data.TeamData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -57,23 +56,6 @@ class Shop {
                     meta.lore = lore
                 }
                 giveitem.itemMeta = meta
-                val itemName = it.itemMeta?.displayName
-                if (itemName?.contains("ゴーレム") == true || itemname == "${ChatColor.RED}ブレイズ" || itemname == "${ChatColor.YELLOW}シュルカー") {
-                    val c = Data.DataManager.teamDataMap.getOrPut(GET().teamName(player)) { TeamData() }.golem
-                    if (c >= 5) {
-                        player.sendMessage("${ChatColor.YELLOW}ゴーレムやシュルカー、ブレイズを5体以上購入できません")
-                        player.closeInventory()
-                        when (it.itemMeta?.displayName) {
-                            "${ChatColor.YELLOW}アイアンゴーレム" -> Point().add(player, 500, false)
-                            "${ChatColor.YELLOW}ゴールデンゴーレム" -> Point().add(player, 1500, false)
-                            "${ChatColor.RED}ブレイズ" -> Point().add(player, 400, false)
-                            "${ChatColor.YELLOW}シュルカー" -> Point().add(player, 800, false)
-                        }
-                        return
-                    }
-                    Data.DataManager.teamDataMap.getOrPut(GET().teamName(player)) { TeamData() }.golem = c + 1
-                    Team().sendMessage("${itemName}購入(${c + 1}/5) ※ゴーレム、ブレイズ、シュルカーなどは 5体しか購入できません", GET().teamName(player).toString())
-                }
                 if (it.itemMeta?.displayName?.contains("[装備]") == true) {
                     Give().equipment(player, it)
                     return
