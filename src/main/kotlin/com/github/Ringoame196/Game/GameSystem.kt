@@ -2,9 +2,6 @@ package com.github.Ringoame196.Game
 
 import com.github.Ringoame196.Block
 import com.github.Ringoame196.Entity.ArmorStand
-import com.github.Ringoame196.Entity.Blaze
-import com.github.Ringoame196.Entity.Golem
-import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.GUI
 import com.github.Ringoame196.Give
 import com.github.Ringoame196.ParticipatingPlayer
@@ -27,10 +24,8 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.scheduler.BukkitTask
 
 class GameSystem {
-    private var timerTask: BukkitTask? = null
     fun system(plugin: Plugin, player: Player, item: ItemStack, e: InventoryClickEvent) {
         player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
         val displayName = item.itemMeta?.displayName
@@ -130,7 +125,7 @@ class GameSystem {
                         ParticipatingPlayer().sound(Sound.BLOCK_BELL_USE)
                     }
                     ParticipatingPlayer().sound(Sound.ENTITY_ENDER_DRAGON_AMBIENT)
-                    timer(plugin)
+                    Timer().GameTimer(plugin)
                     this.cancel()
                 }
             }
@@ -139,20 +134,6 @@ class GameSystem {
     fun NotSet(player: Player) {
         player.sendMessage("${ChatColor.RED}未設定の項目があります")
         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
-    }
-    fun timer(plugin: Plugin) {
-        timerTask = object : BukkitRunnable() {
-            override fun run() {
-                if (!GET().status()) {
-                    this.cancel()
-                    return
-                }
-                Data.DataManager.gameData.time += 1
-                regularly(plugin)
-                val randomChestTime = 300 - (Data.DataManager.gameData.time % 300)
-                Data.DataManager.gameData.randomChestTitle?.customName = "${ChatColor.AQUA}${GET().minutes(randomChestTime)}"
-            }
-        }.runTaskTimer(plugin, 0L, 20L)
     }
     fun setlocation(item: ItemStack, player: Player) {
         when (item.itemMeta?.displayName) {
@@ -240,30 +221,6 @@ class GameSystem {
         RandomChest().reset()
         if (GET().status()) { return }
         Data.DataManager.gameData = Gamedata() // gameData を新しい Gamedata インスタンスに置き換える
-    }
-    fun regularly(plugin: Plugin) {
-        val time = Data.DataManager.gameData.time
-        if (time == 1200) {
-            ParticipatingPlayer().message("${ChatColor.RED}20分経ったためポイントが2倍になりました")
-            ParticipatingPlayer().sound(Sound.BLOCK_ANVIL_USE)
-            Data.DataManager.gameData.magnification = 2
-        }
-        if (time <= 300) {
-            val remaining = 300 - time
-            Data.DataManager.gameData.bossBar.setTitle("${ChatColor.YELLOW}ゾンビ解放まで${GET().minutes(remaining)}")
-        } else if (time <= 1200) {
-            val remaining = 1200 - time
-            Data.DataManager.gameData.bossBar.setTitle("${ChatColor.AQUA}ポイント2倍まで${GET().minutes(remaining)}")
-        }
-        if (time == 300) { ParticipatingPlayer().message("${ChatColor.YELLOW}ゾンビ解放!") }
-        if (time % 300 == 0) { RandomChest().set() }
-        if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }
-        if (time % 5 == 0) {
-            Golem().golden()
-            Blaze().attack()
-        }
-        if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "normal", "normal") }
-        if (time == Data.DataManager.gameData.feverTime) { Timer().feverActivation(plugin) }
     }
     fun playersJoin(playerName: String, sender: Player) {
         val player = Bukkit.getPlayer(playerName.replace("${ChatColor.YELLOW}", "")) ?: return

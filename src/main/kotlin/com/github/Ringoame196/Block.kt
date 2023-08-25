@@ -13,6 +13,9 @@ import org.bukkit.scheduler.BukkitRunnable
 class Block {
     fun revival(plugin: Plugin, location: Location, cool: Int, type: Material, blockData: BlockData) {
         var cooltime = cool
+        if (Data.DataManager.gameData.fever) {
+            cooltime = -1
+        }
         val setLocation = location.clone()
         setLocation.block.type = Material.LIGHT_BLUE_STAINED_GLASS
         setLocation.add(0.5, -1.0, 0.5).clone()
@@ -48,6 +51,7 @@ class Block {
                 armorStand.scoreboardTags.contains("OAK_LOG") -> Material.OAK_LOG
                 else -> continue // 不明なタグの場合、スキップ
             }
+            armorStand.remove()
             location.block.setType(blockType)
         }
     }

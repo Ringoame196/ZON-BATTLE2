@@ -1,5 +1,6 @@
 package com.github.Ringoame196.Entity
 
+import com.github.Ringoame196.data.Data
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 
@@ -15,6 +16,7 @@ class ArmorStand {
         armorStand.customName = name
         armorStand.isCustomNameVisible = true
         armorStand.setGravity(false)
+        Data.DataManager.gameData.title.add(armorStand)
         return armorStand
     }
 }
