@@ -205,6 +205,11 @@ class GUI {
         guiItem(gui, 4, Material.LIGHT_BLUE_DYE, "${ChatColor.YELLOW}★チーム全員に移動速度UP(3分)", "300p", true)
         guiItem(gui, 5, Material.NETHER_STAR, "${ChatColor.YELLOW}★チーム全員に攻撃力UP&再生(3分)", "500p", true)
         player.openInventory(gui)
+        if (Data.DataManager.teamDataMap[GET().teamName(player)]?.zombieNotification == false) {
+            guiItem(gui, 18, Material.OAK_SIGN, "${ChatColor.YELLOW}★ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)", "500p", true)
+        } else {
+            guiItem(gui, 18, Material.BARRIER, "${ChatColor.RED}選択不可", "", true)
+        }
     }
     fun zombieshop(player: Player) {
         val gui: Inventory = Bukkit.createInventory(null, 54, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
@@ -232,6 +237,7 @@ class GUI {
         zombieGUIitem(gui, 21, Material.LIME_CANDLE, "泥棒", "777p", "thief")
 
         zombieGUIitem(gui, 29, Material.STICK, "シャーマン", "500p", "shaman")
+        zombieGUIitem(gui, 30, Material.ICE, "フロストメイジ", "700p", "Frostmage")
 
         zombieGUIitem(gui, 38, Material.BOOK, "ネクロマンサー", "400p", "necromancer")
         zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p", "emperor")
@@ -254,9 +260,8 @@ class GUI {
         guiItem(gui, 1, Material.EMERALD, "${ChatColor.GREEN}100p", "100p", true)
         guiItem(gui, 2, Material.EMERALD, "${ChatColor.GREEN}1000p", "1000p", true)
         dividingLine(gui, 9)
-        guiItem(gui, 18, Material.ZOMBIE_HEAD, "${ChatColor.GREEN}敵対されない帽子", "8000p", true)
-        guiItem(gui, 19, Material.GOLDEN_APPLE, "金リンゴ", "300p", true)
-        guiItem(gui, 21, Material.CHEST, "${ChatColor.GREEN}リモートショップ", "300p", true)
+        guiItem(gui, 18, Material.GOLDEN_APPLE, "金リンゴ", "300p", true)
+        guiItem(gui, 19, Material.CHEST, "${ChatColor.GREEN}リモートショップ", "300p", true)
     }
     fun villagerlevelup(gui: Inventory, player: Player) {
         val teamName = GET().teamName(player) ?: return
@@ -426,6 +431,11 @@ class GUI {
             "狼召喚" -> Wolf().summon(player)
             "村人耐久1(3分)" -> Shop().effect(player, itemName, PotionEffectType.DAMAGE_RESISTANCE, 180, 1)
             "村人再生1(3分)" -> Shop().effect(player, itemName, PotionEffectType.REGENERATION, 180, 1)
+            "ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)" -> {
+                Data.DataManager.teamDataMap[GET().teamName(player)]?.zombieNotification = true
+                GUI().potionshop(player.openInventory.topInventory, player)
+                Team().sendMessage("ゾンビが召喚されたときに ゾンビの声が聞こえるようになりました", GET().teamName(player).toString())
+            }
         }
     }
 }

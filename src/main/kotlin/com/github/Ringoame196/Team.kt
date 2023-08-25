@@ -160,4 +160,16 @@ class Team {
             }
         }
     }
+    fun sendMessage(message: String, teamName: String) {
+        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+            if (GET().teamName(loopPlayer) != teamName) { continue }
+            loopPlayer.sendMessage("${ChatColor.AQUA}[チーム]$message")
+        }
+    }
+    fun sound(sound: Sound, teamName: String) {
+        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+            if (GET().teamName(loopPlayer) != teamName) { continue }
+            loopPlayer.playSound(loopPlayer, sound, 1f, 1f)
+        }
+    }
 }

@@ -58,6 +58,7 @@ class Give {
         val meta = item.itemMeta as LeatherArmorMeta
         when (color) {
             "GREEN" -> meta.setColor(Color.GREEN)
+            "AQUA" -> meta.setColor(Color.AQUA)
         }
         item.setItemMeta(meta)
         return item

@@ -2,6 +2,7 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -40,6 +41,11 @@ class Hoe {
             }
 
             Zombie().summonSystem(player, zombie)
+            val teamName = GET().opposingTeamname(GET().teamName(player).toString())
+            if (Data.DataManager.teamDataMap[teamName]?.zombieNotification == true) {
+                Team().sound(Sound.ENTITY_ZOMBIE_AMBIENT, teamName!!)
+            }
+
             durable(player)
 
             // アイテムの数を1減らす

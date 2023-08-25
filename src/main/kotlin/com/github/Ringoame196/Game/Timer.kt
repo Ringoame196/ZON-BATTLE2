@@ -61,7 +61,7 @@ class Timer {
         if (time == Data.DataManager.gameData.feverTime) { Timer().feverActivation(plugin) }
     }
     fun feverSet() {
-        val feverSetTime: MutableList<Int> = mutableListOf(20, 30, 40)
+        val feverSetTime: MutableList<Int> = mutableListOf(420, 600, 780)
         val r = Random.nextInt(0, feverSetTime.size)
         Data.DataManager.gameData.feverTime = feverSetTime.get(r)
     }
@@ -69,7 +69,6 @@ class Timer {
         ParticipatingPlayer().message("${ChatColor.YELLOW}フィーバータイム開始！")
         ParticipatingPlayer().sound(Sound.BLOCK_BELL_USE)
         Data.DataManager.gameData.fever = true
-        Data.DataManager.gameData.magnification *= 2
         Block().deleteRevival()
         Data.DataManager.gameData.bossBar.color = BarColor.YELLOW
         object : BukkitRunnable() {
@@ -77,9 +76,8 @@ class Timer {
                 ParticipatingPlayer().message("${ChatColor.RED}フィーバータイム終了！")
                 ParticipatingPlayer().sound(Sound.BLOCK_ANVIL_USE)
                 Data.DataManager.gameData.fever = false
-                Data.DataManager.gameData.magnification /= 2
                 Data.DataManager.gameData.bossBar.color = BarColor.BLUE
             }
-        }.runTaskLater(plugin, 60 * 20L)
+        }.runTaskLater(plugin, 30 * 20L)
     }
 }

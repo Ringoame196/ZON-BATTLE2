@@ -72,7 +72,7 @@ class Shop {
                         return
                     }
                     Data.DataManager.teamDataMap.getOrPut(GET().teamName(player)) { TeamData() }.golem = c + 1
-                    Shop().effect(player, "ゴーレム召喚($c/5)", PotionEffectType.REGENERATION, 180, 1)
+                    Team().sendMessage("${itemName}購入(${c + 1}/5) ※ゴーレム、ブレイズ、シュルカーなどは 5体しか購入できません", GET().teamName(player).toString())
                 }
                 if (it.itemMeta?.displayName?.contains("[装備]") == true) {
                     Give().equipment(player, it)
@@ -200,7 +200,7 @@ class Shop {
         } else {
             teamData.opening = true
             GUI().selectGUI(player)
-            Team().GiveEffect(player, itemname, null, null, 0, 0)
+            Team().sendMessage("${player.name}さんがショップを解放しました", GET().teamName(player).toString())
         }
     }
     fun teamMaxHPadd(teamname: String, player: Player, itemname: String, add: Int) {

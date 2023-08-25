@@ -11,4 +11,5 @@ data class TeamData(
     val entities: MutableList<Mob> = mutableListOf(),
     var opening: Boolean = false,
     var golem: Int = 0,
+    var zombieNotification: Boolean = false
 )
