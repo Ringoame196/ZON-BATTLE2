@@ -1,11 +1,12 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.data.Data
 import org.bukkit.ChatColor
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Chest
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.ItemMeta
@@ -15,22 +16,13 @@ import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
 
 class RandomChest {
-    fun setLocation(player: Player) {
-        val location = player.location
-        if (location.block.type != Material.CHEST) {
-            player.sendMessage("${ChatColor.RED}チェストの上で実行してください")
-            return
-        }
-        com.github.Ringoame196.data.Data.DataManager.LocationData.randomChest = player.location
-    }
     @Suppress("NAME_SHADOWING")
-    fun set() {
-        val location = com.github.Ringoame196.data.Data.DataManager.LocationData.randomChest
+    fun set(location: Location) {
         val items: MutableList<ItemStack> = setList()
         val random = Random
         val randomNumber = random.nextInt(0, items.size)
-        val chest = location?.block
-        if (chest?.type == Material.CHEST) {
+        val chest = location.block
+        if (chest.type == Material.CHEST) {
             val chest = chest.state as Chest
             chest.inventory.addItem(items[randomNumber])
             ParticipatingPlayer().message("${ChatColor.YELLOW}チェストを補充しました")
@@ -39,11 +31,15 @@ class RandomChest {
     }
     @Suppress("NAME_SHADOWING")
     fun reset() {
-        val location = com.github.Ringoame196.data.Data.DataManager.LocationData.randomChest
-        val chest = location?.block
-        if (chest?.type == Material.CHEST) {
-            val chest = chest.state as Chest
-            chest.inventory.clear()
+        val randomChest: MutableList<Location> = mutableListOf()
+        Data.DataManager.LocationData.randomChest?.let { randomChest.add(it) }
+        Data.DataManager.LocationData.mrandomChest1?.let { randomChest.add(it) }
+        Data.DataManager.LocationData.mrandomChest2?.let { randomChest.add(it) }
+        for (chest in randomChest) {
+            if (chest.block.type == Material.CHEST) {
+                val chest = chest.block.state as Chest
+                chest.inventory.clear()
+            }
         }
     }
     fun setItem(material: Material, name: String): ItemStack {

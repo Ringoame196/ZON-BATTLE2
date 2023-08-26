@@ -25,6 +25,7 @@ class Item {
         when {
             itemType == Material.EMERALD -> {
                 money(player, itemName)
+                return
             }
             itemName.contains("ゴーレム") -> {
                 e.isCancelled = true
@@ -102,6 +103,7 @@ class Item {
             else -> { return }
         }
         Point().add(player, point, false)
+        removeitem(player)
     }
     fun removeitem(player: org.bukkit.entity.Player) {
         if (player.gameMode == GameMode.CREATIVE) { return }

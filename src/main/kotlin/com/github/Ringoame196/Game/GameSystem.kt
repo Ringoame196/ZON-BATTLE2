@@ -34,31 +34,11 @@ class GameSystem {
             "${ChatColor.RED}終了" -> stop(player)
             "${ChatColor.YELLOW}ショップ召喚" -> Shop().summon(player.location, null)
             "${ChatColor.GREEN}参加" -> Team().inAndout(player)
-            "${ChatColor.RED}プラグインリロード" -> {
-                if (e.isShiftClick) {
-                    Bukkit.dispatchCommand(player, "pluginmanager reload ZON-BATTLE2")
-                    e.isCancelled = true
-                }
-            }
             "${ChatColor.YELLOW}実験所へ" -> Bukkit.dispatchCommand(player, "mvtp jikken")
             "${ChatColor.YELLOW}ロビーへ" -> Bukkit.dispatchCommand(player, "mvtp world")
             "${ChatColor.YELLOW}バトルへ" -> Bukkit.dispatchCommand(player, "mvtp BATTLE")
             "${ChatColor.BLUE}プレイヤー" -> {
                 GUI().joinPlayers(player)
-                return
-            }
-            "${ChatColor.GREEN}テレポート" -> {
-                val location = "${player.location.x.toInt()}.5,${player.location.y.toInt()}.0,${player.location.z.toInt()}.5"
-                val item = ItemStack(Material.LANTERN)
-                val meta = item.itemMeta
-                meta?.setDisplayName("${ChatColor.GREEN}テレポート")
-                val loreList: MutableList<String> = mutableListOf(player.world.name, location)
-                meta?.lore = loreList
-                item.setItemMeta(meta)
-                player.inventory.addItem(item)
-            }
-            "${ChatColor.GREEN}OPチェスト" -> {
-                player.openInventory(Data.DataManager.gameData.opchest)
                 return
             }
             "${ChatColor.GREEN}座標設定" -> {
@@ -67,6 +47,10 @@ class GameSystem {
             }
             "マップ1" -> {
                 GUI().locationWorld1(player)
+                return
+            }
+            "マップ2" -> {
+                GUI().locationWorld2(player)
                 return
             }
         }
@@ -95,10 +79,10 @@ class GameSystem {
         Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
-        RandomChest().set()
         val location = Data.DataManager.LocationData.randomChest?.clone()
-        location?.add(0.0, -1.0, 0.0)
-        val armorStand = location?.let { ArmorStand().summon(it, "") }
+        RandomChest().set(location!!)
+        location.add(0.0, -1.0, 0.0)
+        val armorStand = location.let { ArmorStand().summon(it, "") }
         Data.DataManager.gameData.randomChestTitle = armorStand
         Timer().feverSet()
 
@@ -141,7 +125,20 @@ class GameSystem {
             "${ChatColor.BLUE}shop" -> Data.DataManager.LocationData.blueshop = player.location
             "${ChatColor.RED}spawn" -> Data.DataManager.LocationData.redspawn = player.location
             "${ChatColor.BLUE}spawn" -> Data.DataManager.LocationData.bluespawn = player.location
-            "${ChatColor.YELLOW}ランダムチェスト" -> RandomChest().setLocation(player)
+            "${ChatColor.YELLOW}ランダムチェスト" -> Data.DataManager.LocationData.randomChest = player.location
+
+            "${ChatColor.RED}mshop" -> Data.DataManager.LocationData.mredshop = player.location
+            "${ChatColor.BLUE}mshop" -> Data.DataManager.LocationData.mblueshop = player.location
+            "${ChatColor.RED}mspawn" -> Data.DataManager.LocationData.mredspawn = player.location
+            "${ChatColor.BLUE}mspawn" -> Data.DataManager.LocationData.mbluespawn = player.location
+            "${ChatColor.YELLOW}ランダムチェスト1" -> Data.DataManager.LocationData.mrandomChest1 = player.location
+            "${ChatColor.YELLOW}ランダムチェスト2" -> Data.DataManager.LocationData.mrandomChest2 = player.location
+            "${ChatColor.RED}mspawnZombie1" -> Data.DataManager.LocationData.mredZombiespawn1 = player.location
+            "${ChatColor.RED}mspawnZombie2" -> Data.DataManager.LocationData.mredZombiespawn2 = player.location
+            "${ChatColor.RED}mspawnZombie3" -> Data.DataManager.LocationData.mredZombiespawn3 = player.location
+            "${ChatColor.BLUE}mspawnZombie1" -> Data.DataManager.LocationData.mblueZombiespawn1 = player.location
+            "${ChatColor.BLUE}mspawnZombie2" -> Data.DataManager.LocationData.mblueZombiespawn2 = player.location
+            "${ChatColor.BLUE}mspawnZombie3" -> Data.DataManager.LocationData.mblueZombiespawn3 = player.location
         }
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
 

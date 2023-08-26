@@ -118,7 +118,7 @@ class Events(private val plugin: Plugin) : Listener {
         // キル
         val killer = e.entity.killer
         val mob = e.entity
-        if (!GET().status()) {
+        if (GET().status()) {
             if (GET().shop(mob)) {
                 Shop().kill(mob as Villager)
             } else {
