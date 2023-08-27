@@ -51,7 +51,14 @@ class Timer {
             }
         }
         if (time == 300) { ParticipatingPlayer().message("${ChatColor.YELLOW}ゾンビ解放!") }
-        if (time % 300 == 0) { RandomChest().set(Data.DataManager.LocationData.randomChest!!) }
+        if (time % 300 == 0) {
+            if (Data.DataManager.gameData.playMap == "map1") {
+                RandomChest().set(Data.DataManager.LocationData.randomChest!!)
+            } else if (Data.DataManager.gameData.playMap == "map2") {
+                RandomChest().set(Data.DataManager.LocationData.mrandomChest1!!)
+                RandomChest().set(Data.DataManager.LocationData.mrandomChest2!!)
+            }
+        }
         if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }
         if (time % 5 == 0) {
             Golem().golden()

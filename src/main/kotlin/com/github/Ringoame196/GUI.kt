@@ -307,6 +307,7 @@ class GUI {
         guiItem(gui, 4, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}実験所へ", "", true)
         guiItem(gui, 5, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}ロビーへ", "", true)
         guiItem(gui, 6, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}バトルへ", "", true)
+        guiItem(gui, 7, Material.REDSTONE, "${ChatColor.GREEN}${Data.DataManager.gameData.playMap}", "", true)
         guiItem(gui, 9, Material.MAP, "${ChatColor.GREEN}座標設定", "", true)
         player.openInventory(gui)
     }

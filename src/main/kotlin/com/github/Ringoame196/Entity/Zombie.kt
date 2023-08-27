@@ -19,14 +19,41 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.io.File
+import kotlin.random.Random
 
 class Zombie {
     fun summonSystem(player: Player, item: ItemStack) {
-
+        val function = item.itemMeta?.lore?.get(0).toString()
+        if (Data.DataManager.gameData.playMap == "map1") {
+            summonSystem1(player, function)
+        } else if (Data.DataManager.gameData.playMap == "map2") {
+            summonSystem2(player, function)
+        }
+    }
+    fun summonSystem1(player: Player, function: String) {
         val location = player.getLocation()
         location.add(0.0, -3.5, 0.0)
-        val function = item.itemMeta?.lore?.get(0).toString()
         summon(location, function, player)
+    }
+    fun summonSystem2(player: Player, function: String) {
+        val random = Random.nextInt(1, 4)
+        var location: Location? = null
+        if (GET().teamName(player) == "red") {
+            location = when (random) {
+                1 -> Data.DataManager.LocationData.mredZombiespawn1
+                2 -> Data.DataManager.LocationData.mredZombiespawn2
+                3 -> Data.DataManager.LocationData.mredZombiespawn3
+                else -> null
+            }
+        } else if (GET().teamName(player) == "blue") {
+            location = when (random) {
+                1 -> Data.DataManager.LocationData.mblueZombiespawn1
+                2 -> Data.DataManager.LocationData.mblueZombiespawn2
+                3 -> Data.DataManager.LocationData.mblueZombiespawn3
+                else -> null
+            }
+        }
+        summon(location!!, function, player)
     }
     @Suppress("DEPRECATION")
     fun summon(location: Location, function: String, player: Player) {

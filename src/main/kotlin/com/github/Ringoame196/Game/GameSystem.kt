@@ -58,7 +58,40 @@ class GameSystem {
         if (item.type == Material.ENDER_EYE && e.isShiftClick) {
             setlocation(item, player)
             e.isCancelled = true
+        } else if (item.type == Material.REDSTONE) {
+            Data.DataManager.gameData.playMap = when (Data.DataManager.gameData.playMap) {
+                "map1" -> "map2"
+                "map2" -> "map1"
+                else -> ""
+            }
+            e.isCancelled = true
         }
+    }
+    fun setlocation(item: ItemStack, player: Player) {
+        when (item.itemMeta?.displayName) {
+            "${ChatColor.RED}shop" -> Data.DataManager.LocationData.redshop = player.location
+            "${ChatColor.BLUE}shop" -> Data.DataManager.LocationData.blueshop = player.location
+            "${ChatColor.RED}spawn" -> Data.DataManager.LocationData.redspawn = player.location
+            "${ChatColor.BLUE}spawn" -> Data.DataManager.LocationData.bluespawn = player.location
+            "${ChatColor.YELLOW}ランダムチェスト" -> Data.DataManager.LocationData.randomChest = player.location
+
+            "${ChatColor.RED}mshop" -> Data.DataManager.LocationData.mredshop = player.location
+            "${ChatColor.BLUE}mshop" -> Data.DataManager.LocationData.mblueshop = player.location
+            "${ChatColor.RED}mspawn" -> Data.DataManager.LocationData.mredspawn = player.location
+            "${ChatColor.BLUE}mspawn" -> Data.DataManager.LocationData.mbluespawn = player.location
+            "${ChatColor.YELLOW}ランダムチェスト1" -> Data.DataManager.LocationData.mrandomChest1 = player.location
+            "${ChatColor.YELLOW}ランダムチェスト2" -> Data.DataManager.LocationData.mrandomChest2 = player.location
+            "${ChatColor.RED}mspawnZombie1" -> Data.DataManager.LocationData.mredZombiespawn1 = player.location
+            "${ChatColor.RED}mspawnZombie2" -> Data.DataManager.LocationData.mredZombiespawn2 = player.location
+            "${ChatColor.RED}mspawnZombie3" -> Data.DataManager.LocationData.mredZombiespawn3 = player.location
+            "${ChatColor.BLUE}mspawnZombie1" -> Data.DataManager.LocationData.mblueZombiespawn1 = player.location
+            "${ChatColor.BLUE}mspawnZombie2" -> Data.DataManager.LocationData.mblueZombiespawn2 = player.location
+            "${ChatColor.BLUE}mspawnZombie3" -> Data.DataManager.LocationData.mblueZombiespawn3 = player.location
+        }
+        player.sendMessage("${ChatColor.AQUA}座標設定完了")
+
+        val filePath = "plugins/ZON-BATTLE2/location_data.yml"
+        Data.DataManager.LocationData.saveToFile(filePath)
     }
 
     fun start(plugin: Plugin, player: Player) {
@@ -75,15 +108,33 @@ class GameSystem {
                 return
             }
         }
-        Shop().summon(Data.DataManager.LocationData.redshop, "red")
-        Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
+        if (Data.DataManager.gameData.playMap == "map1") {
+            Shop().summon(Data.DataManager.LocationData.redshop, "red")
+            Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
+
+            val location = Data.DataManager.LocationData.randomChest?.clone()
+            RandomChest().set(location!!)
+            location.add(0.0, -1.0, 0.0)
+            val armorStand = location.let { ArmorStand().summon(it, "") }
+            Data.DataManager.gameData.randomChestTitle = armorStand
+        } else if (Data.DataManager.gameData.playMap == "map2") {
+            Shop().summon(Data.DataManager.LocationData.mredshop, "red")
+            Shop().summon(Data.DataManager.LocationData.mblueshop, "blue")
+
+            var location = Data.DataManager.LocationData.mrandomChest1?.clone()
+            RandomChest().set(location!!)
+            location.add(0.0, -1.0, 0.0)
+            var armorStand = location.let { ArmorStand().summon(it, "") }
+            Data.DataManager.gameData.randomChestTitle = armorStand
+
+            location = Data.DataManager.LocationData.mrandomChest2?.clone()
+            RandomChest().set(location!!)
+            location.add(0.0, -1.0, 0.0)
+            armorStand = location.let { ArmorStand().summon(it, "") }
+            Data.DataManager.gameData.randomChestTitle = armorStand
+        }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
-        val location = Data.DataManager.LocationData.randomChest?.clone()
-        RandomChest().set(location!!)
-        location.add(0.0, -1.0, 0.0)
-        val armorStand = location.let { ArmorStand().summon(it, "") }
-        Data.DataManager.gameData.randomChestTitle = armorStand
         Timer().feverSet()
 
         var c = 5
@@ -119,32 +170,7 @@ class GameSystem {
         player.sendMessage("${ChatColor.RED}未設定の項目があります")
         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
     }
-    fun setlocation(item: ItemStack, player: Player) {
-        when (item.itemMeta?.displayName) {
-            "${ChatColor.RED}shop" -> Data.DataManager.LocationData.redshop = player.location
-            "${ChatColor.BLUE}shop" -> Data.DataManager.LocationData.blueshop = player.location
-            "${ChatColor.RED}spawn" -> Data.DataManager.LocationData.redspawn = player.location
-            "${ChatColor.BLUE}spawn" -> Data.DataManager.LocationData.bluespawn = player.location
-            "${ChatColor.YELLOW}ランダムチェスト" -> Data.DataManager.LocationData.randomChest = player.location
 
-            "${ChatColor.RED}mshop" -> Data.DataManager.LocationData.mredshop = player.location
-            "${ChatColor.BLUE}mshop" -> Data.DataManager.LocationData.mblueshop = player.location
-            "${ChatColor.RED}mspawn" -> Data.DataManager.LocationData.mredspawn = player.location
-            "${ChatColor.BLUE}mspawn" -> Data.DataManager.LocationData.mbluespawn = player.location
-            "${ChatColor.YELLOW}ランダムチェスト1" -> Data.DataManager.LocationData.mrandomChest1 = player.location
-            "${ChatColor.YELLOW}ランダムチェスト2" -> Data.DataManager.LocationData.mrandomChest2 = player.location
-            "${ChatColor.RED}mspawnZombie1" -> Data.DataManager.LocationData.mredZombiespawn1 = player.location
-            "${ChatColor.RED}mspawnZombie2" -> Data.DataManager.LocationData.mredZombiespawn2 = player.location
-            "${ChatColor.RED}mspawnZombie3" -> Data.DataManager.LocationData.mredZombiespawn3 = player.location
-            "${ChatColor.BLUE}mspawnZombie1" -> Data.DataManager.LocationData.mblueZombiespawn1 = player.location
-            "${ChatColor.BLUE}mspawnZombie2" -> Data.DataManager.LocationData.mblueZombiespawn2 = player.location
-            "${ChatColor.BLUE}mspawnZombie3" -> Data.DataManager.LocationData.mblueZombiespawn3 = player.location
-        }
-        player.sendMessage("${ChatColor.AQUA}座標設定完了")
-
-        val filePath = "plugins/ZON-BATTLE2/location_data.yml"
-        Data.DataManager.LocationData.saveToFile(filePath)
-    }
     fun stop(player: Player) {
         if (!GET().status()) {
             player.sendMessage("${ChatColor.RED}ゲームは開始していません")
@@ -208,9 +234,6 @@ class GameSystem {
             if (entity !is Player) {
                 entity.remove()
             }
-        }
-        for (block in Data.DataManager.gameData.fence) {
-            block.setType(Material.AIR)
         }
         Data.DataManager.teamDataMap.clear() // teamDataMap を空にする
         Data.DataManager.playerDataMap.clear() // playerDataMap を空にする

@@ -1,7 +1,6 @@
 package com.github.Ringoame196.data
 
 import org.bukkit.Bukkit
-import org.bukkit.block.Block
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
@@ -18,7 +17,6 @@ class Gamedata {
     var signLocation: org.bukkit.Location? = null
     var randomChestTitle: ArmorStand? = null
     var zombie: MutableList<Zombie> = mutableListOf()
-    var fence: MutableList<Block> = mutableListOf()
     var title: MutableList<ArmorStand> = mutableListOf()
     var goldenGolem: MutableList<Golem> = mutableListOf()
     var shortage: Boolean = false
