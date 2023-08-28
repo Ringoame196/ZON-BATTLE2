@@ -36,10 +36,10 @@ class Sign {
             val yaw = coordinates[3].toFloatOrNull()
             if (x == null || y == null || z == null || yaw == null) { return }
             player.teleport(Location(player.world, x, y, z, yaw, 0F))
-            invincible(player,plugin)
+            invincible(player, plugin)
         }
     }
-    fun invincible(player: Player,plugin: Plugin){
+    fun invincible(player: Player, plugin: Plugin) {
         player.addScoreboardTag("invincible")
         // 2秒後にタグを削除するタスクをスケジュール
         object : BukkitRunnable() {

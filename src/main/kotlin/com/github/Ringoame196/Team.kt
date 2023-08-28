@@ -105,10 +105,17 @@ class Team {
             }
         }
     }
-    fun respawn(player: Player, plugin: Plugin, deathmessage: String) {
-        ParticipatingPlayer().message("${ChatColor.RED}[DEATH] ${player.name} by" + deathmessage)
+    fun waitingState(player: Player) {
         player.health = 20.0
         player.gameMode = GameMode.SPECTATOR
+    }
+    fun revival(player: Player) {
+        player.gameMode = GameMode.SURVIVAL
+        respawnTP(player)
+    }
+    fun respawn(player: Player, plugin: Plugin, deathmessage: String) {
+        ParticipatingPlayer().message("${ChatColor.RED}[DEATH] ${player.name} by" + deathmessage)
+        waitingState(player)
         var c = 6
         object : BukkitRunnable() {
             override fun run() {
@@ -117,8 +124,7 @@ class Team {
                     player.sendTitle("", "${ChatColor.GREEN}復活まで${c}秒")
                     player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
                 } else {
-                    player.gameMode = GameMode.SURVIVAL
-                    respawnTP(player)
+                    revival(player)
                     this.cancel()
                 }
             }
