@@ -18,7 +18,7 @@ import org.bukkit.scoreboard.NameTagVisibility
 
 @Suppress("DEPRECATION")
 class Team {
-    fun chest(player: Player, teamName: String) {
+    fun openChest(player: Player, teamName: String) {
         player.playSound(player, Sound.BLOCK_CHEST_OPEN, 1f, 1f)
         player.openInventory(Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.chest)
     }
@@ -36,12 +36,11 @@ class Team {
             return
         }
         val message: String = if (participatingPlayer.contains(player)) {
-            participatingPlayer.remove(player)
             "退出"
         } else {
-            participatingPlayer.add(player)
             "参加"
         }
+        if (message == "参加") { participatingPlayer.add(player) } else { participatingPlayer.remove(player) }
         val size = "(参加人数:${participatingPlayer.size}人)"
         ParticipatingPlayer().message("${ChatColor.AQUA}[$message] ${player.name}$size")
         player.sendTitle("", "${ChatColor.YELLOW}[${message}しました]")

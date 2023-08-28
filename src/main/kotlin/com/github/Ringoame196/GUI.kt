@@ -381,7 +381,7 @@ class GUI {
         when (item.itemMeta?.displayName) {
             "金床" -> Anvil().set(player)
             "買い物" -> Shop().gui(player)
-            "チームチェスト" -> Team().chest(player, GET().teamName(player).toString())
+            "チームチェスト" -> Team().openChest(player, GET().teamName(player).toString())
             "強化" -> GUI().strengthen(player)
             "チーム強化" -> GUI().potionshop(gui, player)
             "村人強化" -> GUI().villagerlevelup(gui, player)
@@ -409,12 +409,9 @@ class GUI {
         val itemName = item.itemMeta?.displayName ?: return
         val shop: Inventory = Bukkit.createInventory(null, 36, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
         when (itemName) {
-            "${ChatColor.YELLOW}共通チェスト" -> Team().chest(player, teamName)
             "${ChatColor.YELLOW}ツール" -> GUI().pickaxeshop(shop, player)
             "${ChatColor.YELLOW}武器" -> GUI().weaponshop(shop, player)
             "${ChatColor.YELLOW}防具" -> GUI().equipmentshop(shop)
-            "${ChatColor.YELLOW}金床" -> Anvil().set(player)
-            "${ChatColor.YELLOW}村人強化" -> GUI().villagerlevelup(shop, player)
             "${ChatColor.YELLOW}その他" -> GUI().generalMerchandiseshop(shop, player)
             "${ChatColor.YELLOW}お邪魔アイテム" -> GUI().disturbshop(shop)
             "${ChatColor.YELLOW}ゾンビ" -> {

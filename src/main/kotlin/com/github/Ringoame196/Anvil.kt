@@ -17,13 +17,13 @@ class Anvil {
         when (item) {
             Material.RED_STAINED_GLASS_PANE -> e.isCancelled = true
             Material.COMMAND_BLOCK -> {
-                system(player, e.inventory)
+                union(player, e.inventory)
                 e.isCancelled = true
             }
             else -> return
         }
     }
-    fun system(player: Player, inv: Inventory) {
+    fun union(player: Player, inv: Inventory) {
         val enchantitem = inv.getItem(3) ?: return
         val enchantbook = inv.getItem(5) ?: return
         if (enchantbook.type != Material.ENCHANTED_BOOK) {
