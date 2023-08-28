@@ -36,15 +36,17 @@ class Sign {
             val yaw = coordinates[3].toFloatOrNull()
             if (x == null || y == null || z == null || yaw == null) { return }
             player.teleport(Location(player.world, x, y, z, yaw, 0F))
-            player.addScoreboardTag("invincible")
-
-            // 2秒後にタグを削除するタスクをスケジュール
-            object : BukkitRunnable() {
-                override fun run() {
-                    player.scoreboardTags.remove("invincible")
-                }
-            }.runTaskLater(plugin, 40L) // 1秒は20L
+            invincible(player,plugin)
         }
+    }
+    fun invincible(player: Player,plugin: Plugin){
+        player.addScoreboardTag("invincible")
+        // 2秒後にタグを削除するタスクをスケジュール
+        object : BukkitRunnable() {
+            override fun run() {
+                player.scoreboardTags.remove("invincible")
+            }
+        }.runTaskLater(plugin, 40L) // 1秒は20L
     }
     fun numberdisplay(text: String) {
         val sign = Data.DataManager.gameData.signLocation?.block?.state
