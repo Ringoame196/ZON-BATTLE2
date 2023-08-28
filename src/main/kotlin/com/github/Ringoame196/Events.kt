@@ -110,6 +110,7 @@ class Events(private val plugin: Plugin) : Listener {
 
     @EventHandler
     fun onBlockPlaceEvent(e: BlockPlaceEvent) {
+        if (e.player.world.name != "BATTLE") { return }
         GameSystem().adventure(e, e.player)
     }
 

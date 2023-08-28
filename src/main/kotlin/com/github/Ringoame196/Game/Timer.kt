@@ -28,7 +28,9 @@ class Timer {
                 Data.DataManager.gameData.time += 1
                 regularly(plugin)
                 val randomChestTime = 300 - (Data.DataManager.gameData.time % 300)
-                Data.DataManager.gameData.randomChestTitle?.customName = "${ChatColor.AQUA}${GET().minutes(randomChestTime)}"
+                for (title in Data.DataManager.gameData.randomChestTitle) {
+                    title.customName = "${ChatColor.AQUA}${GET().minutes(randomChestTime)}"
+                }
             }
         }.runTaskTimer(plugin, 0L, 20L)
     }
@@ -53,10 +55,9 @@ class Timer {
         if (time == 300) { ParticipatingPlayer().message("${ChatColor.YELLOW}ゾンビ解放!") }
         if (time % 300 == 0) {
             if (Data.DataManager.gameData.playMap == "map1") {
-                RandomChest().set(Data.DataManager.LocationData.randomChest!!)
+                RandomChest().set(Data.DataManager.LocationData.randomChest!!, null)
             } else if (Data.DataManager.gameData.playMap == "map2") {
-                RandomChest().set(Data.DataManager.LocationData.mrandomChest1!!)
-                RandomChest().set(Data.DataManager.LocationData.mrandomChest2!!)
+                RandomChest().set(Data.DataManager.LocationData.mrandomChest1!!, Data.DataManager.LocationData.mrandomChest2!!)
             }
         }
         if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }

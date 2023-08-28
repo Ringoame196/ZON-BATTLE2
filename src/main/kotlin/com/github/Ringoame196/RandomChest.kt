@@ -17,16 +17,19 @@ import kotlin.random.Random
 
 class RandomChest {
     @Suppress("NAME_SHADOWING")
-    fun set(location: Location) {
+    fun set(location1: Location, location2: Location?) {
         val items: MutableList<ItemStack> = setList()
         val random = Random
-        val randomNumber = random.nextInt(0, items.size)
-        val chest = location.block
-        if (chest.type == Material.CHEST) {
-            val chest = chest.state as Chest
-            chest.inventory.addItem(items[randomNumber])
-            ParticipatingPlayer().message("${ChatColor.YELLOW}チェストを補充しました")
-            ParticipatingPlayer().sound(Sound.BLOCK_CHEST_OPEN)
+        val chestList: MutableList<Location?> = mutableListOf(location1, location2)
+        ParticipatingPlayer().message("${ChatColor.YELLOW}チェストを補充しました")
+        ParticipatingPlayer().sound(Sound.BLOCK_CHEST_OPEN)
+        for (chest in chestList) {
+            val randomNumber = random.nextInt(0, items.size)
+            val chest = chest?.block
+            if (chest?.type == Material.CHEST) {
+                val chest = chest.state as Chest
+                chest.inventory.addItem(items[randomNumber])
+            }
         }
     }
     @Suppress("NAME_SHADOWING")

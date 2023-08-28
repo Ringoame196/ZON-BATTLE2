@@ -20,7 +20,7 @@ class Point {
         var addpoint = add
         if (change) {
             if (GET().teamName(player) == "blue" && Data.DataManager.gameData.shortage) {
-                addpoint *= 2
+                addpoint *= 1.5.toInt()
             }
             addpoint *= Data.DataManager.gameData.magnification
         }

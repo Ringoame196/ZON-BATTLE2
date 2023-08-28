@@ -37,6 +37,7 @@ class GameSystem {
             "${ChatColor.YELLOW}実験所へ" -> Bukkit.dispatchCommand(player, "mvtp jikken")
             "${ChatColor.YELLOW}ロビーへ" -> Bukkit.dispatchCommand(player, "mvtp world")
             "${ChatColor.YELLOW}バトルへ" -> Bukkit.dispatchCommand(player, "mvtp BATTLE")
+            "${ChatColor.YELLOW}トレジャーバトル" -> Bukkit.dispatchCommand(player, "mvtp TreBAT")
             "${ChatColor.BLUE}プレイヤー" -> {
                 GUI().joinPlayers(player)
                 return
@@ -64,6 +65,7 @@ class GameSystem {
                 "map2" -> "map1"
                 else -> ""
             }
+            player.sendMessage("${ChatColor.AQUA}${Data.DataManager.gameData.playMap}を選択しました")
             e.isCancelled = true
         }
     }
@@ -73,14 +75,14 @@ class GameSystem {
             "${ChatColor.BLUE}shop" -> Data.DataManager.LocationData.blueshop = player.location
             "${ChatColor.RED}spawn" -> Data.DataManager.LocationData.redspawn = player.location
             "${ChatColor.BLUE}spawn" -> Data.DataManager.LocationData.bluespawn = player.location
-            "${ChatColor.YELLOW}ランダムチェスト" -> Data.DataManager.LocationData.randomChest = player.location
+            "${ChatColor.YELLOW}ランダムチェスト" -> Data.DataManager.LocationData.randomChest = player.location.block.location
 
             "${ChatColor.RED}mshop" -> Data.DataManager.LocationData.mredshop = player.location
             "${ChatColor.BLUE}mshop" -> Data.DataManager.LocationData.mblueshop = player.location
             "${ChatColor.RED}mspawn" -> Data.DataManager.LocationData.mredspawn = player.location
             "${ChatColor.BLUE}mspawn" -> Data.DataManager.LocationData.mbluespawn = player.location
-            "${ChatColor.YELLOW}ランダムチェスト1" -> Data.DataManager.LocationData.mrandomChest1 = player.location
-            "${ChatColor.YELLOW}ランダムチェスト2" -> Data.DataManager.LocationData.mrandomChest2 = player.location
+            "${ChatColor.YELLOW}mランダムチェスト1" -> Data.DataManager.LocationData.mrandomChest1 = player.location.block.location
+            "${ChatColor.YELLOW}mランダムチェスト2" -> Data.DataManager.LocationData.mrandomChest2 = player.location.block.location
             "${ChatColor.RED}mspawnZombie1" -> Data.DataManager.LocationData.mredZombiespawn1 = player.location
             "${ChatColor.RED}mspawnZombie2" -> Data.DataManager.LocationData.mredZombiespawn2 = player.location
             "${ChatColor.RED}mspawnZombie3" -> Data.DataManager.LocationData.mredZombiespawn3 = player.location
@@ -113,25 +115,24 @@ class GameSystem {
             Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
 
             val location = Data.DataManager.LocationData.randomChest?.clone()
-            RandomChest().set(location!!)
-            location.add(0.0, -1.0, 0.0)
+            RandomChest().set(location!!, null)
+            location.add(0.5, 0.0, 0.5)
             val armorStand = location.let { ArmorStand().summon(it, "") }
-            Data.DataManager.gameData.randomChestTitle = armorStand
+            Data.DataManager.gameData.randomChestTitle.add(armorStand)
         } else if (Data.DataManager.gameData.playMap == "map2") {
             Shop().summon(Data.DataManager.LocationData.mredshop, "red")
             Shop().summon(Data.DataManager.LocationData.mblueshop, "blue")
 
-            var location = Data.DataManager.LocationData.mrandomChest1?.clone()
-            RandomChest().set(location!!)
-            location.add(0.0, -1.0, 0.0)
-            var armorStand = location.let { ArmorStand().summon(it, "") }
-            Data.DataManager.gameData.randomChestTitle = armorStand
+            val location1 = Data.DataManager.LocationData.mrandomChest1?.clone()
+            val location2 = Data.DataManager.LocationData.mrandomChest2?.clone()
+            RandomChest().set(location1!!, location2)
+            location1.add(0.5, 0.0, 0.5)
+            var armorStand = location1.let { ArmorStand().summon(it, "") }
+            Data.DataManager.gameData.randomChestTitle.add(armorStand)
 
-            location = Data.DataManager.LocationData.mrandomChest2?.clone()
-            RandomChest().set(location!!)
-            location.add(0.0, -1.0, 0.0)
-            armorStand = location.let { ArmorStand().summon(it, "") }
-            Data.DataManager.gameData.randomChestTitle = armorStand
+            location2?.add(0.5, 0.0, 0.5)
+            armorStand = location2.let { ArmorStand().summon(it!!, "") }
+            Data.DataManager.gameData.randomChestTitle.add(armorStand)
         }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
@@ -152,7 +153,7 @@ class GameSystem {
                         val teamDataMap = Data.DataManager.teamDataMap
                         val blocktime = teamDataMap.getOrPut("blue") { TeamData() }.blockTime
                         if (blocktime == teamDataMap.getOrPut("red") { TeamData() }.blockTime) {
-                            ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームのポイントが2倍になりました")
+                            ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームのポイントが1.5倍になりました")
                         } else {
                             ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームの復活速度が1上がりになりました")
                             Data.DataManager.gameData.shortage = false

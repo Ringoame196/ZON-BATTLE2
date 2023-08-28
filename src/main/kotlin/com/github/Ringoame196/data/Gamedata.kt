@@ -15,7 +15,7 @@ class Gamedata {
     var time = 0
     var participatingPlayer: MutableList<Player> = mutableListOf()
     var signLocation: org.bukkit.Location? = null
-    var randomChestTitle: ArmorStand? = null
+    var randomChestTitle: MutableList<ArmorStand> = mutableListOf()
     var zombie: MutableList<Zombie> = mutableListOf()
     var title: MutableList<ArmorStand> = mutableListOf()
     var goldenGolem: MutableList<Golem> = mutableListOf()
