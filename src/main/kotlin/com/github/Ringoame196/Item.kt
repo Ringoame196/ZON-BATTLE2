@@ -96,12 +96,8 @@ class Item {
         removeitem(player)
     }
     fun money(player: Player, itemName: String) {
-        val point: Int = when (itemName) {
-            "${ChatColor.GREEN}10p" -> 10
-            "${ChatColor.GREEN}100p" -> 100
-            "${ChatColor.GREEN}1000p" -> 1000
-            else -> { return }
-        }
+        val pointString = itemName.replace("${ChatColor.GREEN}", "").replace("p", "")
+        val point = pointString.toIntOrNull() ?: return
         Point().add(player, point, false)
         removeitem(player)
     }
