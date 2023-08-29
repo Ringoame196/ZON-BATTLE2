@@ -401,6 +401,9 @@ class GUI {
             "${ChatColor.DARK_GREEN}設定画面" -> GameSystem().system(plugin, player, item, e)
             "${ChatColor.DARK_GREEN}参加プレイヤー" -> item.itemMeta?.let { GameSystem().playersJoin(it.displayName, player) }
             "${ChatColor.DARK_GREEN}選択画面" -> GUI().selectGUI(player, item)
+            "${ChatColor.DARK_BLUE}チームメッセージ" -> {
+                MessageBook().send(player, item.itemMeta?.displayName!!)
+            }
         }
     }
 
