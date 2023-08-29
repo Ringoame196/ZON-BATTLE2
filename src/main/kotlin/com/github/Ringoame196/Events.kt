@@ -7,6 +7,7 @@ import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
@@ -59,7 +60,11 @@ class Events(private val plugin: Plugin) : Listener {
         val player = e.player as Player
         val title = e.view.title
         val inventory = e.inventory
-        GUI().close(title, player, inventory)
+        when (title) {
+            "${ChatColor.DARK_GREEN}チームチェスト" -> player.playSound(player, Sound.BLOCK_CHEST_CLOSE, 1f, 1f)
+            "${ChatColor.DARK_GREEN}金床" -> Anvil().returnItem(player, inventory)
+            "${ChatColor.DARK_GREEN}召喚の杖" -> Hoe().exclusion(player, inventory)
+        }
     }
 
     @EventHandler

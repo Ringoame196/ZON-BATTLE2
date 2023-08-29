@@ -72,14 +72,13 @@ class Hoe {
             }
         }
     }
-    fun clickGUI(player: Player, inventory: Inventory) {
+    fun exclusion(player: Player, inventory: Inventory) {
         for (i in 0..8) {
             val item = inventory.getItem(i)
             val itemName = item?.itemMeta?.displayName
-            if (itemName?.contains("${ChatColor.YELLOW}[ゾンビ召喚]") == false) {
-                player.inventory.addItem(item)
-                inventory.setItem(i, ItemStack(Material.AIR))
-            }
+            if (itemName?.contains("${ChatColor.YELLOW}[ゾンビ召喚]") == true) { continue }
+            player.inventory.addItem(item)
+            inventory.setItem(i, ItemStack(Material.AIR))
         }
     }
 }

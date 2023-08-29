@@ -369,13 +369,6 @@ class GUI {
         guiItem(gui, 3, Material.PAPER, "${ChatColor.GREEN}攻めましょう", "", true)
         player.openInventory(gui)
     }
-    fun close(title: String, player: Player, inventory: Inventory) {
-        when (title) {
-            "${ChatColor.DARK_GREEN}チームチェスト" -> player.playSound(player, Sound.BLOCK_CHEST_CLOSE, 1f, 1f)
-            "${ChatColor.DARK_GREEN}金床" -> Anvil().close(player, inventory)
-            "${ChatColor.DARK_GREEN}召喚の杖" -> Hoe().clickGUI(player, inventory)
-        }
-    }
     fun selectGUI(player: Player, item: ItemStack) {
         val gui = Bukkit.createInventory(null, 27, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
         when (item.itemMeta?.displayName) {

@@ -9,6 +9,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Entity
@@ -27,50 +28,72 @@ class Zombie {
         when (Data.DataManager.gameData.playMap) {
             "map1" -> map1Summon(player, function)
             "map2" -> map2Summon(player, function)
+            else -> return
         }
     }
+
     fun map1Summon(player: Player, function: String) {
         val location = player.getLocation()
         location.add(0.0, -3.5, 0.0)
         summon(location, function, player)
     }
+
     fun map2Summon(player: Player, function: String) {
+        val location = randomSummonLocation(player) ?: return
+        summon(location, function, player)
+    }
+
+    fun randomSummonLocation(player: Player): Location? {
         val random = Random.nextInt(1, 4)
-        var location: Location? = null
-        if (GET().teamName(player) == "red") {
-            location = when (random) {
-                1 -> Data.DataManager.LocationData.mredZombiespawn1
-                2 -> Data.DataManager.LocationData.mredZombiespawn2
-                3 -> Data.DataManager.LocationData.mredZombiespawn3
-                else -> null
+        val team = GET().teamName(player)
+        if (team == "red") {
+            when (random) {
+                1 -> return Data.DataManager.LocationData.mredZombiespawn1
+                2 -> return Data.DataManager.LocationData.mredZombiespawn2
+                3 -> return Data.DataManager.LocationData.mredZombiespawn3
             }
-        } else if (GET().teamName(player) == "blue") {
-            location = when (random) {
-                1 -> Data.DataManager.LocationData.mblueZombiespawn1
-                2 -> Data.DataManager.LocationData.mblueZombiespawn2
-                3 -> Data.DataManager.LocationData.mblueZombiespawn3
-                else -> null
+        } else if (team == "blue") {
+            when (random) {
+                1 -> return Data.DataManager.LocationData.mblueZombiespawn1
+                2 -> return Data.DataManager.LocationData.mblueZombiespawn2
+                3 -> return Data.DataManager.LocationData.mblueZombiespawn3
             }
         }
-        summon(location!!, function, player)
+        return null
     }
-    @Suppress("DEPRECATION")
     fun summon(location: Location, function: String, player: Player) {
         val zombieinfo = "plugins/ZON-BATTLE2/zombie/$function.yml"
-        val file = File(zombieinfo)
-
-        if (!file.exists()) {
-            Bukkit.broadcastMessage("[ゾンビ召喚]${ChatColor.RED}$function が未設定のため使用できません")
-            return
-        }
-
-        val yaml = YamlConfiguration.loadConfiguration(file)
-        val zombieSection = yaml.getConfigurationSection("Zombie")
 
         val world = location.world
         val zombie: Zombie? = world?.spawn(location, Zombie::class.java)
-        zombie?.scoreboardTags?.add("owner:${player.name}")
+        make(zombieinfo, zombie, player, function)
 
+        zombie?.let { Data.DataManager.gameData.zombie.add(it) }
+    }
+    fun make(zombieinfo: String, zombie: Zombie?, player: Player, function: String) {
+        val file = File(zombieinfo)
+        if (!file.exists()) {
+            Bukkit.broadcastMessage("[ゾンビ召喚]${ChatColor.RED}$function が未設定のため使用できません")
+            zombie?.remove()
+            return
+        }
+        val yaml = YamlConfiguration.loadConfiguration(file)
+        val zombieSection = yaml.getConfigurationSection("Zombie")
+        zombie?.scoreboardTags?.add("owner:${player.name}")
+        setStatus(zombie, zombieSection)
+        val head = zombieSection?.getInt("Head", 0) ?: 0
+        val chestplate = zombieSection?.getInt("Chestplate", 0) ?: 0
+        val leggings = zombieSection?.getInt("Leggings", 0) ?: 0
+        val boots = zombieSection?.getInt("Boots", 0) ?: 0
+        val color = zombieSection?.getString("Color", "") ?: ""
+        zombie?.equipment?.helmet = setHelmet(head, color)
+        zombie?.equipment?.chestplate = setChestplate(chestplate, color)
+        zombie?.equipment?.leggings = setLeggings(leggings, color)
+        zombie?.equipment?.boots = setBoots(boots, color)
+
+        additionalInformation(zombie, function)
+    }
+    fun setStatus(zombie: Zombie?, zombieSection: ConfigurationSection?) {
         val customName = zombieSection?.getString("Name")
         if (!customName.isNullOrBlank()) {
             zombie?.customName = customName
@@ -96,47 +119,9 @@ class Zombie {
         for (tag in taglist) {
             zombie?.scoreboardTags?.add(tag)
         }
-
-        val head = zombieSection?.getInt("Head", 0) ?: 0
-        val chestplate = zombieSection?.getInt("Chestplate", 0) ?: 0
-        val leggings = zombieSection?.getInt("Leggings", 0) ?: 0
-        val boots = zombieSection?.getInt("Boots", 0) ?: 0
-        val color = zombieSection?.getString("Color", "") ?: ""
-        when (head) {
-            1 -> zombie?.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, color)
-            2 -> zombie?.equipment?.helmet = ItemStack(Material.IRON_HELMET)
-            3 -> zombie?.equipment?.helmet = ItemStack(Material.GOLDEN_HELMET)
-            4 -> zombie?.equipment?.helmet = ItemStack(Material.DIAMOND_HELMET)
-            5 -> zombie?.equipment?.helmet = ItemStack(Material.NETHERITE_HELMET)
-            6 -> zombie?.equipment?.helmet = ItemStack(Material.CHAINMAIL_HELMET)
-            7 -> zombie?.equipment?.helmet = ItemStack(Material.SKELETON_SKULL)
-        }
-        when (chestplate) {
-            1 -> zombie?.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, color)
-            2 -> zombie?.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
-            3 -> zombie?.equipment?.chestplate = ItemStack(Material.GOLDEN_CHESTPLATE)
-            4 -> zombie?.equipment?.chestplate = ItemStack(Material.DIAMOND_CHESTPLATE)
-            5 -> zombie?.equipment?.chestplate = ItemStack(Material.NETHERITE_CHESTPLATE)
-            6 -> zombie?.equipment?.chestplate = ItemStack(Material.CHAINMAIL_CHESTPLATE)
-        }
-        when (leggings) {
-            1 -> zombie?.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, color)
-            2 -> zombie?.equipment?.leggings = ItemStack(Material.IRON_LEGGINGS)
-            3 -> zombie?.equipment?.leggings = ItemStack(Material.GOLDEN_LEGGINGS)
-            4 -> zombie?.equipment?.leggings = ItemStack(Material.DIAMOND_LEGGINGS)
-            5 -> zombie?.equipment?.leggings = ItemStack(Material.NETHERITE_LEGGINGS)
-            6 -> zombie?.equipment?.leggings = ItemStack(Material.CHAINMAIL_LEGGINGS)
-        }
-        when (boots) {
-            1 -> zombie?.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, color)
-            2 -> zombie?.equipment?.boots = ItemStack(Material.IRON_BOOTS)
-            3 -> zombie?.equipment?.boots = ItemStack(Material.GOLDEN_BOOTS)
-            4 -> zombie?.equipment?.boots = ItemStack(Material.DIAMOND_BOOTS)
-            5 -> zombie?.equipment?.boots = ItemStack(Material.NETHERITE_BOOTS)
-            6 -> zombie?.equipment?.boots = ItemStack(Material.CHAINMAIL_BOOTS)
-        }
-
-        when (function) { // 追加能力
+    }
+    fun additionalInformation(zombie: Zombie?, function: String) {
+        when (function) {
             "soldier" -> {
                 val sword = ItemStack(Material.IRON_SWORD)
                 sword.addEnchantment(Enchantment.KNOCKBACK, 1)
@@ -147,8 +132,51 @@ class Zombie {
             "battleLord" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.DIAMOND_SWORD))
             "customLoad" -> zombie?.equipment?.setItemInMainHand(ItemStack(Material.DIAMOND_SWORD))
         }
-
-        zombie?.let { Data.DataManager.gameData.zombie.add(it) }
+    }
+    fun setHelmet(head: Int, color: String): ItemStack? {
+        when (head) {
+            1 -> return Give().colorLEATHER(Material.LEATHER_HELMET, color)
+            2 -> return ItemStack(Material.IRON_HELMET)
+            3 -> return ItemStack(Material.GOLDEN_HELMET)
+            4 -> return ItemStack(Material.DIAMOND_HELMET)
+            5 -> return ItemStack(Material.NETHERITE_HELMET)
+            6 -> return ItemStack(Material.CHAINMAIL_HELMET)
+            7 -> return ItemStack(Material.SKELETON_SKULL)
+        }
+        return null
+    }
+    fun setChestplate(chestplate: Int, color: String): ItemStack? {
+        when (chestplate) {
+            1 -> return Give().colorLEATHER(Material.LEATHER_CHESTPLATE, color)
+            2 -> return ItemStack(Material.IRON_CHESTPLATE)
+            3 -> return ItemStack(Material.GOLDEN_CHESTPLATE)
+            4 -> return ItemStack(Material.DIAMOND_CHESTPLATE)
+            5 -> return ItemStack(Material.NETHERITE_CHESTPLATE)
+            6 -> return ItemStack(Material.CHAINMAIL_CHESTPLATE)
+        }
+        return null
+    }
+    fun setLeggings(leggings: Int, color: String): ItemStack? {
+        when (leggings) {
+            1 -> return Give().colorLEATHER(Material.LEATHER_LEGGINGS, color)
+            2 -> return ItemStack(Material.IRON_LEGGINGS)
+            3 -> return ItemStack(Material.GOLDEN_LEGGINGS)
+            4 -> return ItemStack(Material.DIAMOND_LEGGINGS)
+            5 -> return ItemStack(Material.NETHERITE_LEGGINGS)
+            6 -> return ItemStack(Material.CHAINMAIL_LEGGINGS)
+        }
+        return null
+    }
+    fun setBoots(boots: Int, color: String): ItemStack? {
+        when (boots) {
+            1 -> return Give().colorLEATHER(Material.LEATHER_BOOTS, color)
+            2 -> return ItemStack(Material.IRON_BOOTS)
+            3 -> return ItemStack(Material.GOLDEN_BOOTS)
+            4 -> return ItemStack(Material.DIAMOND_BOOTS)
+            5 -> return ItemStack(Material.NETHERITE_BOOTS)
+            6 -> return ItemStack(Material.CHAINMAIL_BOOTS)
+        }
+        return null
     }
 
     fun damage(zombie: Zombie) {

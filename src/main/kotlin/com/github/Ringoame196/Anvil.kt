@@ -64,7 +64,7 @@ class Anvil {
         GUI().guiItem(anvil, 8, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}合成", "", true)
         player.openInventory(anvil)
     }
-    fun close(player: Player, inventory: Inventory) {
+    fun returnItem(player: Player, inventory: Inventory) {
         inventory.getItem(3)?.let { player.inventory.addItem(it) }
         inventory.getItem(5)?.let { player.inventory.addItem(it) }
     }
