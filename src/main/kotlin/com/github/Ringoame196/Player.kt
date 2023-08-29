@@ -12,9 +12,6 @@ import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.plugin.Plugin
 
 class Player {
-    fun kill(killer: Player) {
-        Point().add(killer, 300, true)
-    }
     fun showdamage(damager: Entity, entity: Player, damage: Int) {
         if (damager is Arrow && damager.shooter is Player) {
             val shooter = damager.shooter as Player
@@ -37,6 +34,9 @@ class Player {
         Team().respawn(player, plugin, damager.name)
         if (damager !is Player) { return }
         kill(damager)
+    }
+    fun kill(killer: Player) {
+        Point().add(killer, 300, true)
     }
     fun errormessage(message: String, player: Player) {
         player.sendMessage("${ChatColor.RED}$message")

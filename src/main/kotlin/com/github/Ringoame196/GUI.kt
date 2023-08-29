@@ -172,6 +172,7 @@ class GUI {
         enchantGUIitem(gui, 27, "60p", Enchantment.DAMAGE_UNDEAD, 1)
         enchantGUIitem(gui, 28, "350p", Enchantment.DAMAGE_UNDEAD, 2)
         enchantGUIitem(gui, 29, "650p", Enchantment.DAMAGE_UNDEAD, 3)
+        enchantGUIitem(gui, 30, "1200p", Enchantment.DAMAGE_UNDEAD, 4)
 
         potionGUIitem(gui, 33, Material.SPLASH_POTION, "15p", PotionEffectType.HEAL, 0, 1)
         potionGUIitem(gui, 34, Material.SPLASH_POTION, "50p", PotionEffectType.HEAL, 1, 1)
@@ -221,7 +222,7 @@ class GUI {
         zombieGUIitem(gui, 2, Material.SLIME_BALL, "ノーマルゾンビ", "30p", "normal")
         zombieGUIitem(gui, 3, Material.IRON_NUGGET, "チビゾンビ", "40p", "chibi")
         zombieGUIitem(gui, 4, Material.RAW_COPPER, "ゾンビソルジャー", "40p", "soldier")
-        zombieGUIitem(gui, 5, Material.FEATHER, "ダッシュマン", "250", "dashman")
+        zombieGUIitem(gui, 5, Material.FEATHER, "ダッシュマン", "250p", "dashman")
         zombieGUIitem(gui, 6, Material.BLAZE_POWDER, "バトルロード", "850p", "battleLord")
         zombieGUIitem(gui, 7, Material.BONE_MEAL, "カスタムロード", "1000p", "customLoad")
 
@@ -363,10 +364,16 @@ class GUI {
     fun messageBook(player: Player) {
         val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_BLUE}チームメッセージ[BATTLEGUI]")
         guiItem(gui, 0, Material.PAPER, "${ChatColor.GREEN}よろしくお願いします", "", true)
-        guiItem(gui, 1, Material.PAPER, "${ChatColor.GREEN}今 ${GET().point(player)}ポイント持っています", "", true)
-        guiItem(gui, 2, Material.PAPER, "${ChatColor.RED}ゾンビが攻めてきてます", "", true)
-        guiItem(gui, 3, Material.PAPER, "${ChatColor.RED}助けてください", "", true)
-        guiItem(gui, 3, Material.PAPER, "${ChatColor.GREEN}攻めましょう", "", true)
+        guiItem(gui, 1, Material.PAPER, "${ChatColor.GREEN}ありがとう", "", true)
+        guiItem(gui, 2, Material.PAPER, "${ChatColor.GREEN}今 ${GET().point(player)}ポイント持っています", "", true)
+        guiItem(gui, 3, Material.PAPER, "${ChatColor.RED}ゾンビが攻めてきてます", "", true)
+        guiItem(gui, 4, Material.PAPER, "${ChatColor.RED}助けてください", "", true)
+        guiItem(gui, 5, Material.PAPER, "${ChatColor.GREEN}攻めましょう", "", true)
+        guiItem(gui, 6, Material.PAPER, "${ChatColor.GREEN}中央行きましょう", "", true)
+        guiItem(gui, 7, Material.PAPER, "${ChatColor.GREEN}中央行ってきます", "", true)
+        guiItem(gui, 8, Material.PAPER, "${ChatColor.GREEN}自陣に戻ります", "", true)
+        guiItem(gui, 9, Material.PAPER, "${ChatColor.GREEN}チーム強化してください", "", true)
+        guiItem(gui, 10, Material.PAPER, "${ChatColor.GREEN}ポイントください", "", true)
         player.openInventory(gui)
     }
     fun selectGUI(player: Player, item: ItemStack) {
@@ -390,7 +397,7 @@ class GUI {
         player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
         when (guiName.replace("[BATTLEGUI]", "")) {
             "${ChatColor.BLUE}攻防戦ショップ" -> homeShop(player, item)
-            "${ChatColor.DARK_GREEN}ショップ" -> Shop().system(item, player)
+            "${ChatColor.DARK_GREEN}ショップ" -> Shop().clickEvent(item, player)
             "${ChatColor.DARK_GREEN}設定画面" -> GameSystem().system(plugin, player, item, e)
             "${ChatColor.DARK_GREEN}参加プレイヤー" -> item.itemMeta?.let { GameSystem().playersJoin(it.displayName, player) }
             "${ChatColor.DARK_GREEN}選択画面" -> GUI().selectGUI(player, item)

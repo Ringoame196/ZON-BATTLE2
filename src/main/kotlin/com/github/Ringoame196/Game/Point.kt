@@ -8,8 +8,6 @@ import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
-import org.bukkit.event.block.BlockDamageEvent
-import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 
 class Point {
@@ -71,34 +69,6 @@ class Point {
             player.playSound(player, Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f)
             remove(player, priceInt)
             true
-        }
-    }
-    fun notAppropriate(item: ItemStack, block: Block, e: BlockDamageEvent) {
-
-        when (block.type) {
-            Material.DIAMOND_ORE -> when (item.type) {
-                Material.NETHERITE_PICKAXE -> {}
-                Material.DIAMOND_PICKAXE -> {}
-                Material.IRON_PICKAXE -> {}
-                else -> e.isCancelled = true
-            }
-
-            Material.GOLD_ORE -> when (item.type) {
-                Material.NETHERITE_PICKAXE -> {}
-                Material.DIAMOND_PICKAXE -> {}
-                Material.IRON_PICKAXE -> {}
-                else -> e.isCancelled = true
-            }
-
-            Material.IRON_ORE -> when (item.type) {
-                Material.NETHERITE_PICKAXE -> {}
-                Material.DIAMOND_PICKAXE -> {}
-                Material.IRON_PICKAXE -> {}
-                Material.STONE_PICKAXE -> {}
-                else -> e.isCancelled = true
-            }
-
-            else -> {}
         }
     }
 }

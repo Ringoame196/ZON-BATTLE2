@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 
 class Hoe {
-    fun system(player: Player, e: PlayerInteractEvent) {
+    fun clickEvent(player: Player, e: PlayerInteractEvent) {
         val shift = player.isSneaking
         val action = e.action
         val gui = Data.DataManager.playerDataMap[player.uniqueId]?.gui

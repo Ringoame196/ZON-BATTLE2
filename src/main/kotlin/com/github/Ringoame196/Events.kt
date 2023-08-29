@@ -92,7 +92,7 @@ class Events(private val plugin: Plugin) : Listener {
         val block = e.clickedBlock
         val action = e.action
         if (item?.itemMeta?.displayName == "${ChatColor.YELLOW}[召喚の杖]") {
-            Hoe().system(player, e)
+            Hoe().clickEvent(player, e)
         }
         if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
             Item().clickSystem(player, item, block, e, plugin)
@@ -210,6 +210,6 @@ class Events(private val plugin: Plugin) : Listener {
     }
     @EventHandler
     fun onBlockDamage(e: BlockDamageEvent) {
-        Point().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
+        Block().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
     }
 }

@@ -17,7 +17,7 @@ import kotlin.random.Random
 
 class RandomChest {
     @Suppress("NAME_SHADOWING")
-    fun set(location1: Location, location2: Location?) {
+    fun replenishment(location1: Location, location2: Location?) {
         val items: MutableList<ItemStack> = setList()
         val random = Random
         val chestList: MutableList<Location?> = mutableListOf(location1, location2)

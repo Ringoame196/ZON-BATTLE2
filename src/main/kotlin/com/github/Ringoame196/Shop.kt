@@ -34,7 +34,7 @@ class Shop {
             unopened(player)
         }
     }
-    fun system(item: ItemStack, player: Player) {
+    fun clickEvent(item: ItemStack, player: Player) {
         if (item.type == Material.RED_STAINED_GLASS_PANE) {
             return
         }

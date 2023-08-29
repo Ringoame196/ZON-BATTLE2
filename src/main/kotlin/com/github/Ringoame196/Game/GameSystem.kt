@@ -115,7 +115,7 @@ class GameSystem {
             Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
 
             val location = Data.DataManager.LocationData.randomChest?.clone()
-            RandomChest().set(location!!, null)
+            RandomChest().replenishment(location!!, null)
             location.add(0.5, 0.0, 0.5)
             val armorStand = location.let { ArmorStand().summon(it, "") }
             Data.DataManager.gameData.randomChestTitle.add(armorStand)
@@ -125,7 +125,7 @@ class GameSystem {
 
             val location1 = Data.DataManager.LocationData.mrandomChest1?.clone()
             val location2 = Data.DataManager.LocationData.mrandomChest2?.clone()
-            RandomChest().set(location1!!, location2)
+            RandomChest().replenishment(location1!!, location2)
             location1.add(0.5, 0.0, 0.5)
             var armorStand = location1.let { ArmorStand().summon(it, "") }
             Data.DataManager.gameData.randomChestTitle.add(armorStand)

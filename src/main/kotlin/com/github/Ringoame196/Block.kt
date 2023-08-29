@@ -6,7 +6,10 @@ import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
+import org.bukkit.event.block.BlockDamageEvent
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -42,7 +45,6 @@ class Block {
     fun deleteRevival() {
         for (armorStand in Data.DataManager.gameData.title) {
             val location = armorStand.location.clone().add(-0.5, 1.0, -0.5)
-
             val blockType = when {
                 armorStand.scoreboardTags.contains("DIAMOND_ORE") -> Material.DIAMOND_ORE
                 armorStand.scoreboardTags.contains("GOLD_ORE") -> Material.GOLD_ORE
@@ -53,6 +55,34 @@ class Block {
             }
             armorStand.remove()
             location.block.setType(blockType)
+        }
+    }
+    fun notAppropriate(item: ItemStack, block: Block, e: BlockDamageEvent) {
+        if (block.world.name != "BATTLE") { return }
+        when (block.type) {
+            Material.DIAMOND_ORE -> when (item.type) {
+                Material.NETHERITE_PICKAXE -> {}
+                Material.DIAMOND_PICKAXE -> {}
+                Material.IRON_PICKAXE -> {}
+                else -> e.isCancelled = true
+            }
+
+            Material.GOLD_ORE -> when (item.type) {
+                Material.NETHERITE_PICKAXE -> {}
+                Material.DIAMOND_PICKAXE -> {}
+                Material.IRON_PICKAXE -> {}
+                else -> e.isCancelled = true
+            }
+
+            Material.IRON_ORE -> when (item.type) {
+                Material.NETHERITE_PICKAXE -> {}
+                Material.DIAMOND_PICKAXE -> {}
+                Material.IRON_PICKAXE -> {}
+                Material.STONE_PICKAXE -> {}
+                else -> e.isCancelled = true
+            }
+
+            else -> {}
         }
     }
 }
