@@ -22,20 +22,19 @@ import java.io.File
 import kotlin.random.Random
 
 class Zombie {
-    fun summonSystem(player: Player, item: ItemStack) {
+    fun summonSorting(player: Player, item: ItemStack) {
         val function = item.itemMeta?.lore?.get(0).toString()
-        if (Data.DataManager.gameData.playMap == "map1") {
-            summonSystem1(player, function)
-        } else if (Data.DataManager.gameData.playMap == "map2") {
-            summonSystem2(player, function)
+        when (Data.DataManager.gameData.playMap) {
+            "map1" -> map1Summon(player, function)
+            "map2" -> map2Summon(player, function)
         }
     }
-    fun summonSystem1(player: Player, function: String) {
+    fun map1Summon(player: Player, function: String) {
         val location = player.getLocation()
         location.add(0.0, -3.5, 0.0)
         summon(location, function, player)
     }
-    fun summonSystem2(player: Player, function: String) {
+    fun map2Summon(player: Player, function: String) {
         val random = Random.nextInt(1, 4)
         var location: Location? = null
         if (GET().teamName(player) == "red") {

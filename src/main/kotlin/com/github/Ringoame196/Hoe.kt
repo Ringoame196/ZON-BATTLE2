@@ -40,7 +40,7 @@ class Hoe {
                 return
             }
 
-            Zombie().summonSystem(player, zombie)
+            Zombie().summonSorting(player, zombie)
             val teamName = GET().opposingTeamname(GET().teamName(player).toString())
             if (Data.DataManager.teamDataMap[teamName]?.zombieNotification == true) {
                 Team().sound(Sound.ENTITY_ZOMBIE_AMBIENT, teamName!!)
