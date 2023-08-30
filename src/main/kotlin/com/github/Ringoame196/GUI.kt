@@ -398,7 +398,7 @@ class GUI {
         when (guiName.replace("[BATTLEGUI]", "")) {
             "${ChatColor.BLUE}攻防戦ショップ" -> homeShop(player, item)
             "${ChatColor.DARK_GREEN}ショップ" -> Shop().clickEvent(item, player)
-            "${ChatColor.DARK_GREEN}設定画面" -> GameSystem().system(plugin, player, item, e)
+            "${ChatColor.DARK_GREEN}設定画面" -> GameSystem().gameSettingGUIClick(plugin, player, item, e)
             "${ChatColor.DARK_GREEN}参加プレイヤー" -> item.itemMeta?.let { GameSystem().playersJoin(it.displayName, player) }
             "${ChatColor.DARK_GREEN}選択画面" -> GUI().selectGUI(player, item)
             "${ChatColor.DARK_BLUE}チームメッセージ" -> {

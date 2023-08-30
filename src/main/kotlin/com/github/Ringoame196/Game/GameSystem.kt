@@ -26,7 +26,7 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
 class GameSystem {
-    fun system(plugin: Plugin, player: Player, item: ItemStack, e: InventoryClickEvent) {
+    fun gameSettingGUIClick(plugin: Plugin, player: Player, item: ItemStack, e: InventoryClickEvent) {
         player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
         val displayName = item.itemMeta?.displayName
         when (displayName) {
