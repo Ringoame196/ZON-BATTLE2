@@ -72,12 +72,8 @@ class GET {
                 continue
             }
             val name = tag.replace("owner:", "")
-            val player = Bukkit.getPlayer(name)
-            if (player == null) {
-                return null
-            } else {
-                return player
-            }
+            val player = Bukkit.getPlayer(name) ?: return null
+            return player
         }
         return null
     }
@@ -91,6 +87,7 @@ class GET {
         for (entity in location.world!!.getNearbyEntities(location, radius, radius, radius)) {
             if (entity.type == target) {
                 if (entity is Player && entity.gameMode != GameMode.SURVIVAL) { continue }
+                if (entity is Villager && !GET().shop(entity)) { continue }
                 val distanceSquared = entity.location.distanceSquared(location)
 
                 if (distanceSquared < nearestDistanceSquared) {

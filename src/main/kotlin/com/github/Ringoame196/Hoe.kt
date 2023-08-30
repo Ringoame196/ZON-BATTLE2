@@ -74,8 +74,8 @@ class Hoe {
     }
     fun exclusion(player: Player, inventory: Inventory) {
         for (i in 0..8) {
-            val item = inventory.getItem(i)
-            val itemName = item?.itemMeta?.displayName
+            val item = inventory.getItem(i) ?: continue
+            val itemName = item.itemMeta?.displayName
             if (itemName?.contains("${ChatColor.YELLOW}[ゾンビ召喚]") == true) { continue }
             player.inventory.addItem(item)
             inventory.setItem(i, ItemStack(Material.AIR))

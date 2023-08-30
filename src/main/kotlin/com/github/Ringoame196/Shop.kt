@@ -167,11 +167,13 @@ class Shop {
         com.github.Ringoame196.Entity.ArmorStand().summon(armorStandLocation, "${ChatColor.GOLD}攻防戦ショップ")
     }
     fun deletename(location: Location) {
-        val world = location.world
-        val nearbyEntities = world!!.getNearbyEntities(location, 0.0, 2.0, 0.0)
-        for (armorStand in nearbyEntities.filterIsInstance<ArmorStand>()) {
-            armorStand.remove()
-            return
+        val nearbyEntities = location.world?.getNearbyEntities(location, 3.0, 3.0, 3.0)
+
+        for (entity in nearbyEntities!!) {
+            if (entity is ArmorStand && entity.customName == "${ChatColor.GOLD}攻防戦ショップ") {
+                entity.remove() // 防具立てをキルする
+                return
+            }
         }
     }
     fun release(player: Player, teamname: String, itemname: String) {
@@ -203,7 +205,7 @@ class Shop {
         Team().GiveEffect(player, itemName, null, null, 0, 0)
     }
     fun kill(mob: Villager) {
-        Shop().deletename(mob.location)
+        deletename(mob.location)
         val winTeam: String? = when (mob.location.add(0.0, -1.0, 0.0).block.type) {
             Material.RED_WOOL -> "blue"
             Material.BLUE_WOOL -> "red"
