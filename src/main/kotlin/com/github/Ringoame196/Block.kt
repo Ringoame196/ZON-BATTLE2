@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.ArmorStand
+import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -8,7 +9,9 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
+import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockDamageEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
@@ -82,6 +85,13 @@ class Block {
                 else -> e.isCancelled = true
             }
 
+            else -> {}
+        }
+    }
+    fun operationBlock(block: Block, player: Player, e: PlayerInteractEvent) {
+        val material = block.type
+        when (material) {
+            Material.BARREL, Material.ANVIL, Material.GRINDSTONE -> GameSystem().adventure(e, player)
             else -> {}
         }
     }

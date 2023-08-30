@@ -41,7 +41,7 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.rightClicked
         val teamName = GET().teamName(player) ?: return
         if (GET().shop(entity)) {
-            if (entity.scoreboardTags.contains("center")) { } else { Shop().open(e, player, entity as Villager, teamName) }
+            if (!entity.scoreboardTags.contains("center")) { Shop().open(e, player, entity as Villager, teamName) }
         }
     }
 
@@ -94,9 +94,10 @@ class Events(private val plugin: Plugin) : Listener {
         val action = e.action
         if (item?.itemMeta?.displayName == "${ChatColor.YELLOW}[召喚の杖]") {
             Hoe().clickEvent(player, e)
-        }
-        if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
+        } else if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
             Item().clickSystem(player, item, block, e, plugin)
+        } else if (block != null) {
+            Block().operationBlock(block, player, e)
         }
     }
 
@@ -193,7 +194,7 @@ class Events(private val plugin: Plugin) : Listener {
         if (GET().joinTeam(e.player)) { Data.DataManager.gameData.participatingPlayer.add(e.player) }
     }
     @EventHandler
-    fun onPlayerRespawn(e: EntityDamageEvent) {
+    fun onEntityDamage(e: EntityDamageEvent) {
         // ダメージを受けたプレイヤー
         val player = e.entity
         if (player !is Player) { return }
@@ -206,6 +207,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
     @EventHandler
     fun onBlockDamage(e: BlockDamageEvent) {
+        //ブロックにダメージを与えたときの処理
         Block().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
     }
 }
