@@ -156,7 +156,7 @@ class Events(private val plugin: Plugin) : Listener {
         // 敵対化
         val entity = e.entity
         var radius = 0.0
-        var target: EntityType? = null
+        val target: EntityType?
         when {
             entity.scoreboardTags.contains("targetshop") -> {
                 target = EntityType.VILLAGER
@@ -164,7 +164,7 @@ class Events(private val plugin: Plugin) : Listener {
             }
             entity.scoreboardTags.contains("targetPlayer") -> {
                 target = EntityType.PLAYER
-                radius = 10.0
+                radius = 20.0
             }
             entity.scoreboardTags.contains("targetZombie") -> {
                 target = EntityType.ZOMBIE
@@ -194,7 +194,7 @@ class Events(private val plugin: Plugin) : Listener {
         if (GET().joinTeam(e.player)) { Data.DataManager.gameData.participatingPlayer.add(e.player) }
     }
     @EventHandler
-    fun onEntityDamage(e: EntityDamageEvent) {
+    fun onPlayerTookDamage(e: EntityDamageEvent) {
         // ダメージを受けたプレイヤー
         val player = e.entity
         if (player !is Player) { return }
@@ -207,7 +207,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
     @EventHandler
     fun onBlockDamage(e: BlockDamageEvent) {
-        //ブロックにダメージを与えたときの処理
+        // ブロックにダメージを与えたときの処理
         Block().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
     }
 }
