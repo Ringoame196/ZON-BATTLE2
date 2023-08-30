@@ -35,7 +35,7 @@ import org.bukkit.plugin.Plugin
 class Events(private val plugin: Plugin) : Listener {
 
     @EventHandler
-    fun onPlayerInteractEntity(e: PlayerInteractEntityEvent) {
+    fun onPlayerInteract(e: PlayerInteractEntityEvent) {
         // ショップGUIを開く
         val player = e.player
         val entity = e.rightClicked
@@ -46,7 +46,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onInventoryClickEvent(e: InventoryClickEvent) {
+    fun onInventoryClick(e: InventoryClickEvent) {
         // GUIクリック
         val player = e.whoClicked as Player
         val item = e.currentItem ?: return
@@ -55,7 +55,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onInventoryCloseEvent(e: InventoryCloseEvent) {
+    fun onInventoryClose(e: InventoryCloseEvent) {
         // インベントリを閉じる時のイベント
         val player = e.player as Player
         val title = e.view.title
@@ -69,7 +69,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onEntityDamageByEntityEvent(e: EntityDamageByEntityEvent) {
+    fun onEntityDamageByEntity(e: EntityDamageByEntityEvent) {
         val entity = e.entity
         val damager = e.damager
         val damage = e.finalDamage.toInt()
@@ -86,7 +86,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onPlayerInteractEvent(e: PlayerInteractEvent) {
+    fun onPlayerInteract(e: PlayerInteractEvent) {
         // インベントリアイテムクリック
         val player = e.player
         val item = e.item
@@ -102,7 +102,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onBlockBreakEvent(e: BlockBreakEvent) {
+    fun onBlockBreak(e: BlockBreakEvent) {
         // ブロックを破壊したとき
         val player = e.player
         val worldName = player.world.name
@@ -116,13 +116,13 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onBlockPlaceEvent(e: BlockPlaceEvent) {
+    fun onBlockPlace(e: BlockPlaceEvent) {
         if (e.player.world.name != "BATTLE") { return }
         GameSystem().adventure(e, e.player)
     }
 
     @EventHandler
-    fun onEntityDeathEvent(e: EntityDeathEvent) {
+    fun onEntityDeath(e: EntityDeathEvent) {
         // キル
         val killer = e.entity.killer
         val mob = e.entity
@@ -141,7 +141,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onEntityRegainHealthEvent(e: EntityRegainHealthEvent) {
+    fun onEntityRegainHealth(e: EntityRegainHealthEvent) {
         // ショップが回復したときにHP反映させる
         if (e.entity !is Villager) { return }
         val shop = e.entity as Villager
@@ -152,7 +152,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
 
     @EventHandler
-    fun onEntityTargetEvent(e: EntityTargetEvent) {
+    fun onEntityTarget(e: EntityTargetEvent) {
         // 敵対化
         val entity = e.entity
         var radius = 0.0
@@ -178,14 +178,14 @@ class Events(private val plugin: Plugin) : Listener {
         e.target = GET().getNearestEntityOfType(entity.location, target, radius)
     }
     @EventHandler
-    fun onSignChangeEvent(e: SignChangeEvent) {
+    fun onSignChange(e: SignChangeEvent) {
         // 看板に文字を決定したとき
         val block = e.block.type == Material.OAK_WALL_SIGN
         if (block) { Sign().make(e) }
     }
 
     @EventHandler
-    fun onPlayerQuitEvent(e: PlayerQuitEvent) {
+    fun onPlayerQuit(e: PlayerQuitEvent) {
         // プレイヤーが抜けたとき
         if (Data.DataManager.gameData.participatingPlayer.contains(e.player)) { Team().inAndout(e.player) }
     }
