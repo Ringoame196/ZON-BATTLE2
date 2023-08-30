@@ -23,7 +23,7 @@ class Sign {
         val sign = block.state as Sign
         if (sign.lines[0] == ("${ChatColor.AQUA}[BATTLE]")) {
             Data.DataManager.gameData.signLocation = block.location
-            Team().inAndout(player)
+            ParticipatingPlayer().inAndout(player)
             player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
         } else if (sign.lines[0] == "[中央へ行く]") {
             val location = sign.lines[1]

@@ -33,7 +33,7 @@ class GameSystem {
             "${ChatColor.AQUA}ゲームスタート" -> start(plugin, player)
             "${ChatColor.RED}終了" -> stop(player)
             "${ChatColor.YELLOW}ショップ召喚" -> Shop().summon(player.location, null)
-            "${ChatColor.GREEN}参加" -> Team().inAndout(player)
+            "${ChatColor.GREEN}参加" -> ParticipatingPlayer().inAndout(player)
             "${ChatColor.YELLOW}実験所へ" -> Bukkit.dispatchCommand(player, "mvtp jikken")
             "${ChatColor.YELLOW}ロビーへ" -> Bukkit.dispatchCommand(player, "mvtp world")
             "${ChatColor.YELLOW}バトルへ" -> Bukkit.dispatchCommand(player, "mvtp BATTLE")
@@ -95,6 +95,9 @@ class GameSystem {
         val filePath = "plugins/ZON-BATTLE2/location_data.yml"
         Data.DataManager.LocationData.saveToFile(filePath)
     }
+    fun settingScoreboard() {
+        Scoreboard().make("point", "Point")
+    }
 
     fun start(plugin: Plugin, player: Player) {
         if (Data.DataManager.gameData.participatingPlayer.size == 0) { return }
@@ -137,6 +140,7 @@ class GameSystem {
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
         Timer().feverSet()
+        settingScoreboard()
 
         var c = 5
         object : BukkitRunnable() {
@@ -223,6 +227,7 @@ class GameSystem {
         Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]")
         Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]")
         Ranking().updateRankingScoreboard()
+        Scoreboard().make("participartingPlayer", "ParticipartingPlayer")
     }
 
     fun adventure(e: org.bukkit.event.Event, player: Player) {
@@ -245,7 +250,7 @@ class GameSystem {
     }
     fun playersJoin(playerName: String, sender: Player) {
         val player = Bukkit.getPlayer(playerName.replace("${ChatColor.YELLOW}", "")) ?: return
-        Team().inAndout(player)
+        ParticipatingPlayer().inAndout(player)
         player.sendMessage("${ChatColor.RED}※${sender.displayName}があなたのゲーム参加を操作しました")
         GUI().joinPlayers(sender)
     }

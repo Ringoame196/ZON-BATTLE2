@@ -2,6 +2,7 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Wolf
 import com.github.Ringoame196.Game.GameSystem
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.TeamData
@@ -365,7 +366,7 @@ class GUI {
         val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_BLUE}チームメッセージ[BATTLEGUI]")
         guiItem(gui, 0, Material.PAPER, "${ChatColor.GREEN}よろしくお願いします", "", true)
         guiItem(gui, 1, Material.PAPER, "${ChatColor.GREEN}ありがとう", "", true)
-        guiItem(gui, 2, Material.PAPER, "${ChatColor.GREEN}今 ${GET().point(player)}ポイント持っています", "", true)
+        guiItem(gui, 2, Material.PAPER, "${ChatColor.GREEN}今 ${Scoreboard().getValue("point",player.name)}ポイント持っています", "", true)
         guiItem(gui, 3, Material.PAPER, "${ChatColor.RED}ゾンビが攻めてきてます", "", true)
         guiItem(gui, 4, Material.PAPER, "${ChatColor.RED}助けてください", "", true)
         guiItem(gui, 5, Material.PAPER, "${ChatColor.GREEN}攻めましょう", "", true)

@@ -28,24 +28,6 @@ class Team {
         GUI().villagerlevelup(player.openInventory.topInventory, player)
         Team().GiveEffect(player, itemName, null, null, 6 - setTime, 0)
     }
-
-    fun inAndout(player: Player) {
-        val participatingPlayer = Data.DataManager.gameData.participatingPlayer
-        if (GET().status()) {
-            Player().errormessage("ゲームが終わるまでしばらくお待ち下さい", player)
-            return
-        }
-        val message: String = if (participatingPlayer.contains(player)) {
-            "退出"
-        } else {
-            "参加"
-        }
-        if (message == "参加") { participatingPlayer.add(player) } else { participatingPlayer.remove(player) }
-        val size = "(参加人数:${participatingPlayer.size}人)"
-        ParticipatingPlayer().message("${ChatColor.AQUA}[$message] ${player.name}$size")
-        player.sendTitle("", "${ChatColor.YELLOW}[${message}しました]")
-        Sign().numberdisplay("(参加中:${participatingPlayer.size}人)")
-    }
     fun make(name: String, color: ChatColor, prefix: String) {
         Bukkit.getScoreboardManager()?.mainScoreboard?.registerNewTeam(name)
         Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam(name)?.let {

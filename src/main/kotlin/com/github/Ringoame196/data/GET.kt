@@ -31,10 +31,6 @@ class GET {
         return shop.health
     }
 
-    fun point(player: Player): Int {
-        return Data.DataManager.playerDataMap.getOrPut(player.uniqueId) { PlayerData() }.point
-    }
-
     fun opposingTeamname(teamName: String): String? {
         val opoposingTeamname = when (teamName) {
             "red" -> "blue"

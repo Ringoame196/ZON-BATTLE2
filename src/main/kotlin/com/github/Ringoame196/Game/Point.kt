@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin
 
 class Point {
     fun set(player: Player, setpoint: Int) {
-        Data.DataManager.playerDataMap[player.uniqueId]?.point = setpoint
+        Scoreboard().set("point", player.name, setpoint)
     }
     fun add(player: Player, add: Int, change: Boolean) {
         var addpoint = add
@@ -23,16 +23,17 @@ class Point {
             addpoint *= Data.DataManager.gameData.magnification
         }
         player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
-        val point = GET().point(player) + addpoint
-        player.sendMessage("${ChatColor.GREEN}+$addpoint (${point}ポイント)")
-        set(player, point)
+        val point = Scoreboard().getValue("point", player.name) ?: 0
+        val newPoint = point + addpoint
+        player.sendMessage("${ChatColor.GREEN}+$addpoint (${newPoint}ポイント)")
+        set(player, newPoint)
     }
     fun remove(player: Player, removepoint: Int) {
         player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f)
-        var point = GET().point(player)
-        point -= removepoint
-        player.sendMessage("${ChatColor.RED}-$removepoint (${point}ポイント)")
-        set(player, point)
+        val point = Scoreboard().getValue("point", player.name) ?: 0
+        val newPoint = point - removepoint
+        player.sendMessage("${ChatColor.RED}-$removepoint (${newPoint}ポイント)")
+        set(player, newPoint)
     }
     fun ore(e: org.bukkit.event.Event, player: Player, block: Block, plugin: Plugin) {
         val team = GET().teamName(player)
@@ -61,7 +62,7 @@ class Point {
 
     fun purchase(player: Player, price: String): Boolean {
         val priceInt: Int = price.replace("p", "").toInt()
-        val point = GET().point(player)
+        val point = Scoreboard().getValue("point", player.name) ?: 0
         return if (priceInt > point) {
             com.github.Ringoame196.Player().errormessage("${ChatColor.RED}" + (priceInt - point) + "ポイント足りません", player)
             false

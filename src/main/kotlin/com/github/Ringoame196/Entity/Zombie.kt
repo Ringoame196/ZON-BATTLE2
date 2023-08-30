@@ -1,6 +1,7 @@
 package com.github.Ringoame196.Entity
 
 import com.github.Ringoame196.Game.Point
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.Give
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
@@ -206,7 +207,7 @@ class Zombie {
                 val owner = GET().owner(zombie)
                 if (entity !is Player) { return }
                 e.isCancelled = true
-                val removeCoin: Int = GET().point(entity) / 2
+                val removeCoin: Int = Scoreboard().getValue("point", entity.name) ?: (0 / 2)
                 Point().remove(entity, removeCoin)
                 entity.sendTitle("", "${ChatColor.RED}泥棒に${removeCoin}p盗まれた")
                 Point().add(owner!!, removeCoin, false)

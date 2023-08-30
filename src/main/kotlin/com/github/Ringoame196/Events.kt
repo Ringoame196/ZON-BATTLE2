@@ -187,7 +187,7 @@ class Events(private val plugin: Plugin) : Listener {
     @EventHandler
     fun onPlayerQuit(e: PlayerQuitEvent) {
         // プレイヤーが抜けたとき
-        if (Data.DataManager.gameData.participatingPlayer.contains(e.player)) { Team().inAndout(e.player) }
+        if (Data.DataManager.gameData.participatingPlayer.contains(e.player)) { ParticipatingPlayer().inAndout(e.player) }
     }
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {

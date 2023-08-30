@@ -2,9 +2,9 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Point
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
-import com.github.Ringoame196.data.PlayerData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -79,7 +79,7 @@ class Shop {
     }
     fun gui(player: Player) {
         val gui = Bukkit.createInventory(null, 27, ChatColor.BLUE.toString() + "攻防戦ショップ[BATTLEGUI]")
-        val point = Data.DataManager.playerDataMap.getOrPut(player.uniqueId) { PlayerData() }.point
+        val point = Scoreboard().getValue("point", player.name)
 
         GUI().guiItem(gui, 0, Material.EMERALD, "${ChatColor.GREEN}所持ポイント:" + point + "p", "", true)
         GUI().guiItem(gui, 1, Material.IRON_PICKAXE, "${ChatColor.YELLOW}ツール", "", true)
