@@ -50,21 +50,6 @@ class Item {
                 Shop().gui(player)
                 e.isCancelled = true
             }
-            itemName == "${ChatColor.GREEN}テレポート" -> {
-                val coordinates = item?.itemMeta?.lore?.get(1)?.split(",")?.mapNotNull { it.toDoubleOrNull() }
-
-                if (coordinates?.size == 3) {
-                    val x = coordinates[0]
-                    val y = coordinates[1]
-                    val z = coordinates[2]
-
-                    val world = Bukkit.getWorld(item.itemMeta?.lore?.get(0)!!) ?: return
-                    player.teleport(Location(world, x, y, z))
-                    player.sendMessage("${ChatColor.GREEN}テレポートしました")
-                }
-                e.isCancelled = true
-                return
-            }
             itemName == "${ChatColor.YELLOW}シュルカー" -> {
                 e.isCancelled = true
                 if (petC!! >= 5) {

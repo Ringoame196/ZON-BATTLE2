@@ -10,8 +10,6 @@ import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.ItemStack
 
 class Hoe {
     fun clickEvent(player: Player, e: PlayerInteractEvent) {
@@ -58,15 +56,6 @@ class Hoe {
                 player.inventory.setItemInMainHand(null)
                 player.playSound(player.location, Sound.ITEM_SHIELD_BREAK, 1f, 1f)
             }
-        }
-    }
-    fun exclusion(player: Player, inventory: Inventory) {
-        for (i in 0..8) {
-            val item = inventory.getItem(i) ?: continue
-            val itemName = item.itemMeta?.displayName
-            if (itemName?.contains("${ChatColor.YELLOW}[ゾンビ召喚]") == true) { continue }
-            player.inventory.addItem(item)
-            inventory.setItem(i, ItemStack(Material.AIR))
         }
     }
 }

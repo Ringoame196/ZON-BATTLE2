@@ -148,12 +148,8 @@ class Team {
             // 反対チーム名にする
             effectTeamName = GET().opposingTeamname(playerTeamName!!)
         }
-        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
-        scoreboard?.getObjective("participatingPlayer") ?: return
-        for (playerName in scoreboard.entries) {
-            val loopPlayer = Bukkit.getPlayer(playerName) ?: continue
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
             val loopPlayerTeam = GET().teamName(loopPlayer)
-
             if (loopPlayerTeam == playerTeamName) {
                 loopPlayer.sendMessage("${ChatColor.AQUA}[チーム]${playerName}さんが${itemName}${ChatColor.AQUA}を発動しました(レベル$level)")
                 if (loopPlayerTeam == effectTeamName) {
@@ -174,19 +170,13 @@ class Team {
         }
     }
     fun sendMessage(message: String, teamName: String) {
-        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
-        scoreboard?.getObjective("participatingPlayer") ?: return
-        for (playerName in scoreboard.entries) {
-            val loopPlayer = Bukkit.getPlayer(playerName) ?: continue
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
             if (GET().teamName(loopPlayer) != teamName) { continue }
             loopPlayer.sendMessage("${ChatColor.AQUA}[チーム]$message")
         }
     }
     fun sound(sound: Sound, teamName: String) {
-        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
-        scoreboard?.getObjective("participatingPlayer") ?: return
-        for (playerName in scoreboard.entries) {
-            val loopPlayer = Bukkit.getPlayer(playerName) ?: continue
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
             if (GET().teamName(loopPlayer) != teamName) { continue }
             loopPlayer.playSound(loopPlayer, sound, 1f, 1f)
         }

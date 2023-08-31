@@ -63,7 +63,6 @@ class Events(private val plugin: Plugin) : Listener {
         when (title) {
             "${ChatColor.DARK_GREEN}チームチェスト" -> player.playSound(player, Sound.BLOCK_CHEST_CLOSE, 1f, 1f)
             "${ChatColor.DARK_GREEN}金床" -> Anvil().returnItem(player, inventory)
-            "${ChatColor.DARK_GREEN}召喚の杖" -> Hoe().exclusion(player, inventory)
             else -> return
         }
     }
