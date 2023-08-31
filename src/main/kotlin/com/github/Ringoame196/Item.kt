@@ -20,8 +20,8 @@ class Item {
     fun clickSystem(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
         val itemName = item?.itemMeta?.displayName.toString()
         val itemType = item?.type
-        val team = GET().teamName(player) ?: return
-        val petC = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "petCount")
+        val team = GET().teamName(player)
+        val petC: Int = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "petCount")
         when {
             itemType == Material.EMERALD -> {
                 money(player, itemName)

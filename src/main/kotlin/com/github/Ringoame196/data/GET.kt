@@ -99,14 +99,14 @@ class GET {
     fun getTeamRevivalTime(teamName: String): Int {
         return Scoreboard().getValue("RedTeam", "復活時間") ?: 5
     }
-    fun getTeamScoreName(teamName: String): String {
+    fun getTeamScoreName(teamName: String?): String {
         when (teamName) {
             "red" -> return "RedTeam"
             "blue" -> return "BlueTeam"
         }
         return null.toString()
     }
-    fun getTeamSystemScoreName(teamName: String): String {
+    fun getTeamSystemScoreName(teamName: String?): String {
         when (teamName) {
             "red" -> return "RedTeamSystem"
             "blue" -> return "BlueTeamSystem"

@@ -35,11 +35,11 @@ class Point {
         set(player, newPoint)
     }
     fun ore(e: org.bukkit.event.Event, player: Player, block: Block, plugin: Plugin) {
-        val team = GET().teamName(player)
+        val team = GET().teamName(player) ?: return
         val blockType = block.type
         val blockData = block.blockData
         GameSystem().adventure(e, player)
-        var cooltime = GET().getTeamRevivalTime(GET().teamName(player)!!)
+        var cooltime = GET().getTeamRevivalTime(team) ?: -1
         val point: Int
         when (blockType) {
             Material.COAL_ORE -> point = 1
