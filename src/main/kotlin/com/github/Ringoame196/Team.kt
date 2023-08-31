@@ -26,10 +26,10 @@ class Team {
     fun fastbreaklevel(teamName: String, player: Player, itemName: String) {
         com.github.Ringoame196.Game.Scoreboard().set(
             GET().getTeamScoreName(teamName), "復活時間",
-            GET().getTeamRevivalTime(teamName)!! - 1
+            GET().getTeamRevivalTime(teamName) - 1
         )
         GUI().villagerlevelup(player.openInventory.topInventory, player)
-        Team().sendMessage("鉱石復活時間短縮", teamName)
+        Team().sendMessage("${player.name}さんが鉱石復活時間を短縮しました", teamName)
     }
     fun make(name: String, color: ChatColor, prefix: String) {
         Bukkit.getScoreboardManager()?.mainScoreboard?.registerNewTeam(name)

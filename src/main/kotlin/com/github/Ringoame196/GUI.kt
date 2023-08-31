@@ -206,7 +206,8 @@ class GUI {
         guiItem(gui, 4, Material.LIGHT_BLUE_DYE, "${ChatColor.YELLOW}★チーム全員に移動速度UP(3分)", "300p", true)
         guiItem(gui, 5, Material.NETHER_STAR, "${ChatColor.YELLOW}★チーム全員に攻撃力UP&再生(3分)", "500p", true)
         player.openInventory(gui)
-        if (Data.DataManager.teamDataMap[GET().teamName(player)]?.zombieNotification == false) {
+        val team = GET().teamName(player)
+        if (Scoreboard().getValue(GET().getTeamScoreName(team), "ゾンビ通知") != 1) {
             guiItem(gui, 18, Material.OAK_SIGN, "${ChatColor.YELLOW}★ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)", "500p", true)
         } else {
             guiItem(gui, 18, Material.BARRIER, "${ChatColor.RED}選択不可", "", true)
@@ -266,7 +267,7 @@ class GUI {
     }
     fun villagerlevelup(gui: Inventory, player: Player) {
         val teamName = GET().teamName(player) ?: return
-        val level = 6 - GET().getTeamRevivalTime(GET().teamName(player)!!)!!
+        val level = 6 - GET().getTeamRevivalTime(GET().teamName(player)!!)
         val shop = Data.DataManager.teamDataMap[teamName]?.entities?.lastOrNull()
         shop.let {
             val maxHealthAttribute = shop?.getAttribute(Attribute.GENERIC_MAX_HEALTH)
@@ -450,7 +451,7 @@ class GUI {
             "村人耐久1(3分)" -> Shop().effect(player, itemName, PotionEffectType.DAMAGE_RESISTANCE, 180, 1)
             "村人再生1(3分)" -> Shop().effect(player, itemName, PotionEffectType.REGENERATION, 180, 1)
             "ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)" -> {
-                Data.DataManager.teamDataMap[GET().teamName(player)]?.zombieNotification = true
+                Scoreboard().set(GET().getTeamScoreName(teamName), "ゾンビ通知", 1)
                 GUI().potionshop(player.openInventory.topInventory, player)
                 Team().sendMessage("${player.name}さんが「ゾンビ襲撃警報」を発動しました ※ゾンビが召喚されたときに ゾンビの声が聞こえるようになりました", GET().teamName(player).toString())
             }

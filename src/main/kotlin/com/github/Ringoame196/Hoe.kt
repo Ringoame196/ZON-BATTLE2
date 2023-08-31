@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Zombie
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -29,7 +30,7 @@ class Hoe {
             val zombie = player.inventory.itemInOffHand
             Zombie().summonSorting(player, zombie)
             val teamName = GET().opposingTeamname(GET().teamName(player).toString())
-            if (Data.DataManager.teamDataMap[teamName]?.zombieNotification == true) {
+            if (Scoreboard().getValue(GET().getTeamScoreName(teamName), "ゾンビ通知") == 1) {
                 Team().sound(Sound.ENTITY_ZOMBIE_AMBIENT, teamName!!)
             }
             removeOffHandItem(player)
