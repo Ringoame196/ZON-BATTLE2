@@ -38,7 +38,11 @@ class Item {
             }
             itemType == Material.COMMAND_BLOCK && itemName == "ゲーム設定" -> {
                 e.isCancelled = true
-                GUI().gamesettingGUI(player)
+                if (!player.isOp) {
+                    player.inventory.setItemInMainHand(ItemStack(Material.AIR))
+                } else {
+                    GUI().gamesettingGUI(player)
+                }
                 return
             }
             block?.type == Material.OAK_WALL_SIGN -> {
