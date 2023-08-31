@@ -28,7 +28,7 @@ class Shop {
     fun open(e: PlayerInteractEntityEvent, player: Player, entity: Mob, team: String) {
         e.isCancelled = true
         Data.DataManager.teamDataMap[team]?.entities?.add(entity)
-        if (Data.DataManager.teamDataMap[team]?.opening == true || player.gameMode == GameMode.CREATIVE) {
+        if (Scoreboard().getValue(GET().getTeamScoreName(team), "ショップ解放済み") == 1 || player.gameMode == GameMode.CREATIVE) {
             GUI().selectGUI(player)
         } else {
             unopened(player)
@@ -192,15 +192,9 @@ class Shop {
         }
     }
     fun release(player: Player, teamname: String, itemname: String) {
-        val teamData = Data.DataManager.teamDataMap[teamname]
-        if (teamData?.opening == null) {
-            Player().errormessage("${ChatColor.RED}鉱石を破壊してお金をゲットしてください", player)
-            Point().add(player, 30, false)
-        } else {
-            teamData.opening = true
-            GUI().selectGUI(player)
-            Team().sendMessage("${player.name}さんがショップを解放しました", GET().teamName(player).toString())
-        }
+        Scoreboard().set(GET().getTeamScoreName(teamname), "ショップ解放済み", 1)
+        GUI().selectGUI(player)
+        Team().sendMessage("${player.name}さんがショップを解放しました", GET().teamName(player).toString())
     }
     fun teamMaxHPadd(teamname: String, player: Player, itemname: String, add: Int) {
         val entity = Data.DataManager.teamDataMap[teamname]?.entities?.lastOrNull() as? LivingEntity ?: return
