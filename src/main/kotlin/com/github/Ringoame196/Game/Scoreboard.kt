@@ -16,6 +16,14 @@ class Scoreboard {
         val score = objective.getScore(name)
         score.score = value
     }
+    fun add(scoreName: String, name: String, add: Int) {
+        val value = getValue(scoreName, name)
+        set(scoreName, name, value)
+    }
+    fun remove(scoreName: String, name: String, remove: Int) {
+        val value = getValue(scoreName, name)
+        set(scoreName, name, value)
+    }
     fun deleteValue(scoreName: String, name: String) {
         val objective = scoreboard?.getObjective(scoreName) ?: return
         val score = objective.getScore(name)
@@ -32,8 +40,8 @@ class Scoreboard {
         }
         return scoreCount
     }
-    fun getValue(score: String, name: String): Int? {
-        val objective = scoreboard?.getObjective(score) ?: return null
+    fun getValue(score: String, name: String): Int {
+        val objective = scoreboard?.getObjective(score) ?: return 0
         val scoreObject = objective.getScore(name)
         return scoreObject.score
     }
