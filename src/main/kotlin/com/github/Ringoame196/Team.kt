@@ -24,10 +24,12 @@ class Team {
         player.openInventory(Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.chest)
     }
     fun fastbreaklevel(teamName: String, player: Player, itemName: String) {
-        val setTime = Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.blockTime - 1
-        Data.DataManager.teamDataMap[teamName]?.blockTime = setTime
+        com.github.Ringoame196.Game.Scoreboard().set(
+            GET().getTeamScoreName(teamName), "復活時間",
+            GET().getTeamRevivalTime(teamName)!! - 1
+        )
         GUI().villagerlevelup(player.openInventory.topInventory, player)
-        Team().GiveEffect(player, itemName, null, null, 6 - setTime, 0)
+        Team().sendMessage("鉱石復活時間短縮", teamName)
     }
     fun make(name: String, color: ChatColor, prefix: String) {
         Bukkit.getScoreboardManager()?.mainScoreboard?.registerNewTeam(name)
@@ -84,8 +86,7 @@ class Team {
         if (!team) {
             Data.DataManager.gameData.shortage = true
             if (blueCount >= 2) {
-                val blocktime = Data.DataManager.teamDataMap.getOrPut("blue") { TeamData() }.blockTime
-                Data.DataManager.teamDataMap.getOrPut("blue") { TeamData() }.blockTime = blocktime - 1
+                com.github.Ringoame196.Game.Scoreboard().set("BlueTeam", "復活時間", 4)
             }
         }
     }

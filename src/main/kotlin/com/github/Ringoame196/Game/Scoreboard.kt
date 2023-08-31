@@ -1,6 +1,7 @@
 package com.github.Ringoame196.Game
 
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 
 class Scoreboard {
     val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
@@ -32,8 +33,6 @@ class Scoreboard {
         return scoreCount
     }
     fun getValue(score: String, name: String): Int? {
-        val player = Bukkit.getPlayer(name)
-        val scoreboard = player?.scoreboard
         val objective = scoreboard?.getObjective(score) ?: return null
         val scoreObject = objective.getScore(name)
         return scoreObject.score
@@ -41,5 +40,20 @@ class Scoreboard {
     fun delete(score: String) {
         val objective = scoreboard?.getObjective(score) ?: return
         objective.unregister()
+    }
+    fun setTeamScore() {
+        Scoreboard().make("RedTeam", "${ChatColor.RED}赤チーム")
+        Scoreboard().make("BlueTeam", "${ChatColor.BLUE}青チーム")
+        Scoreboard().set("RedTeam", "赤チーム(自陣)", 100)
+        Scoreboard().set("RedTeam", "青チーム", 100)
+        Scoreboard().set("BlueTeam", "赤チーム", 100)
+        Scoreboard().set("BlueTeam", "青チーム(自陣)", 100)
+        commonToTeams("復活時間", 5)
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard objectives setdisplay sidebar.team.red RedTeam")
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard objectives setdisplay sidebar.team.blue BlueTeam")
+    }
+    fun commonToTeams(name: String, value: Int) {
+        Scoreboard().set("RedTeam", name, value)
+        Scoreboard().set("BlueTeam", name, value)
     }
 }

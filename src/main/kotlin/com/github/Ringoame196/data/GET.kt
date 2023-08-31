@@ -1,5 +1,6 @@
 package com.github.Ringoame196.data
 
+import com.github.Ringoame196.Game.Scoreboard
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Location
@@ -94,5 +95,15 @@ class GET {
         }
 
         return nearestEntity
+    }
+    fun getTeamRevivalTime(teamName: String): Int {
+        return Scoreboard().getValue("RedTeam", "復活時間") ?: 5
+    }
+    fun getTeamScoreName(teamName: String): String {
+        when (teamName) {
+            "red" -> return "RedTeam"
+            "blue" -> return "BlueTeam"
+        }
+        return null.toString()
     }
 }

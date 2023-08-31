@@ -113,6 +113,18 @@ class Shop {
     }
     fun name(shop: Villager, hp: String, maxHP: String) {
         shop.customName = "${ChatColor.RED}${hp}HP/${maxHP}HP"
+        val hpValue = hp.toFloatOrNull()
+        val hpInt = hpValue?.toInt() ?: 0
+        when {
+            shop.scoreboardTags.contains("red") -> {
+                Scoreboard().set("RedTeam", "赤チーム(自陣)", hpInt)
+                Scoreboard().set("BlueTeam", "赤チーム", hpInt)
+            }
+            shop.scoreboardTags.contains("blue") -> {
+                Scoreboard().set("RedTeam", "青チーム", hpInt)
+                Scoreboard().set("BlueTeam", "青チーム(自陣)", hpInt)
+            }
+        }
     }
     fun attack(e: EntityDamageByEntityEvent, damager: Entity, shop: Villager) {
         if (!GET().shop(shop)) { return }

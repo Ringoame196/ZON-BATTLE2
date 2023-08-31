@@ -5,7 +5,6 @@ import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
-import com.github.Ringoame196.data.TeamData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -267,7 +266,7 @@ class GUI {
     }
     fun villagerlevelup(gui: Inventory, player: Player) {
         val teamName = GET().teamName(player) ?: return
-        val level = 6 - Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.blockTime
+        val level = 6 - GET().getTeamRevivalTime(GET().teamName(player)!!)!!
         val shop = Data.DataManager.teamDataMap[teamName]?.entities?.lastOrNull()
         shop.let {
             val maxHealthAttribute = shop?.getAttribute(Attribute.GENERIC_MAX_HEALTH)
@@ -353,10 +352,10 @@ class GUI {
         var i = 0
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             when (Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0) {
-                0 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.RED}未参加")
-                1 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み")
-                2 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み(赤チーム)")
-                3 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み(青チーム)")
+                0 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.DARK_RED}未参加")
+                1 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み(ランダム)")
+                2 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.RED}参加済み(赤チーム)")
+                3 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.BLUE}参加済み(青チーム)")
             }
             i++
             if (i == 18) { return }

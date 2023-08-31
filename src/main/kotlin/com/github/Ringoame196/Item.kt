@@ -3,10 +3,8 @@ package com.github.Ringoame196
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
-import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Blaze

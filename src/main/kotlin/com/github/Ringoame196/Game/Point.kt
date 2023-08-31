@@ -2,7 +2,6 @@ package com.github.Ringoame196.Game
 
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
-import com.github.Ringoame196.data.TeamData
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -40,7 +39,7 @@ class Point {
         val blockType = block.type
         val blockData = block.blockData
         GameSystem().adventure(e, player)
-        var cooltime = Data.DataManager.teamDataMap.getOrPut(team) { TeamData() }.blockTime
+        var cooltime = GET().getTeamRevivalTime(GET().teamName(player)!!)
         val point: Int
         when (blockType) {
             Material.COAL_ORE -> point = 1
@@ -57,7 +56,7 @@ class Point {
             else -> return
         }
         add(player, point, true)
-        com.github.Ringoame196.Block().revival(plugin, block.location, cooltime, blockType, blockData)
+        com.github.Ringoame196.Block().revival(plugin, block.location, cooltime!!, blockType, blockData)
     }
 
     fun purchase(player: Player, price: String): Boolean {

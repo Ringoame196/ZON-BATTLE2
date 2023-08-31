@@ -12,7 +12,6 @@ import com.github.Ringoame196.Team
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.Gamedata
-import com.github.Ringoame196.data.TeamData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -97,6 +96,7 @@ class GameSystem {
     }
     fun settingScoreboard() {
         Scoreboard().make("point", "Point")
+        Scoreboard().setTeamScore()
     }
 
     fun start(plugin: Plugin, player: Player) {
@@ -155,8 +155,7 @@ class GameSystem {
                     Bukkit.broadcastMessage("${ChatColor.GREEN}攻防戦ゲームスタート！！")
                     if (Data.DataManager.gameData.shortage) {
                         val teamDataMap = Data.DataManager.teamDataMap
-                        val blocktime = teamDataMap.getOrPut("blue") { TeamData() }.blockTime
-                        if (blocktime == teamDataMap.getOrPut("red") { TeamData() }.blockTime) {
+                        if (GET().getTeamRevivalTime("blue") == GET().getTeamRevivalTime("red")) {
                             ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームのポイントが1.5倍になりました")
                         } else {
                             ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームの復活速度が1上がりになりました")
@@ -248,8 +247,13 @@ class GameSystem {
     }
     fun playersJoin(playerName: String, sender: Player) {
         val player = Bukkit.getPlayer(playerName.replace("${ChatColor.YELLOW}", "")) ?: return
-        ParticipatingPlayer().inAndout(player)
-        player.sendMessage("${ChatColor.RED}※${sender.displayName}があなたのゲーム参加を操作しました")
+        val join = Scoreboard().getValue("participatingPlayer", playerName) ?: 0
+        if (join == 0 || join == 3) {
+            ParticipatingPlayer().inAndout(player)
+            player.sendMessage("${ChatColor.RED}※${sender.displayName}があなたのゲーム参加を操作しました")
+        } else {
+            Scoreboard().set("participatingPlayer", playerName, join + 1)
+        }
         GUI().joinPlayers(sender)
     }
 }
