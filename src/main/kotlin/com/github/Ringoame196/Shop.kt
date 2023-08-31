@@ -28,7 +28,7 @@ class Shop {
     fun open(e: PlayerInteractEntityEvent, player: Player, entity: Mob, team: String) {
         e.isCancelled = true
         Data.DataManager.teamDataMap[team]?.entities?.add(entity)
-        if (Scoreboard().getValue(GET().getTeamScoreName(team), "ショップ解放済み") == 1 || player.gameMode == GameMode.CREATIVE) {
+        if (Scoreboard().getValue(GET().getTeamSystemScoreName(team), "ショップ解放済み") == 1 || player.gameMode == GameMode.CREATIVE) {
             GUI().selectGUI(player)
         } else {
             unopened(player)
@@ -191,8 +191,8 @@ class Shop {
             }
         }
     }
-    fun release(player: Player, teamname: String, itemname: String) {
-        Scoreboard().set(GET().getTeamScoreName(teamname), "ショップ解放済み", 1)
+    fun release(player: Player, teamname: String) {
+        Scoreboard().set(GET().getTeamSystemScoreName(teamname), "ショップ解放済み", 1)
         GUI().selectGUI(player)
         Team().sendMessage("${player.name}さんがショップを解放しました", GET().teamName(player).toString())
     }

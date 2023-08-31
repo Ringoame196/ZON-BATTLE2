@@ -434,7 +434,7 @@ class GUI {
             .replace("${ChatColor.YELLOW}★", "")
             .replace("チーム全員に", "")
         when (checkName) {
-            "ショップ解放" -> Shop().release(player, teamName, itemName)
+            "ショップ解放" -> Shop().release(player, teamName)
             "攻撃力UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.INCREASE_DAMAGE, null, 0, 180)
             "再生UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.REGENERATION, null, 2, 180)
             "採掘速度UP(5分)" -> Team().GiveEffect(player, itemName, PotionEffectType.FAST_DIGGING, null, 2, 300)

@@ -51,6 +51,8 @@ class Scoreboard {
         commonToTeams("復活時間", 5)
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard objectives setdisplay sidebar.team.red RedTeam")
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard objectives setdisplay sidebar.team.blue BlueTeam")
+        Scoreboard().make("RedTeamSystem", "RedSystem")
+        Scoreboard().make("BlueTeamSystem", "BlueSystem")
     }
     fun commonToTeams(name: String, value: Int) {
         Scoreboard().set("RedTeam", name, value)

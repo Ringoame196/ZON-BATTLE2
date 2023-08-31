@@ -106,4 +106,11 @@ class GET {
         }
         return null.toString()
     }
+    fun getTeamSystemScoreName(teamName: String): String {
+        when (teamName) {
+            "red" -> return "RedTeamSystem"
+            "blue" -> return "BlueTeamSystem"
+        }
+        return null.toString()
+    }
 }
