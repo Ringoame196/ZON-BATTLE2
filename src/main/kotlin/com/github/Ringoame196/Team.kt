@@ -25,7 +25,7 @@ class Team {
     }
     fun fastbreaklevel(teamName: String, player: Player, itemName: String) {
         com.github.Ringoame196.Game.Scoreboard().set(
-            GET().getTeamScoreName(teamName), "復活時間",
+            GET().getTeamSystemScoreName(teamName), "revivalTime",
             GET().getTeamRevivalTime(teamName) - 1
         )
         GUI().villagerlevelup(player.openInventory.topInventory, player)
@@ -86,7 +86,7 @@ class Team {
         if (!team) {
             Data.DataManager.gameData.shortage = true
             if (blueCount >= 2) {
-                com.github.Ringoame196.Game.Scoreboard().set("BlueTeam", "復活時間", 4)
+                com.github.Ringoame196.Game.Scoreboard().set("BlueTeamSystem", "revivalTime", 4)
             }
         }
     }

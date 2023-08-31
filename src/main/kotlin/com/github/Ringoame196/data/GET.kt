@@ -97,7 +97,7 @@ class GET {
         return nearestEntity
     }
     fun getTeamRevivalTime(teamName: String): Int {
-        return Scoreboard().getValue("RedTeam", "復活時間") ?: 5
+        return Scoreboard().getValue(GET().getTeamSystemScoreName(teamName), "revivalTime") ?: 5
     }
     fun getTeamScoreName(teamName: String?): String {
         when (teamName) {
