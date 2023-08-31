@@ -3,6 +3,7 @@ package com.github.Ringoame196
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Point
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -28,7 +29,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.Plugin
 
@@ -187,11 +187,8 @@ class Events(private val plugin: Plugin) : Listener {
     @EventHandler
     fun onPlayerQuit(e: PlayerQuitEvent) {
         // プレイヤーが抜けたとき
-        if (Data.DataManager.gameData.participatingPlayer.contains(e.player)) { ParticipatingPlayer().inAndout(e.player) }
-    }
-    @EventHandler
-    fun onPlayerJoin(e: PlayerJoinEvent) {
-        if (GET().joinTeam(e.player)) { Data.DataManager.gameData.participatingPlayer.add(e.player) }
+        Scoreboard().getValue("participatingPlayer", e.player.name) ?: return
+        Scoreboard().deleteValue("participatingPlayer", e.player.name)
     }
     @EventHandler
     fun onPlayerTookDamage(e: EntityDamageEvent) {

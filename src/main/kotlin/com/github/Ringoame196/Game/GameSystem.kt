@@ -100,7 +100,7 @@ class GameSystem {
     }
 
     fun start(plugin: Plugin, player: Player) {
-        if (Data.DataManager.gameData.participatingPlayer.size == 0) { return }
+        if (Scoreboard().getSize("participatingPlayer") == 0) { return }
         if (GET().status()) {
             player.sendMessage("${ChatColor.RED}既にゲームはスタートしています")
             return
@@ -190,30 +190,29 @@ class GameSystem {
     fun gameEndSystem(message: String, winTeam: String?) {
         Data.DataManager.gameData.bossBar.removeAll()
         Bukkit.broadcastMessage("${ChatColor.YELLOW}[攻防戦]$message")
-        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
-            loopPlayer.sendMessage("${ChatColor.AQUA}[ゲーム時間]${GET().minutes(Data.DataManager.gameData.time)}")
-            loopPlayer.sendMessage("${ChatColor.RED}${winTeam}チームの勝利")
-
-            loopPlayer.playSound(loopPlayer.location, Sound.BLOCK_ANVIL_USE, 1f, 1f)
-            loopPlayer.inventory.clear()
-            if (loopPlayer.isOp) {
-                loopPlayer.inventory.addItem(Give().gameSetting())
-                loopPlayer.gameMode = GameMode.CREATIVE
-            } else {
-                loopPlayer.gameMode = GameMode.ADVENTURE
-            }
-            for (effect in loopPlayer.activePotionEffects) {
-                loopPlayer.removePotionEffect(effect.type)
-            }
-            Bukkit.getWorld("world")?.let { loopPlayer.teleport(it.spawnLocation) }
-            if (winTeam == null) { continue }
-            if (winTeam == GET().teamName(loopPlayer)) {
-                for (i in 1..5) {
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
+            val join = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            if (join != 0) {
+                loopPlayer.sendMessage("${ChatColor.AQUA}[ゲーム時間]${GET().minutes(Data.DataManager.gameData.time)}")
+                loopPlayer.sendMessage("${ChatColor.RED}${winTeam}チームの勝利")
+                loopPlayer.playSound(loopPlayer.location, Sound.BLOCK_ANVIL_USE, 1f, 1f)
+                loopPlayer.inventory.clear()
+                if (loopPlayer.isOp) {
+                    loopPlayer.inventory.addItem(Give().gameSetting())
+                }
+                for (effect in loopPlayer.activePotionEffects) {
+                    loopPlayer.removePotionEffect(effect.type)
+                }
+                Bukkit.getWorld("world")?.let { loopPlayer.teleport(it.spawnLocation) }
+                if (winTeam == null) { continue }
+                if (winTeam == GET().teamName(loopPlayer)) {
+                    for (i in 1..5) {
+                        loopPlayer.inventory.addItem(Give().coin())
+                    }
+                    Ranking().addScore(loopPlayer.name)
+                } else {
                     loopPlayer.inventory.addItem(Give().coin())
                 }
-                Ranking().addScore(loopPlayer.name)
-            } else {
-                loopPlayer.inventory.addItem(Give().coin())
             }
         }
         for (player in Bukkit.getWorld("BATTLE")?.players!!) {
@@ -227,7 +226,7 @@ class GameSystem {
         Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]")
         Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]")
         Ranking().updateRankingScoreboard()
-        Scoreboard().make("participartingPlayer", "ParticipartingPlayer")
+        Scoreboard().make("participatingPlayer", "ParticipatingPlayer")
     }
 
     fun adventure(e: org.bukkit.event.Event, player: Player) {
@@ -242,7 +241,6 @@ class GameSystem {
             }
         }
         Data.DataManager.teamDataMap.clear() // teamDataMap を空にする
-        Data.DataManager.playerDataMap.clear() // playerDataMap を空にする
         Team().delete()
         RandomChest().reset()
         if (GET().status()) { return }

@@ -7,13 +7,11 @@ import org.bukkit.boss.BossBar
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Blaze
 import org.bukkit.entity.Golem
-import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
 
 class Gamedata {
     var status = false
     var time = 0
-    var participatingPlayer: MutableList<Player> = mutableListOf()
     var signLocation: org.bukkit.Location? = null
     var randomChestTitle: MutableList<ArmorStand> = mutableListOf()
     var zombie: MutableList<Zombie> = mutableListOf()

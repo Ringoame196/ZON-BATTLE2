@@ -29,7 +29,10 @@ class Golem {
                 else -> {}
             }
         }
-        for (player in Data.DataManager.gameData.participatingPlayer) {
+        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
+        scoreboard?.getObjective("participatingPlayer") ?: return
+        for (playerName in scoreboard.entries) {
+            val player = Bukkit.getPlayer(playerName) ?: continue
             when (GET().teamName(player)) {
                 "red" -> if (redPoint != 0) { Point().add(player, redPoint, false) }
                 "blue" -> if (bluePoint != 0) { Point().add(player, bluePoint, false) }

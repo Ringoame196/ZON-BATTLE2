@@ -136,7 +136,10 @@ class Shop {
             else -> return
         }
 
-        for (player in Data.DataManager.gameData.participatingPlayer) {
+        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
+        scoreboard?.getObjective("participatingPlayer") ?: return
+        for (playerName in scoreboard.entries) {
+            val player = Bukkit.getPlayer(playerName) ?: continue
             val teamname = GET().teamName(player)
             if (teamname != setteamname) {
                 continue

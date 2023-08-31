@@ -1,19 +1,27 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.Game.Scoreboard
-import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.Sound
 
 class ParticipatingPlayer {
+    val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
     fun message(message: String) {
-        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
-            loopPlayer.sendMessage(message)
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
+            val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            if (join != 0) {
+                loopPlayer.sendMessage(message)
+            }
         }
     }
     fun sound(sound: Sound) {
-        for (player in Data.DataManager.gameData.participatingPlayer) {
-            player.playSound(player.location, sound, 1f, 1f)
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
+            val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            if (join != 0) {
+                loopPlayer.playSound(loopPlayer.location, sound, 1f, 1f)
+            }
         }
     }
     fun inAndout(player: org.bukkit.entity.Player) {
@@ -31,9 +39,12 @@ class ParticipatingPlayer {
         }
 
         if (message == "参加") {
-            Scoreboard().set("participatingPlayer", player.name, 0)
+            Scoreboard().set("participatingPlayer", player.name, 1)
         } else {
             Scoreboard().deleteValue("participatingPlayer", player.name)
+            player.sendTitle("", "${ChatColor.YELLOW}退出しました")
         }
+        val size = Scoreboard().getSize("participatingPlayer")
+        message("${ChatColor.AQUA}[$message]${player.name} (${size}人)")
     }
 }

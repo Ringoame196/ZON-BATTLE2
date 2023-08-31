@@ -15,6 +15,7 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.NameTagVisibility
+import org.bukkit.scoreboard.Scoreboard
 
 @Suppress("DEPRECATION")
 class Team {
@@ -47,7 +48,9 @@ class Team {
         val blueTeam = Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue")
         var team = true
         var blueCount = 0
-        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
+            val join = com.github.Ringoame196.Game.Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            if (join == 0) { continue }
             Data.DataManager.gameData.bossBar.addPlayer(loopPlayer)
             loopPlayer.setPlayerListName(null)
             loopPlayer.setDisplayName(null)
@@ -145,7 +148,10 @@ class Team {
             // 反対チーム名にする
             effectTeamName = GET().opposingTeamname(playerTeamName!!)
         }
-        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
+        scoreboard?.getObjective("participatingPlayer") ?: return
+        for (playerName in scoreboard.entries) {
+            val loopPlayer = Bukkit.getPlayer(playerName) ?: continue
             val loopPlayerTeam = GET().teamName(loopPlayer)
 
             if (loopPlayerTeam == playerTeamName) {
@@ -168,13 +174,19 @@ class Team {
         }
     }
     fun sendMessage(message: String, teamName: String) {
-        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
+        scoreboard?.getObjective("participatingPlayer") ?: return
+        for (playerName in scoreboard.entries) {
+            val loopPlayer = Bukkit.getPlayer(playerName) ?: continue
             if (GET().teamName(loopPlayer) != teamName) { continue }
             loopPlayer.sendMessage("${ChatColor.AQUA}[チーム]$message")
         }
     }
     fun sound(sound: Sound, teamName: String) {
-        for (loopPlayer in Data.DataManager.gameData.participatingPlayer) {
+        val scoreboard = Bukkit.getScoreboardManager()?.mainScoreboard
+        scoreboard?.getObjective("participatingPlayer") ?: return
+        for (playerName in scoreboard.entries) {
+            val loopPlayer = Bukkit.getPlayer(playerName) ?: continue
             if (GET().teamName(loopPlayer) != teamName) { continue }
             loopPlayer.playSound(loopPlayer, sound, 1f, 1f)
         }
