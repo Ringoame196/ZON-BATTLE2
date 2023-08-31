@@ -17,11 +17,11 @@ class Scoreboard {
         score.score = value
     }
     fun add(scoreName: String, name: String, add: Int) {
-        val value = getValue(scoreName, name)
+        val value = getValue(scoreName, name) + add
         set(scoreName, name, value)
     }
     fun remove(scoreName: String, name: String, remove: Int) {
-        val value = getValue(scoreName, name)
+        val value = getValue(scoreName, name) + remove
         set(scoreName, name, value)
     }
     fun deleteValue(scoreName: String, name: String) {

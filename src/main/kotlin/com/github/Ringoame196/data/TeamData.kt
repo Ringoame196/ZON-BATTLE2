@@ -9,6 +9,5 @@ data class TeamData(
     val chest: Inventory = Bukkit.createInventory(null, 27, "${ChatColor.DARK_GREEN}チームチェスト"),
     val entities: MutableList<Mob> = mutableListOf(), // ショップを取得
     var opening: Boolean = false,
-    var petCount: Int = 0, // ペットの数管理
     var zombieNotification: Boolean = false // ゾンビ通知
 )

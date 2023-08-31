@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.Game.Point
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -19,7 +20,8 @@ class Item {
     fun clickSystem(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
         val itemName = item?.itemMeta?.displayName.toString()
         val itemType = item?.type
-        val petC = Data.DataManager.teamDataMap[GET().teamName(player)]?.petCount
+        val team = GET().teamName(player) ?: return
+        val petC = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "petCount")
         when {
             itemType == Material.EMERALD -> {
                 money(player, itemName)
@@ -27,12 +29,12 @@ class Item {
             }
             itemName.contains("ゴーレム") -> {
                 e.isCancelled = true
-                if (petC!! >= 5) {
+                if (petC >= 5) {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
                 com.github.Ringoame196.Entity.Golem().summon(player, item?.type, itemName)
-                Data.DataManager.teamDataMap[GET().teamName(player)]?.petCount = petC + 1
+                Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             itemType == Material.COMMAND_BLOCK && itemName == "ゲーム設定" -> {
                 e.isCancelled = true
@@ -50,7 +52,7 @@ class Item {
             }
             itemName == "${ChatColor.YELLOW}シュルカー" -> {
                 e.isCancelled = true
-                if (petC!! >= 5) {
+                if (petC >= 5) {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
@@ -58,11 +60,11 @@ class Item {
                 shulker.scoreboardTags.add("targetZombie")
                 shulker.scoreboardTags.add("${GET().teamName(player)}Pet")
                 shulker.isAware = true
-                Data.DataManager.teamDataMap[GET().teamName(player)]?.petCount = petC + 1
+                Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             itemName == "${ChatColor.RED}ブレイズ" -> {
                 e.isCancelled = true
-                if (petC!! >= 5) {
+                if (petC >= 5) {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
@@ -71,7 +73,7 @@ class Item {
                 blaze.setAI(false)
                 Data.DataManager.gameData.blaze.add(blaze)
                 blaze.scoreboardTags.add("${GET().teamName(player)}Pet")
-                Data.DataManager.teamDataMap[GET().teamName(player)]?.petCount = petC + 1
+                Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             itemName == "${ChatColor.YELLOW}チャット" -> GUI().messageBook(player)
             else -> return

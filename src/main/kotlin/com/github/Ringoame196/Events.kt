@@ -131,9 +131,9 @@ class Events(private val plugin: Plugin) : Listener {
             Data.DataManager.gameData.zombie.remove(mob)
         }
         if (mob.scoreboardTags.contains("redPet")) {
-            Data.DataManager.teamDataMap["red"]?.petCount = Data.DataManager.teamDataMap["red"]?.petCount!! - 1
+            Scoreboard().remove("RedTeamSystem", "petCount", 1)
         } else if (mob.scoreboardTags.contains("bluePet")) {
-            Data.DataManager.teamDataMap["blue"]?.petCount = Data.DataManager.teamDataMap["blue"]?.petCount!! - 1
+            Scoreboard().remove("BlueTeamSystem", "petCount", 1)
         } else if (GET().shop(mob)) {
             Shop().kill(mob as Villager)
         }
