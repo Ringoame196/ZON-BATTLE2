@@ -30,6 +30,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.PlayerToggleSneakEvent
 import org.bukkit.plugin.Plugin
 
 class Events(private val plugin: Plugin) : Listener {
@@ -205,5 +206,14 @@ class Events(private val plugin: Plugin) : Listener {
     fun onBlockDamage(e: BlockDamageEvent) {
         // ブロックにダメージを与えたときの処理
         Block().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
+    }
+    @EventHandler
+    fun PlayerToggleSneak(e: PlayerToggleSneakEvent) {
+        val isSneak = e.isSneaking
+        val player = e.player
+        val item = e.player.inventory.itemInMainHand
+        if (isSneak && item.itemMeta?.displayName?.contains("[ゾンビ召喚]") == true) {
+            Zombie().offhandSet(player)
+        }
     }
 }
