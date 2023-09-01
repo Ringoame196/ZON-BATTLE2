@@ -127,16 +127,6 @@ class GameSystem {
                     Team().division()
                     Sign().numberdisplay("ゲーム進行中")
                     Bukkit.broadcastMessage("${ChatColor.GREEN}攻防戦ゲームスタート！！")
-                    if (Data.DataManager.gameData.shortage) {
-                        val teamDataMap = Data.DataManager.teamDataMap
-                        if (GET().getTeamRevivalTime("blue") == GET().getTeamRevivalTime("red")) {
-                            ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームのポイントが1.5倍になりました")
-                        } else {
-                            ParticipatingPlayer().message("${ChatColor.RED}人数不足のため 青チームの復活速度が1上がりになりました")
-                            Data.DataManager.gameData.shortage = false
-                        }
-                        ParticipatingPlayer().sound(Sound.BLOCK_BELL_USE)
-                    }
                     ParticipatingPlayer().sound(Sound.ENTITY_ENDER_DRAGON_AMBIENT)
                     Timer().GameTimer(plugin)
                     this.cancel()

@@ -15,7 +15,6 @@ class Gamedata {
     var zombie: MutableList<Zombie> = mutableListOf()
     var title: MutableList<ArmorStand> = mutableListOf()
     var goldenGolem: MutableList<Golem> = mutableListOf()
-    var shortage: Boolean = false
     var magnification = 1
     val bossBar: BossBar = Bukkit.createBossBar("ゾンビ解放まで", BarColor.BLUE, BarStyle.SEGMENTED_10)
     var blaze: MutableList<Blaze> = mutableListOf()

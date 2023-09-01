@@ -16,9 +16,6 @@ class Point {
     fun add(player: Player, add: Int, change: Boolean) {
         var addpoint = add
         if (change) {
-            if (GET().teamName(player) == "blue" && Data.DataManager.gameData.shortage) {
-                addpoint *= 1.5.toInt()
-            }
             addpoint *= Data.DataManager.gameData.magnification
         }
         player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
