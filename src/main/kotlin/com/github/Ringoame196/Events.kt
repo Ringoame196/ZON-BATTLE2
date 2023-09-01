@@ -208,7 +208,7 @@ class Events(private val plugin: Plugin) : Listener {
         Block().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
     }
     @EventHandler
-    fun PlayerToggleSneak(e: PlayerToggleSneakEvent) {
+    fun onPlayerToggleSneak(e: PlayerToggleSneakEvent) {
         val isSneak = e.isSneaking
         val player = e.player
         val item = e.player.inventory.itemInMainHand

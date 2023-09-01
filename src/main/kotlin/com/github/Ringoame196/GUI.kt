@@ -268,7 +268,11 @@ class GUI {
     fun villagerlevelup(gui: Inventory, player: Player) {
         val teamName = GET().teamName(player) ?: return
         val level = 6 - GET().getTeamRevivalTime(GET().teamName(player)!!)
-        val shop = Data.DataManager.teamDataMap[teamName]?.entities?.lastOrNull()
+        val shop = GET().getTeamshop(teamName)
+        if (shop == null) {
+            Player().errormessage("ショップが見つかりませんでした", player)
+            return
+        }
         shop.let {
             val maxHealthAttribute = shop?.getAttribute(Attribute.GENERIC_MAX_HEALTH)
             val maxHealth = maxHealthAttribute?.value?.toInt() ?: 0

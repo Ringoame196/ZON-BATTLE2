@@ -14,7 +14,6 @@ import org.bukkit.Sound
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Entity
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Mob
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
@@ -27,7 +26,6 @@ import org.bukkit.potion.PotionEffectType
 class Shop {
     fun open(e: PlayerInteractEntityEvent, player: Player, entity: Mob, team: String) {
         e.isCancelled = true
-        Data.DataManager.teamDataMap[team]?.entities?.add(entity)
         if (Scoreboard().getValue(GET().getTeamSystemScoreName(team), "ショップ解放済み") == 1 || player.gameMode == GameMode.CREATIVE) {
             GUI().selectGUI(player)
         } else {
@@ -197,8 +195,8 @@ class Shop {
         Team().sendMessage("${player.name}さんがショップを解放しました", GET().teamName(player).toString())
     }
     fun teamMaxHPadd(teamname: String, player: Player, itemname: String, add: Int) {
-        val entity = Data.DataManager.teamDataMap[teamname]?.entities?.lastOrNull() as? LivingEntity ?: return
-        val maxHPAttribute = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+        val entity = GET().getTeamshop(teamname)
+        val maxHPAttribute = entity?.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
         // 現在の最大HPを取得
         val currentMaxHP = maxHPAttribute.baseValue + add
         // 最大HPを設定
@@ -209,8 +207,8 @@ class Shop {
         Team().GiveEffect(player, itemname, null, null, 0, 0)
     }
     fun effect(player: Player, itemName: String, potion: PotionEffectType, time: Int, level: Int) {
-        val entity = Data.DataManager.teamDataMap[GET().teamName(player)]?.entities?.lastOrNull() as? LivingEntity ?: return
-        entity.addPotionEffect(PotionEffect(potion, time * 20, level - 1))
+        val entity = GET().getTeamshop(GET().teamName(player) ?: return)
+        entity?.addPotionEffect(PotionEffect(potion, time * 20, level - 1))
         Team().GiveEffect(player, itemName, null, null, 0, 0)
     }
     fun kill(mob: Villager) {

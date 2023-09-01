@@ -113,4 +113,24 @@ class GET {
         }
         return null.toString()
     }
+    fun getTeamshop(teamName: String): Villager? {
+        val map = Data.DataManager.gameData.playMap
+        val location: Location? = when (teamName) {
+            "red" -> when (map) {
+                "map1" -> Data.DataManager.LocationData.redshop
+                "map2" -> Data.DataManager.LocationData.mredshop
+                else -> null
+            }
+            "blue" -> when (map) {
+                "map1" -> Data.DataManager.LocationData.blueshop
+                "map2" -> Data.DataManager.LocationData.mblueshop
+                else -> null
+            }
+            else -> null
+        }
+        val shop = getNearestEntityOfType(location!!, EntityType.VILLAGER, 3.0)
+        if (shop is Villager) {
+            return shop
+        } else { return null }
+    }
 }
