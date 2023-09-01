@@ -196,6 +196,7 @@ class GameSystem {
         Scoreboard().make("gameData", "GameData")
         Scoreboard().set("gameData", "map", 0)
         Scoreboard().set("gameData", "status", 0)
+        Scoreboard().set("gameData", "magnification", 1)
     }
 
     fun adventure(e: org.bukkit.event.Event, player: Player) {

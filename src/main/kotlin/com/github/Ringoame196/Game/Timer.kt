@@ -38,7 +38,7 @@ class Timer {
         if (time == 1200) {
             ParticipatingPlayer().message("${ChatColor.RED}20分経ったためポイントが2倍になりました")
             ParticipatingPlayer().sound(Sound.BLOCK_ANVIL_USE)
-            Data.DataManager.gameData.magnification = 2
+            Scoreboard().set("gameData", "magnification", 2)
         }
         if (Data.DataManager.gameData.fever) {
             Data.DataManager.gameData.bossBar.setTitle("${ChatColor.YELLOW}フィーバータイム！！")

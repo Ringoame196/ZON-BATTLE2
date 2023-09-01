@@ -1,6 +1,5 @@
 package com.github.Ringoame196.Game
 
-import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -16,7 +15,7 @@ class Point {
     fun add(player: Player, add: Int, change: Boolean) {
         var addpoint = add
         if (change) {
-            addpoint *= Data.DataManager.gameData.magnification
+            addpoint *= Scoreboard().getValue("gameData", "magnification")
         }
         player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
         val point = Scoreboard().getValue("point", player.name) ?: 0
