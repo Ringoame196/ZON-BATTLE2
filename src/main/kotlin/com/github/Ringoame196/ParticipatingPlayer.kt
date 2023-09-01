@@ -46,5 +46,6 @@ class ParticipatingPlayer {
         }
         val size = Scoreboard().getSize("participatingPlayer")
         message("${ChatColor.AQUA}[$message]${player.name} (${size}人)")
+        Sign().numberdisplay("参加者:${size}人")
     }
 }

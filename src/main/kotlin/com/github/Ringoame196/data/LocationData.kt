@@ -8,6 +8,8 @@ import java.io.File
 import java.io.IOException
 
 data class LocationData(
+    var participationSign: Location? = null,
+
     var redshop: Location? = null,
     var blueshop: Location? = null,
     var redspawn: Location? = null,
@@ -45,7 +47,7 @@ data class LocationData(
             section.set("pitch", location.pitch.toDouble())
             return section
         }
-
+        yamlConfiguration.set("participationSign", createSectionFromLocation(participationSign))
         yamlConfiguration.set("redshop", createSectionFromLocation(redshop))
         yamlConfiguration.set("blueshop", createSectionFromLocation(blueshop))
         yamlConfiguration.set("redspawn", createSectionFromLocation(redspawn))
@@ -86,6 +88,10 @@ data class LocationData(
             val pitch = section.getDouble("pitch").toFloat()
 
             return Location(world, x, y, z, yaw, pitch)
+        }
+        val participationSignSection = yaml.getConfigurationSection("participationSign")
+        if (participationSignSection != null) {
+            locationData.participationSign = getLocationFromSection(participationSignSection)
         }
 
         val redshopSection = yaml.getConfigurationSection("redshop")

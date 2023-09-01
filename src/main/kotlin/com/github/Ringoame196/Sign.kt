@@ -1,8 +1,10 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.data.Data
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.block.Sign
@@ -17,12 +19,14 @@ class Sign {
         if (lines[0] == "[BATTLE]") {
             e.setLine(0, "${ChatColor.AQUA}[BATTLE]")
             e.setLine(2, "${ChatColor.YELLOW}クリックで参加")
+            Data.DataManager.LocationData.participationSign = e.block.location
+            val filePath = "plugins/ZON-BATTLE2/location_data.yml"
+            Data.DataManager.LocationData.saveToFile(filePath)
         }
     }
     fun click(player: Player, block: Block, plugin: Plugin) {
         val sign = block.state as Sign
         if (sign.lines[0] == ("${ChatColor.AQUA}[BATTLE]")) {
-            Data.DataManager.gameData.signLocation = block.location
             ParticipatingPlayer().inAndout(player)
             player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
         } else if (sign.lines[0] == "[中央へ行く]") {
@@ -49,9 +53,11 @@ class Sign {
         }.runTaskLater(plugin, 40L) // 1秒は20L
     }
     fun numberdisplay(text: String) {
-        val sign = Data.DataManager.gameData.signLocation?.block?.state
-        if (sign !is Sign) { return }
-        sign.setLine(1, "${ChatColor.GREEN}$text")
-        sign.update()
+        val sign = Data.DataManager.LocationData.participationSign?.block
+        if (sign?.type != Material.OAK_WALL_SIGN) { return }
+        if (sign.state !is Sign) { return }
+        val signState = sign.state as Sign
+        signState.setLine(1, "${ChatColor.GREEN}$text")
+        signState.update()
     }
 }
