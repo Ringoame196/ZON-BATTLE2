@@ -5,6 +5,7 @@ package com.github.Ringoame196
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.TeamData
+import com.github.Ringoame196.data.TeamLocation
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -56,21 +57,21 @@ class Team {
             Data.DataManager.gameData.bossBar.addPlayer(loopPlayer)
             loopPlayer.setPlayerListName(null)
             loopPlayer.setDisplayName(null)
-            if (team) {
+            if (join == 1) {
+                if (team) {
+                    redTeam?.addPlayer(loopPlayer)
+                    loopPlayer.teleport(TeamLocation().redRespawn(Data.DataManager.gameData.playMap) ?: return)
+                } else {
+                    blueTeam?.addPlayer(loopPlayer)
+                    loopPlayer.teleport(TeamLocation().blueRespawn(Data.DataManager.gameData.playMap) ?: return)
+                    blueCount++
+                }
+            } else if (join == 2) {
                 redTeam?.addPlayer(loopPlayer)
-                if (Data.DataManager.gameData.playMap == "map1") {
-                    loopPlayer.teleport(Data.DataManager.LocationData.redspawn!!)
-                } else if (Data.DataManager.gameData.playMap == "map2") {
-                    loopPlayer.teleport(Data.DataManager.LocationData.mredspawn!!)
-                }
-            } else {
+                loopPlayer.teleport(TeamLocation().redRespawn(Data.DataManager.gameData.playMap) ?: return)
+            } else if (join == 3) {
                 blueTeam?.addPlayer(loopPlayer)
-                if (Data.DataManager.gameData.playMap == "map1") {
-                    loopPlayer.teleport(Data.DataManager.LocationData.bluespawn!!)
-                } else if (Data.DataManager.gameData.playMap == "map2") {
-                    loopPlayer.teleport(Data.DataManager.LocationData.mbluespawn!!)
-                }
-                blueCount++
+                loopPlayer.teleport(TeamLocation().blueRespawn(Data.DataManager.gameData.playMap) ?: return)
             }
             loopPlayer.scoreboardTags.remove("pvpjoin")
             loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, Int.MAX_VALUE, 100, true, false))
@@ -82,12 +83,6 @@ class Team {
                 loopPlayer.inventory.addItem(Give().gameSetting())
             }
             team = !team
-        }
-        if (!team) {
-            Data.DataManager.gameData.shortage = true
-            if (blueCount >= 2) {
-                com.github.Ringoame196.Game.Scoreboard().set("BlueTeamSystem", "revivalTime", 4)
-            }
         }
     }
     fun waitingState(player: Player) {

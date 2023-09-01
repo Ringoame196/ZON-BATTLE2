@@ -227,7 +227,7 @@ class GameSystem {
         Ranking().updateRankingScoreboard()
         Scoreboard().make("participatingPlayer", "ParticipatingPlayer")
     }
-    fun gameData(){
+    fun gameData() {
         Scoreboard().make("gameData", "GameData")
     }
 
