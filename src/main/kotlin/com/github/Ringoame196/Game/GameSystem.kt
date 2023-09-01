@@ -227,6 +227,9 @@ class GameSystem {
         Ranking().updateRankingScoreboard()
         Scoreboard().make("participatingPlayer", "ParticipatingPlayer")
     }
+    fun gameData(){
+        Scoreboard().make("gameData", "GameData")
+    }
 
     fun adventure(e: org.bukkit.event.Event, player: Player) {
         if (player.gameMode == GameMode.CREATIVE) { return }
