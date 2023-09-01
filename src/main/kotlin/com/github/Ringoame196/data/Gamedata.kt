@@ -20,7 +20,6 @@ class Gamedata {
     var magnification = 1
     val bossBar: BossBar = Bukkit.createBossBar("ゾンビ解放まで", BarColor.BLUE, BarStyle.SEGMENTED_10)
     var blaze: MutableList<Blaze> = mutableListOf()
-    var playMap: String = "map1"
     var feverTime = 0
     var fever = false
 }

@@ -5,7 +5,6 @@ import com.github.Ringoame196.Entity.Blaze
 import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.ParticipatingPlayer
-import com.github.Ringoame196.RandomChest
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -54,11 +53,7 @@ class Timer {
         }
         if (time == 300) { ParticipatingPlayer().message("${ChatColor.YELLOW}ゾンビ解放!") }
         if (time % 300 == 0) {
-            if (Data.DataManager.gameData.playMap == "map1") {
-                RandomChest().replenishment(Data.DataManager.LocationData.randomChest!!, null)
-            } else if (Data.DataManager.gameData.playMap == "map2") {
-                RandomChest().replenishment(Data.DataManager.LocationData.mrandomChest1!!, Data.DataManager.LocationData.mrandomChest2!!)
-            }
+            Map().randomChest()
         }
         if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }
         if (time % 5 == 0) {

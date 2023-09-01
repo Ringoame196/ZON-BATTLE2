@@ -2,7 +2,6 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.Game.Scoreboard
-import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -22,7 +21,7 @@ class Hoe {
                 Player().errormessage("オフハンドにゾンビを持ってください", player)
                 return
             }
-            if (player.location.subtract(0.0, 1.0, 0.0).block.type != Material.GLASS && Data.DataManager.gameData.playMap == "map1") {
+            if (player.location.subtract(0.0, 1.0, 0.0).block.type != Material.GLASS && Scoreboard().getValue("gameData", "map") == 1) {
                 Player().errormessage("${ChatColor.RED}ガラスの上で実行してください(ガラスの上に行くには、自陣の後ろにあるボタンをクリック)", player)
                 return
             }

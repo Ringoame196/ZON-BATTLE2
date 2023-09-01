@@ -114,16 +114,16 @@ class GET {
         return null.toString()
     }
     fun getTeamshop(teamName: String): Villager? {
-        val map = Data.DataManager.gameData.playMap
+        val map = Scoreboard().getValue("gameData", "map")
         val location: Location? = when (teamName) {
             "red" -> when (map) {
-                "map1" -> Data.DataManager.LocationData.redshop
-                "map2" -> Data.DataManager.LocationData.mredshop
+                1 -> Data.DataManager.LocationData.redshop
+                2 -> Data.DataManager.LocationData.mredshop
                 else -> null
             }
             "blue" -> when (map) {
-                "map1" -> Data.DataManager.LocationData.blueshop
-                "map2" -> Data.DataManager.LocationData.mblueshop
+                1 -> Data.DataManager.LocationData.blueshop
+                2 -> Data.DataManager.LocationData.mblueshop
                 else -> null
             }
             else -> null

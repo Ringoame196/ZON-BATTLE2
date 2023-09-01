@@ -1,7 +1,6 @@
 package com.github.Ringoame196.Game
 
 import com.github.Ringoame196.Block
-import com.github.Ringoame196.Entity.ArmorStand
 import com.github.Ringoame196.GUI
 import com.github.Ringoame196.Give
 import com.github.Ringoame196.ParticipatingPlayer
@@ -42,29 +41,22 @@ class GameSystem {
                 return
             }
             "${ChatColor.GREEN}座標設定" -> {
-                GUI().selectworld(player)
+                Map().selectworld(player)
                 return
             }
-            "マップ1" -> {
-                GUI().locationWorld1(player)
-                return
-            }
-            "マップ2" -> {
-                GUI().locationWorld2(player)
-                return
-            }
+        }
+        if (item.type == Material.CHEST && displayName?.contains("マップ") == true) {
+            Map().settingOpenGUI(displayName, player)
+            return
         }
         player.closeInventory()
         if (item.type == Material.ENDER_EYE && e.isShiftClick) {
             setlocation(item, player)
             e.isCancelled = true
         } else if (item.type == Material.REDSTONE) {
-            Data.DataManager.gameData.playMap = when (Data.DataManager.gameData.playMap) {
-                "map1" -> "map2"
-                "map2" -> "map1"
-                else -> ""
-            }
-            player.sendMessage("${ChatColor.AQUA}${Data.DataManager.gameData.playMap}を選択しました")
+            Scoreboard().add("gameData", "map", 1)
+            val playMap = Map().getMapName()
+            player.sendMessage("${ChatColor.AQUA}${playMap}を選択しました")
             e.isCancelled = true
         }
     }
@@ -101,6 +93,7 @@ class GameSystem {
 
     fun start(plugin: Plugin, player: Player) {
         if (Scoreboard().getSize("participatingPlayer") == 0) { return }
+        if (Scoreboard().getValue("gameData", "map") == 0) { return }
         if (GET().status()) {
             player.sendMessage("${ChatColor.RED}既にゲームはスタートしています")
             return
@@ -113,30 +106,7 @@ class GameSystem {
                 return
             }
         }
-        if (Data.DataManager.gameData.playMap == "map1") {
-            Shop().summon(Data.DataManager.LocationData.redshop, "red")
-            Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
-
-            val location = Data.DataManager.LocationData.randomChest?.clone()
-            RandomChest().replenishment(location!!, null)
-            location.add(0.5, 0.0, 0.5)
-            val armorStand = location.let { ArmorStand().summon(it, "") }
-            Data.DataManager.gameData.randomChestTitle.add(armorStand)
-        } else if (Data.DataManager.gameData.playMap == "map2") {
-            Shop().summon(Data.DataManager.LocationData.mredshop, "red")
-            Shop().summon(Data.DataManager.LocationData.mblueshop, "blue")
-
-            val location1 = Data.DataManager.LocationData.mrandomChest1?.clone()
-            val location2 = Data.DataManager.LocationData.mrandomChest2?.clone()
-            RandomChest().replenishment(location1!!, location2)
-            location1.add(0.5, 0.0, 0.5)
-            var armorStand = location1.let { ArmorStand().summon(it, "") }
-            Data.DataManager.gameData.randomChestTitle.add(armorStand)
-
-            location2?.add(0.5, 0.0, 0.5)
-            armorStand = location2.let { ArmorStand().summon(it!!, "") }
-            Data.DataManager.gameData.randomChestTitle.add(armorStand)
-        }
+        Map().mapSetting()
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red") == null) { Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]") }
         if (Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue") == null) { Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]") }
         Timer().feverSet()
@@ -226,9 +196,11 @@ class GameSystem {
         Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]")
         Ranking().updateRankingScoreboard()
         Scoreboard().make("participatingPlayer", "ParticipatingPlayer")
+        gameData()
     }
     fun gameData() {
         Scoreboard().make("gameData", "GameData")
+        Scoreboard().set("gameData", "map", 0)
     }
 
     fun adventure(e: org.bukkit.event.Event, player: Player) {

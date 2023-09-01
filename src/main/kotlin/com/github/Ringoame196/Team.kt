@@ -60,18 +60,18 @@ class Team {
             if (join == 1) {
                 if (team) {
                     redTeam?.addPlayer(loopPlayer)
-                    loopPlayer.teleport(TeamLocation().redRespawn(Data.DataManager.gameData.playMap) ?: return)
+                    loopPlayer.teleport(TeamLocation().redRespawn() ?: return)
                 } else {
                     blueTeam?.addPlayer(loopPlayer)
-                    loopPlayer.teleport(TeamLocation().blueRespawn(Data.DataManager.gameData.playMap) ?: return)
+                    loopPlayer.teleport(TeamLocation().blueRespawn() ?: return)
                     blueCount++
                 }
             } else if (join == 2) {
                 redTeam?.addPlayer(loopPlayer)
-                loopPlayer.teleport(TeamLocation().redRespawn(Data.DataManager.gameData.playMap) ?: return)
+                loopPlayer.teleport(TeamLocation().redRespawn() ?: return)
             } else if (join == 3) {
                 blueTeam?.addPlayer(loopPlayer)
-                loopPlayer.teleport(TeamLocation().blueRespawn(Data.DataManager.gameData.playMap) ?: return)
+                loopPlayer.teleport(TeamLocation().blueRespawn() ?: return)
             }
             loopPlayer.scoreboardTags.remove("pvpjoin")
             loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, Int.MAX_VALUE, 100, true, false))
@@ -113,18 +113,10 @@ class Team {
     fun respawnTP(player: Player) {
         when (GET().teamName(player)) {
             "red" -> {
-                if (Data.DataManager.gameData.playMap == "map1") {
-                    player.teleport(Data.DataManager.LocationData.redspawn!!)
-                } else if (Data.DataManager.gameData.playMap == "map2") {
-                    player.teleport(Data.DataManager.LocationData.mredspawn!!)
-                }
+                player.teleport(TeamLocation().redRespawn()!!)
             }
             "blue" -> {
-                if (Data.DataManager.gameData.playMap == "map1") {
-                    player.teleport(Data.DataManager.LocationData.bluespawn!!)
-                } else if (Data.DataManager.gameData.playMap == "map2") {
-                    player.teleport(Data.DataManager.LocationData.mbluespawn!!)
-                }
+                player.teleport(TeamLocation().blueRespawn()!!)
             }
             else -> player.teleport(player.world.spawnLocation)
         }

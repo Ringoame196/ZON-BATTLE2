@@ -1,19 +1,21 @@
 package com.github.Ringoame196.data
 
+import com.github.Ringoame196.Game.Scoreboard
 import javax.xml.stream.Location
 
 class TeamLocation {
-    fun redRespawn(map: String): org.bukkit.Location? {
+    val map = Scoreboard().getValue("gameData", "map")
+    fun redRespawn(): org.bukkit.Location? {
         when (map) {
-            "map1" -> return Data.DataManager.LocationData.redspawn
-            "map2" -> return Data.DataManager.LocationData.mredspawn
+            1 -> return Data.DataManager.LocationData.redspawn
+            2 -> return Data.DataManager.LocationData.mredspawn
         }
         return null
     }
-    fun blueRespawn(map: String): org.bukkit.Location? {
+    fun blueRespawn(): org.bukkit.Location? {
         when (map) {
-            "map1" -> return Data.DataManager.LocationData.bluespawn
-            "map2" -> return Data.DataManager.LocationData.mbluespawn
+            1 -> return Data.DataManager.LocationData.bluespawn
+            2 -> return Data.DataManager.LocationData.mbluespawn
         }
         return null
     }

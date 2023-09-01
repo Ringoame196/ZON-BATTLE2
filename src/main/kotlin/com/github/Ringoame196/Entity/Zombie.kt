@@ -1,5 +1,6 @@
 package com.github.Ringoame196.Entity
 
+import com.github.Ringoame196.Game.Map
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.Give
@@ -26,20 +27,16 @@ import kotlin.random.Random
 class Zombie {
     fun summonSorting(player: Player, item: ItemStack) {
         val function = item.itemMeta?.lore?.get(0).toString()
-        when (Data.DataManager.gameData.playMap) {
-            "map1" -> map1Summon(player, function)
-            "map2" -> map2Summon(player, function)
-            else -> return
-        }
+        Map().summonSorting(function, player)
     }
 
-    fun map1Summon(player: Player, function: String) {
+    fun glassSummon(player: Player, function: String) {
         val location = player.getLocation()
         location.add(0.0, -3.5, 0.0)
         summon(location, function, player)
     }
 
-    fun map2Summon(player: Player, function: String) {
+    fun randomSummon(player: Player, function: String) {
         val location = randomSummonLocation(player) ?: return
         summon(location, function, player)
     }

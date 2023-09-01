@@ -2,6 +2,7 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.Wolf
 import com.github.Ringoame196.Game.GameSystem
+import com.github.Ringoame196.Game.Map
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
@@ -274,7 +275,7 @@ class GUI {
             return
         }
         shop.let {
-            val maxHealthAttribute = shop?.getAttribute(Attribute.GENERIC_MAX_HEALTH)
+            val maxHealthAttribute = shop.getAttribute(Attribute.GENERIC_MAX_HEALTH)
             val maxHealth = maxHealthAttribute?.value?.toInt() ?: 0
             guiItem(gui, 1, Material.RED_DYE, "${ChatColor.YELLOW}★村人体力増加", maxHealth.toString() + "p", true)
         }
@@ -314,17 +315,11 @@ class GUI {
         guiItem(gui, 5, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}ロビーへ", "", true)
         guiItem(gui, 6, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}バトルへ", "", true)
         guiItem(gui, 7, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}トレジャーバトル", "", true)
-        guiItem(gui, 8, Material.REDSTONE, "${ChatColor.GREEN}${Data.DataManager.gameData.playMap}", "", true)
+        guiItem(gui, 8, Material.REDSTONE, Map().getMapName(), "", true)
         guiItem(gui, 9, Material.MAP, "${ChatColor.GREEN}座標設定", "", true)
         player.openInventory(gui)
     }
-    fun selectworld(player: Player) {
-        val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
-        guiItem(gui, 0, Material.CHEST, "マップ1", "", true)
-        guiItem(gui, 1, Material.CHEST, "マップ2", "", true)
-        player.openInventory(gui)
-    }
-    fun locationWorld1(player: Player) {
+    fun locationtutorialMap(player: Player) {
         val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
         val location = Data.DataManager.LocationData
         guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.RED}shop", GET().locationTitle(location.redshop), true)
@@ -334,7 +329,7 @@ class GUI {
         guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}ランダムチェスト", GET().locationTitle(location.randomChest), true)
         player.openInventory(gui)
     }
-    fun locationWorld2(player: Player) {
+    fun locationMotimotiMap(player: Player) {
         val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
         val location = Data.DataManager.LocationData
         guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.RED}mshop", GET().locationTitle(location.mredshop), true)
