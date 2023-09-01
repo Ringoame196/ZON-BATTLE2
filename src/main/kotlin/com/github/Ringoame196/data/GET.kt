@@ -42,7 +42,7 @@ class GET {
     }
 
     fun status(): Boolean {
-        return Data.DataManager.gameData.status
+        return (Scoreboard().getValue("gameData", "status")) == 1
     }
 
     fun locationTitle(location: org.bukkit.Location?): String {

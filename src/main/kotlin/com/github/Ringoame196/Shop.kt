@@ -213,7 +213,7 @@ class Shop {
     }
     fun kill(mob: Villager) {
         deletename(mob.location)
-        if (!Data.DataManager.gameData.status) { return }
+        if (!GET().status()) { return }
         val winTeam: String? = when (mob.location.add(0.0, -1.0, 0.0).block.type) {
             Material.RED_WOOL -> "blue"
             Material.BLUE_WOOL -> "red"

@@ -54,6 +54,10 @@ class GameSystem {
             setlocation(item, player)
             e.isCancelled = true
         } else if (item.type == Material.REDSTONE) {
+            if (GET().status()) {
+                com.github.Ringoame196.Player().errormessage("ゲーム最中に変更はできません", player)
+                return
+            }
             Scoreboard().add("gameData", "map", 1)
             val playMap = Map().getMapName()
             player.sendMessage("${ChatColor.AQUA}${playMap}を選択しました")
@@ -98,7 +102,7 @@ class GameSystem {
             player.sendMessage("${ChatColor.RED}既にゲームはスタートしています")
             return
         }
-        Data.DataManager.gameData.status = true
+        Scoreboard().set("gameData", "status", 1)
         reset()
         Data.DataManager.LocationData.let {
             if (it.redshop == null || it.blueshop == null || it.redspawn == null || it.bluespawn == null) {
@@ -190,7 +194,7 @@ class GameSystem {
             }
         }
         Sign().numberdisplay("(参加中:0人)")
-        Data.DataManager.gameData.status = false
+        Scoreboard().set("gameData", "status", 0)
         reset()
         Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]")
         Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]")
@@ -201,6 +205,7 @@ class GameSystem {
     fun gameData() {
         Scoreboard().make("gameData", "GameData")
         Scoreboard().set("gameData", "map", 0)
+        Scoreboard().set("gameData", "status", 0)
     }
 
     fun adventure(e: org.bukkit.event.Event, player: Player) {

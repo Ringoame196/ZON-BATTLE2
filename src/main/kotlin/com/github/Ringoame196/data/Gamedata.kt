@@ -10,7 +10,6 @@ import org.bukkit.entity.Golem
 import org.bukkit.entity.Zombie
 
 class Gamedata {
-    var status = false
     var time = 0
     var randomChestTitle: MutableList<ArmorStand> = mutableListOf()
     var zombie: MutableList<Zombie> = mutableListOf()
