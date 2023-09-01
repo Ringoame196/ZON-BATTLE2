@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import org.bukkit.ChatColor
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -62,5 +63,12 @@ class Give {
         }
         item.setItemMeta(meta)
         return item
+    }
+    fun chatBook(): ItemStack {
+        val chatBook = ItemStack(Material.BOOK)
+        val meta = chatBook.itemMeta
+        meta?.setDisplayName("${ChatColor.YELLOW}チャット")
+        chatBook.setItemMeta(meta)
+        return chatBook
     }
 }

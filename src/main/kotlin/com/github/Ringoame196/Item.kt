@@ -79,7 +79,10 @@ class Item {
                 blaze.scoreboardTags.add("${GET().teamName(player)}Pet")
                 Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
-            itemName == "${ChatColor.YELLOW}チャット" -> GUI().messageBook(player)
+            itemName == "${ChatColor.YELLOW}チャット" -> {
+                GUI().messageBook(player)
+                return
+            }
             else -> return
         }
         removeitem(player)

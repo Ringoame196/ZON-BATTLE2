@@ -19,6 +19,7 @@ class Equipment {
         val pickaxe = unbreakable(ItemStack(Material.WOODEN_PICKAXE))
         pickaxe.addEnchantment(Enchantment.DIG_SPEED, 1)
         player.inventory.addItem(pickaxe)
+        player.inventory.addItem(Give().chatBook())
     }
     fun hat(player: Player) {
         val hat = ItemStack(Material.LEATHER_HELMET)
