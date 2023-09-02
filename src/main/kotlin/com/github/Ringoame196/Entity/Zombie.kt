@@ -39,22 +39,21 @@ class Zombie {
     fun randomSummon(player: Player, function: String) {
         val location = randomSummonLocation(player) ?: return
         summon(location, function, player)
+        player.sendMessage("${ChatColor.GOLD}ゾンビ召喚完了")
     }
 
     fun randomSummonLocation(player: Player): Location? {
-        val random = Random.nextInt(1, 4)
+        val random = Random.nextInt(1, 3)
         val team = GET().teamName(player)
         if (team == "red") {
             when (random) {
                 1 -> return Data.DataManager.LocationData.mredZombiespawn1
                 2 -> return Data.DataManager.LocationData.mredZombiespawn2
-                3 -> return Data.DataManager.LocationData.mredZombiespawn3
             }
         } else if (team == "blue") {
             when (random) {
                 1 -> return Data.DataManager.LocationData.mblueZombiespawn1
                 2 -> return Data.DataManager.LocationData.mblueZombiespawn2
-                3 -> return Data.DataManager.LocationData.mblueZombiespawn3
             }
         }
         return null

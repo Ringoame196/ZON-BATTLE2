@@ -24,10 +24,8 @@ data class LocationData(
     var mrandomChest2: Location? = null,
     var mredZombiespawn1: Location? = null,
     var mredZombiespawn2: Location? = null,
-    var mredZombiespawn3: Location? = null,
     var mblueZombiespawn1: Location? = null,
     var mblueZombiespawn2: Location? = null,
-    var mblueZombiespawn3: Location? = null,
 
 ) {
     fun saveToFile(filePath: String) {
@@ -62,10 +60,8 @@ data class LocationData(
         yamlConfiguration.set("mrandomChest2", createSectionFromLocation(mrandomChest2))
         yamlConfiguration.set("mredZombiespawn1", createSectionFromLocation(mredZombiespawn1))
         yamlConfiguration.set("mredZombiespawn2", createSectionFromLocation(mredZombiespawn2))
-        yamlConfiguration.set("mredZombiespawn3", createSectionFromLocation(mredZombiespawn3))
         yamlConfiguration.set("mblueZombiespawn1", createSectionFromLocation(mblueZombiespawn1))
         yamlConfiguration.set("mblueZombiespawn2", createSectionFromLocation(mblueZombiespawn2))
-        yamlConfiguration.set("mblueZombiespawn3", createSectionFromLocation(mblueZombiespawn3))
         try {
             yamlConfiguration.save(File(filePath))
         } catch (e: IOException) {
@@ -161,9 +157,6 @@ data class LocationData(
         }
 
         val mredZombiespawnSetction3 = yaml.getConfigurationSection("mredZombiespawn3")
-        if (mredZombiespawnSetction3 != null) {
-            locationData.mredZombiespawn3 = getLocationFromSection(mredZombiespawnSetction3)
-        }
 
         val mblueZombiespawnSetction1 = yaml.getConfigurationSection("mblueZombiespawn1")
         if (mblueZombiespawnSetction1 != null) {
@@ -173,11 +166,6 @@ data class LocationData(
         val mblueZombiespawnSetction2 = yaml.getConfigurationSection("mblueZombiespawn2")
         if (mblueZombiespawnSetction2 != null) {
             locationData.mblueZombiespawn2 = getLocationFromSection(mblueZombiespawnSetction2)
-        }
-
-        val mblueZombiespawnSetction3 = yaml.getConfigurationSection("mblueZombiespawn3")
-        if (mblueZombiespawnSetction3 != null) {
-            locationData.mblueZombiespawn3 = getLocationFromSection(mblueZombiespawnSetction3)
         }
     }
 }

@@ -80,10 +80,8 @@ class GameSystem {
             "${ChatColor.YELLOW}mランダムチェスト2" -> Data.DataManager.LocationData.mrandomChest2 = player.location.block.location
             "${ChatColor.RED}mspawnZombie1" -> Data.DataManager.LocationData.mredZombiespawn1 = player.location
             "${ChatColor.RED}mspawnZombie2" -> Data.DataManager.LocationData.mredZombiespawn2 = player.location
-            "${ChatColor.RED}mspawnZombie3" -> Data.DataManager.LocationData.mredZombiespawn3 = player.location
             "${ChatColor.BLUE}mspawnZombie1" -> Data.DataManager.LocationData.mblueZombiespawn1 = player.location
             "${ChatColor.BLUE}mspawnZombie2" -> Data.DataManager.LocationData.mblueZombiespawn2 = player.location
-            "${ChatColor.BLUE}mspawnZombie3" -> Data.DataManager.LocationData.mblueZombiespawn3 = player.location
         }
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
 
