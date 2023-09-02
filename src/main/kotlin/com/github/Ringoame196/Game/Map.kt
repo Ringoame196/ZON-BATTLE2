@@ -7,8 +7,10 @@ import com.github.Ringoame196.Player
 import com.github.Ringoame196.RandomChest
 import com.github.Ringoame196.Shop
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.Location
 import org.bukkit.Material
 
 class Map {
@@ -78,5 +80,21 @@ class Map {
             1 -> RandomChest().replenishment(Data.DataManager.LocationData.randomChest!!, null)
             2 -> RandomChest().replenishment(Data.DataManager.LocationData.mrandomChest1!!, Data.DataManager.LocationData.mrandomChest2!!)
         }
+    }
+    fun randomSummonLocationList(player: org.bukkit.entity.Player): MutableList<Location>? {
+        val team = GET().teamName(player)
+        val locationList: MutableList<Location> = mutableListOf()
+        when (Scoreboard().getValue("gameData", "map")) {
+            2 -> {
+                if (team == "red") {
+                    locationList.add(Data.DataManager.LocationData.mblueZombiespawn1!!)
+                    locationList.add(Data.DataManager.LocationData.mblueZombiespawn2!!)
+                } else if (team == "blue") {
+                    locationList.add(Data.DataManager.LocationData.mredZombiespawn1!!)
+                    locationList.add(Data.DataManager.LocationData.mredZombiespawn2!!)
+                }
+            }
+        }
+        return locationList
     }
 }

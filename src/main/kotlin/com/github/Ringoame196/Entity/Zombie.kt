@@ -42,21 +42,10 @@ class Zombie {
         player.sendMessage("${ChatColor.GOLD}ゾンビ召喚完了")
     }
 
-    fun randomSummonLocation(player: Player): Location? {
-        val random = Random.nextInt(1, 3)
-        val team = GET().teamName(player)
-        if (team == "red") {
-            when (random) {
-                1 -> return Data.DataManager.LocationData.mredZombiespawn1
-                2 -> return Data.DataManager.LocationData.mredZombiespawn2
-            }
-        } else if (team == "blue") {
-            when (random) {
-                1 -> return Data.DataManager.LocationData.mblueZombiespawn1
-                2 -> return Data.DataManager.LocationData.mblueZombiespawn2
-            }
-        }
-        return null
+    fun randomSummonLocation(player: Player): Location {
+        val summonLocationList = Map().randomSummonLocationList(player)
+        val random = Random.nextInt(0, summonLocationList?.size ?: 0)
+        return summonLocationList?.get(random)!!
     }
     fun summon(location: Location, function: String, player: Player) {
         val zombieinfo = "plugins/ZON-BATTLE2/zombie/$function.yml"

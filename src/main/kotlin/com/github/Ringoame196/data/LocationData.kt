@@ -156,8 +156,6 @@ data class LocationData(
             locationData.mredZombiespawn2 = getLocationFromSection(mredZombiespawnSetction2)
         }
 
-        val mredZombiespawnSetction3 = yaml.getConfigurationSection("mredZombiespawn3")
-
         val mblueZombiespawnSetction1 = yaml.getConfigurationSection("mblueZombiespawn1")
         if (mblueZombiespawnSetction1 != null) {
             locationData.mblueZombiespawn1 = getLocationFromSection(mblueZombiespawnSetction1)

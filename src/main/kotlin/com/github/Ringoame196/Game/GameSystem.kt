@@ -208,7 +208,6 @@ class GameSystem {
                 entity.remove()
             }
         }
-        Data.DataManager.teamDataMap.clear() // teamDataMap を空にする
         Team().delete()
         RandomChest().reset()
         if (GET().status()) { return }

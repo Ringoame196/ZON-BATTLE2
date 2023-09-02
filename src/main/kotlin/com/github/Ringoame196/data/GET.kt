@@ -9,6 +9,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
+import org.bukkit.inventory.Inventory
 
 class GET {
     fun teamName(player: Player): String? {
@@ -132,5 +133,12 @@ class GET {
         if (shop is Villager) {
             return shop
         } else { return null }
+    }
+    fun teamChest(teamName: String): Inventory? {
+        return when (teamName) {
+            "red" -> Data.DataManager.gameData.redTeamChest
+            "blue" -> Data.DataManager.gameData.blueTeamChest
+            else -> null
+        }
     }
 }

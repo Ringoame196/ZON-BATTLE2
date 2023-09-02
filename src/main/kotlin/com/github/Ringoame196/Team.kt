@@ -4,7 +4,6 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
-import com.github.Ringoame196.data.TeamData
 import com.github.Ringoame196.data.TeamLocation
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -16,13 +15,12 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scoreboard.NameTagVisibility
-import org.bukkit.scoreboard.Scoreboard
 
 @Suppress("DEPRECATION")
 class Team {
     fun openChest(player: Player, teamName: String) {
         player.playSound(player, Sound.BLOCK_CHEST_OPEN, 1f, 1f)
-        player.openInventory(Data.DataManager.teamDataMap.getOrPut(teamName) { TeamData() }.chest)
+        player.openInventory(GET().teamChest(teamName) ?: return)
     }
     fun fastbreaklevel(teamName: String, player: Player, itemName: String) {
         com.github.Ringoame196.Game.Scoreboard().set(

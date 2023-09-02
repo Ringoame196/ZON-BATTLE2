@@ -1,6 +1,7 @@
 package com.github.Ringoame196.data
 
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
@@ -8,6 +9,7 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Blaze
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Zombie
+import org.bukkit.inventory.Inventory
 
 class Gamedata {
     var time = 0
@@ -19,4 +21,6 @@ class Gamedata {
     var blaze: MutableList<Blaze> = mutableListOf()
     var feverTime = 0
     var fever = false
+    val blueTeamChest: Inventory = Bukkit.createInventory(null, 27, "${ChatColor.DARK_GREEN}チームチェスト")
+    val redTeamChest: Inventory = Bukkit.createInventory(null, 27, "${ChatColor.DARK_GREEN}チームチェスト")
 }
