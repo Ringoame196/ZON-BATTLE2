@@ -340,8 +340,8 @@ class GUI {
         guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}mランダムチェスト2", GET().locationTitle(location.mrandomChest2), true)
         guiItem(gui, 9, Material.ENDER_EYE, "${ChatColor.RED}mspawnZombie1", GET().locationTitle(location.mredZombiespawn1), true)
         guiItem(gui, 10, Material.ENDER_EYE, "${ChatColor.RED}mspawnZombie2", GET().locationTitle(location.mredZombiespawn2), true)
-        guiItem(gui, 12, Material.ENDER_EYE, "${ChatColor.BLUE}mspawnZombie1", GET().locationTitle(location.mblueZombiespawn1), true)
-        guiItem(gui, 13, Material.ENDER_EYE, "${ChatColor.BLUE}mspawnZombie2", GET().locationTitle(location.mblueZombiespawn2), true)
+        guiItem(gui, 11, Material.ENDER_EYE, "${ChatColor.BLUE}mspawnZombie1", GET().locationTitle(location.mblueZombiespawn1), true)
+        guiItem(gui, 12, Material.ENDER_EYE, "${ChatColor.BLUE}mspawnZombie2", GET().locationTitle(location.mblueZombiespawn2), true)
 
         player.openInventory(gui)
     }
