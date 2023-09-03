@@ -77,6 +77,7 @@ class Map {
                 location.add(0.5, 0.0, 0.5)
                 val armorStand = location.let { ArmorStand().summon(it, "") }
                 Data.DataManager.gameData.randomChestTitle.add(armorStand)
+                Scoreboard().set("gameData", "timeLimit", 15)
             }
         }
     }

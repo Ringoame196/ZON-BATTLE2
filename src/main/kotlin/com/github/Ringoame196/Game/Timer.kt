@@ -35,6 +35,12 @@ class Timer {
     }
     fun regularly(plugin: Plugin) {
         val time = GET().gameTime()
+        val timeLimit = Scoreboard().getValue("gameData", "timeLimit")
+        if (timeLimit != 0) {
+            Scoreboard().set("redTeam", "制限時間", time - timeLimit)
+            if (time != timeLimit) { return }
+            GameSystem().gameEndSystem("${ChatColor.AQUA}村人を守り抜いた", "red")
+        }
         if (time == 1200) {
             ParticipatingPlayer().message("${ChatColor.RED}20分経ったためポイントが2倍になりました")
             ParticipatingPlayer().sound(Sound.BLOCK_ANVIL_USE)
