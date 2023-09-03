@@ -3,7 +3,6 @@ package com.github.Ringoame196
 import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Game.Scoreboard
-import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -84,7 +83,7 @@ class Shop {
         GUI().guiItem(gui, 3, Material.IRON_SWORD, "${ChatColor.YELLOW}武器", "", true)
         GUI().guiItem(gui, 5, Material.IRON_CHESTPLATE, "${ChatColor.YELLOW}防具", "", true)
         GUI().guiItem(gui, 7, Material.TNT, "${ChatColor.YELLOW}お邪魔アイテム", "", true)
-        if (Data.DataManager.gameData.time >= 300 || player.gameMode == GameMode.CREATIVE) {
+        if (GET().gameTime() >= 300 || player.gameMode == GameMode.CREATIVE) {
             GUI().guiItem(gui, 10, Material.ZOMBIE_SPAWN_EGG, "${ChatColor.YELLOW}ゾンビ", "", true)
         } else {
             GUI().guiItem(gui, 10, Material.BARRIER, "${ChatColor.RED}選択禁止", "", true)

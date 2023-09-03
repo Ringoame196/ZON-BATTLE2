@@ -9,6 +9,7 @@ class TeamLocation {
         when (map) {
             1 -> return Data.DataManager.LocationData.redspawn
             2 -> return Data.DataManager.LocationData.mredspawn
+            3 -> return Data.DataManager.LocationData.tmredspawn
         }
         return null
     }
@@ -16,6 +17,7 @@ class TeamLocation {
         when (map) {
             1 -> return Data.DataManager.LocationData.bluespawn
             2 -> return Data.DataManager.LocationData.mbluespawn
+            3 -> return Data.DataManager.LocationData.tmbluespawn
         }
         return null
     }

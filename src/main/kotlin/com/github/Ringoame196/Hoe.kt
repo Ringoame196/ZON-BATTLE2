@@ -29,7 +29,7 @@ class Hoe {
             val zombie = player.inventory.itemInOffHand
             Zombie().summonSorting(player, zombie)
             val teamName = GET().opposingTeamname(GET().teamName(player).toString())
-            if (Scoreboard().getValue(GET().getTeamScoreName(teamName), "ゾンビ通知") == 1) {
+            if (Scoreboard().getValue(GET().getTeamScoreName(teamName), "${ChatColor.GOLD}ゾンビ通知") == 1) {
                 Team().sound(Sound.ENTITY_ZOMBIE_AMBIENT, teamName!!)
             }
             removeOffHandItem(player)

@@ -27,6 +27,15 @@ data class LocationData(
     var mblueZombiespawn1: Location? = null,
     var mblueZombiespawn2: Location? = null,
 
+    var tmredshop: Location? = null,
+    var tmblueshop: Location? = null,
+    var tmredspawn: Location? = null,
+    var tmbluespawn: Location? = null,
+    var tmrandomChest: Location? = null,
+    var tmZombiespawn1: Location? = null,
+    var tmZombiespawn2: Location? = null,
+    var tmZombiespawn3: Location? = null,
+
 ) {
     fun saveToFile(filePath: String) {
         val yamlConfiguration = YamlConfiguration()
@@ -62,6 +71,15 @@ data class LocationData(
         yamlConfiguration.set("mredZombiespawn2", createSectionFromLocation(mredZombiespawn2))
         yamlConfiguration.set("mblueZombiespawn1", createSectionFromLocation(mblueZombiespawn1))
         yamlConfiguration.set("mblueZombiespawn2", createSectionFromLocation(mblueZombiespawn2))
+
+        yamlConfiguration.set("tmredshop", createSectionFromLocation(tmredshop))
+        yamlConfiguration.set("tmblueshop", createSectionFromLocation(tmblueshop))
+        yamlConfiguration.set("tmredspawn", createSectionFromLocation(tmredspawn))
+        yamlConfiguration.set("tmbluespawn", createSectionFromLocation(tmbluespawn))
+        yamlConfiguration.set("tmrandomChest", createSectionFromLocation(tmrandomChest))
+        yamlConfiguration.set("tmZombiespawn1", createSectionFromLocation(tmZombiespawn1))
+        yamlConfiguration.set("tmZombiespawn2", createSectionFromLocation(tmZombiespawn2))
+        yamlConfiguration.set("tmZombiespawn3", createSectionFromLocation(tmZombiespawn3))
         try {
             yamlConfiguration.save(File(filePath))
         } catch (e: IOException) {
@@ -164,6 +182,47 @@ data class LocationData(
         val mblueZombiespawnSetction2 = yaml.getConfigurationSection("mblueZombiespawn2")
         if (mblueZombiespawnSetction2 != null) {
             locationData.mblueZombiespawn2 = getLocationFromSection(mblueZombiespawnSetction2)
+        }
+
+        // 第三マップ
+        val tmredshopSection = yaml.getConfigurationSection("tmredshop")
+        if (tmredshopSection != null) {
+            locationData.tmredshop = getLocationFromSection(tmredshopSection)
+        }
+
+        val tmblueshopSection = yaml.getConfigurationSection("tmblueshop")
+        if (tmblueshopSection != null) {
+            locationData.tmblueshop = getLocationFromSection(tmblueshopSection)
+        }
+
+        val tmredspawnSection = yaml.getConfigurationSection("tmredspawn")
+        if (tmredspawnSection != null) {
+            locationData.tmredspawn = getLocationFromSection(tmredspawnSection)
+        }
+
+        val tmbluespawnSection = yaml.getConfigurationSection("tmbluespawn")
+        if (tmbluespawnSection != null) {
+            locationData.tmbluespawn = getLocationFromSection(tmbluespawnSection)
+        }
+
+        val tmrandomChestSection = yaml.getConfigurationSection("tmrandomChest")
+        if (tmrandomChestSection != null) {
+            locationData.tmrandomChest = getLocationFromSection(tmrandomChestSection)
+        }
+
+        val tmZombiespawn1Section = yaml.getConfigurationSection("tmZombiespawn1")
+        if (tmZombiespawn1Section != null) {
+            locationData.tmZombiespawn1 = getLocationFromSection(tmZombiespawn1Section)
+        }
+
+        val tmZombiespawn2Section = yaml.getConfigurationSection("tmZombiespawn2")
+        if (tmZombiespawn2Section != null) {
+            locationData.tmZombiespawn2 = getLocationFromSection(tmZombiespawn2Section)
+        }
+
+        val tmZombiespawn3Section = yaml.getConfigurationSection("tmZombiespawn3")
+        if (tmZombiespawn3Section != null) {
+            locationData.tmZombiespawn3 = getLocationFromSection(tmZombiespawn3Section)
         }
     }
 }

@@ -345,6 +345,20 @@ class GUI {
 
         player.openInventory(gui)
     }
+    fun locationTimanMap(player: Player) {
+        val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
+        val location = Data.DataManager.LocationData
+        guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.RED}tmshop", GET().locationTitle(location.tmredshop), true)
+        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.BLUE}tmshop", GET().locationTitle(location.tmblueshop), true)
+        guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.RED}tmspawn", GET().locationTitle(location.tmredspawn), true)
+        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.BLUE}tmspawn", GET().locationTitle(location.tmbluespawn), true)
+        guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}tmランダムチェスト", GET().locationTitle(location.tmrandomChest), true)
+        guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}tmZombie1", GET().locationTitle(location.tmZombiespawn1), true)
+        guiItem(gui, 6, Material.ENDER_EYE, "${ChatColor.YELLOW}tmZombie2", GET().locationTitle(location.tmZombiespawn2), true)
+        guiItem(gui, 7, Material.ENDER_EYE, "${ChatColor.YELLOW}tmZombie3", GET().locationTitle(location.tmZombiespawn3), true)
+
+        player.openInventory(gui)
+    }
     fun joinPlayers(player: Player) {
         val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}参加プレイヤー[BATTLEGUI]")
         var i = 0
@@ -448,7 +462,7 @@ class GUI {
             "村人耐久1(3分)" -> Shop().effect(player, itemName, PotionEffectType.DAMAGE_RESISTANCE, 180, 1)
             "村人再生1(3分)" -> Shop().effect(player, itemName, PotionEffectType.REGENERATION, 180, 1)
             "ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)" -> {
-                Scoreboard().set(GET().getTeamScoreName(teamName), "ゾンビ通知", 1)
+                Scoreboard().set(GET().getTeamScoreName(teamName), "${ChatColor.GOLD}ゾンビ通知", 1)
                 GUI().potionshop(player.openInventory.topInventory, player)
                 Team().sendMessage("${player.name}さんが「ゾンビ襲撃警報」を発動しました ※ゾンビが召喚されたときに ゾンビの声が聞こえるようになりました", GET().teamName(player).toString())
             }

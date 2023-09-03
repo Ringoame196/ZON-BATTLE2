@@ -19,6 +19,7 @@ class Map {
         when (mapName) {
             "チュートリアルマップ" -> GUI().locationtutorialMap(player)
             "もちもちマップ" -> GUI().locationMotimotiMap(player)
+            "タイマンマップ" -> GUI().locationTimanMap(player)
         }
     }
     fun selectworld(player: org.bukkit.entity.Player) {
@@ -67,18 +68,30 @@ class Map {
                 armorStand = location2.let { ArmorStand().summon(it!!, "") }
                 Data.DataManager.gameData.randomChestTitle.add(armorStand)
             }
+            3 -> {
+                Shop().summon(Data.DataManager.LocationData.tmredshop, "red")
+                Shop().summon(Data.DataManager.LocationData.tmblueshop, "blue")
+
+                val location = Data.DataManager.LocationData.tmrandomChest?.clone()
+                RandomChest().replenishment(location!!, null)
+                location.add(0.5, 0.0, 0.5)
+                val armorStand = location.let { ArmorStand().summon(it, "") }
+                Data.DataManager.gameData.randomChestTitle.add(armorStand)
+            }
         }
     }
     fun summonSorting(function: String, player: org.bukkit.entity.Player) {
         when (mapNumber) {
             1 -> Zombie().glassSummon(player, function)
             2 -> Zombie().randomSummon(player, function)
+            3 -> Zombie().randomSummon(player, function)
         }
     }
     fun randomChest() {
         when (mapNumber) {
             1 -> RandomChest().replenishment(Data.DataManager.LocationData.randomChest!!, null)
             2 -> RandomChest().replenishment(Data.DataManager.LocationData.mrandomChest1!!, Data.DataManager.LocationData.mrandomChest2!!)
+            3 -> RandomChest().replenishment(Data.DataManager.LocationData.tmrandomChest!!, null)
         }
     }
     fun randomSummonLocationList(player: org.bukkit.entity.Player): MutableList<Location>? {
@@ -93,6 +106,11 @@ class Map {
                     locationList.add(Data.DataManager.LocationData.mredZombiespawn1!!)
                     locationList.add(Data.DataManager.LocationData.mredZombiespawn2!!)
                 }
+            }
+            3 -> {
+                locationList.add(Data.DataManager.LocationData.tmZombiespawn1!!)
+                locationList.add(Data.DataManager.LocationData.tmZombiespawn2!!)
+                locationList.add(Data.DataManager.LocationData.tmZombiespawn3!!)
             }
         }
         return locationList

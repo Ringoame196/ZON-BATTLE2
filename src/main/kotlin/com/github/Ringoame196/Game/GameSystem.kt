@@ -82,6 +82,15 @@ class GameSystem {
             "${ChatColor.RED}mspawnZombie2" -> Data.DataManager.LocationData.mredZombiespawn2 = player.location
             "${ChatColor.BLUE}mspawnZombie1" -> Data.DataManager.LocationData.mblueZombiespawn1 = player.location
             "${ChatColor.BLUE}mspawnZombie2" -> Data.DataManager.LocationData.mblueZombiespawn2 = player.location
+
+            "${ChatColor.RED}tmshop" -> Data.DataManager.LocationData.tmredshop = player.location
+            "${ChatColor.BLUE}tmshop" -> Data.DataManager.LocationData.tmblueshop = player.location
+            "${ChatColor.RED}tmspawn" -> Data.DataManager.LocationData.tmredspawn = player.location
+            "${ChatColor.BLUE}tmspawn" -> Data.DataManager.LocationData.tmbluespawn = player.location
+            "${ChatColor.YELLOW}tmランダムチェスト" -> Data.DataManager.LocationData.tmrandomChest = player.location.block.location
+            "${ChatColor.YELLOW}tmZombie1" -> Data.DataManager.LocationData.tmZombiespawn1 = player.location.block.location
+            "${ChatColor.YELLOW}tmZombie2" -> Data.DataManager.LocationData.tmZombiespawn2 = player.location
+            "${ChatColor.YELLOW}tmZombie3" -> Data.DataManager.LocationData.tmZombiespawn3 = player.location
         }
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
 
@@ -154,7 +163,7 @@ class GameSystem {
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             val join = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
             if (join != 0) {
-                loopPlayer.sendMessage("${ChatColor.AQUA}[ゲーム時間]${GET().minutes(Data.DataManager.gameData.time)}")
+                loopPlayer.sendMessage("${ChatColor.AQUA}[ゲーム時間]${GET().minutes(GET().gameTime())}")
                 loopPlayer.sendMessage("${ChatColor.RED}${winTeam}チームの勝利")
                 loopPlayer.playSound(loopPlayer.location, Sound.BLOCK_ANVIL_USE, 1f, 1f)
                 loopPlayer.inventory.clear()

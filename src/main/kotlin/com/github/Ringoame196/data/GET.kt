@@ -141,4 +141,7 @@ class GET {
             else -> null
         }
     }
+    fun gameTime(): Int {
+        return Scoreboard().getValue("gameData", "time")
+    }
 }

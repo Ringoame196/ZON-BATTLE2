@@ -24,9 +24,9 @@ class Timer {
                     this.cancel()
                     return
                 }
-                Data.DataManager.gameData.time += 1
+                Scoreboard().add("gameData", "time", 1)
                 regularly(plugin)
-                val randomChestTime = 300 - (Data.DataManager.gameData.time % 300)
+                val randomChestTime = 300 - (GET().gameTime() % 300)
                 for (title in Data.DataManager.gameData.randomChestTitle) {
                     title.customName = "${ChatColor.AQUA}${GET().minutes(randomChestTime)}"
                 }
@@ -34,13 +34,13 @@ class Timer {
         }.runTaskTimer(plugin, 0L, 20L)
     }
     fun regularly(plugin: Plugin) {
-        val time = Data.DataManager.gameData.time
+        val time = GET().gameTime()
         if (time == 1200) {
             ParticipatingPlayer().message("${ChatColor.RED}20分経ったためポイントが2倍になりました")
             ParticipatingPlayer().sound(Sound.BLOCK_ANVIL_USE)
             Scoreboard().set("gameData", "magnification", 2)
         }
-        if (Data.DataManager.gameData.fever) {
+        if (Scoreboard().getValue("gameData", "fever") == 1) {
             Data.DataManager.gameData.bossBar.setTitle("${ChatColor.YELLOW}フィーバータイム！！")
         } else {
             if (time <= 300) {
@@ -61,24 +61,24 @@ class Timer {
             Blaze().attack()
         }
         if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "normal", "normal") }
-        if (time == Data.DataManager.gameData.feverTime) { Timer().feverActivation(plugin) }
+        if (time == Scoreboard().getValue("gameData", "feverTime")) { Timer().feverActivation(plugin) }
     }
     fun feverSet() {
         val feverSetTime: MutableList<Int> = mutableListOf(420, 600, 780)
         val r = Random.nextInt(0, feverSetTime.size)
-        Data.DataManager.gameData.feverTime = feverSetTime.get(r)
+        Scoreboard().set("gameData", "feverTime", feverSetTime.get(r))
     }
     fun feverActivation(plugin: Plugin) {
         ParticipatingPlayer().message("${ChatColor.YELLOW}フィーバータイム開始！")
         ParticipatingPlayer().sound(Sound.BLOCK_BELL_USE)
-        Data.DataManager.gameData.fever = true
+        Scoreboard().set("gameData", "fever", 1)
         Block().deleteRevival()
         Data.DataManager.gameData.bossBar.color = BarColor.YELLOW
         object : BukkitRunnable() {
             override fun run() {
                 ParticipatingPlayer().message("${ChatColor.RED}フィーバータイム終了！")
                 ParticipatingPlayer().sound(Sound.BLOCK_ANVIL_USE)
-                Data.DataManager.gameData.fever = false
+                Scoreboard().set("gameData", "fever", 0)
                 Data.DataManager.gameData.bossBar.color = BarColor.BLUE
             }
         }.runTaskLater(plugin, 30 * 20L)
