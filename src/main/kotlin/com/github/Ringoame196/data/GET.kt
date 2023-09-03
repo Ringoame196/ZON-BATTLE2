@@ -132,9 +132,11 @@ class GET {
             else -> null
         }
         val shop = getNearestEntityOfType(location!!, EntityType.VILLAGER, 3.0)
-        if (shop is Villager) {
-            return shop
-        } else { return null }
+        return if (shop is Villager) {
+            shop
+        } else {
+            null
+        }
     }
     fun teamChest(teamName: String): Inventory? {
         return when (teamName) {

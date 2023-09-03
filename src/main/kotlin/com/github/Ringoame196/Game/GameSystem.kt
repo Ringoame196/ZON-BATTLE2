@@ -104,7 +104,10 @@ class GameSystem {
 
     fun start(plugin: Plugin, player: Player) {
         if (Scoreboard().getSize("participatingPlayer") == 0) { return }
-        if (Scoreboard().getValue("gameData", "map") == 0) { return }
+        if (Scoreboard().getValue("gameData", "map") == 0) {
+            com.github.Ringoame196.Player().errormessage("マップ選択してください", player)
+            return
+        }
         if (GET().status()) {
             player.sendMessage("${ChatColor.RED}既にゲームはスタートしています")
             return
