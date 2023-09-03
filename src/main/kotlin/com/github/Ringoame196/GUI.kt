@@ -462,7 +462,7 @@ class GUI {
             "村人耐久1(3分)" -> Shop().effect(player, itemName, PotionEffectType.DAMAGE_RESISTANCE, 180, 1)
             "村人再生1(3分)" -> Shop().effect(player, itemName, PotionEffectType.REGENERATION, 180, 1)
             "ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)" -> {
-                Scoreboard().set(GET().getTeamScoreName(teamName), "${ChatColor.GOLD}ゾンビ通知", 1)
+                Scoreboard().set(GET().getTeamScoreName(teamName), "${ChatColor.GOLD}ゾンビ通知", -1)
                 GUI().potionshop(player.openInventory.topInventory, player)
                 Team().sendMessage("${player.name}さんが「ゾンビ襲撃警報」を発動しました ※ゾンビが召喚されたときに ゾンビの声が聞こえるようになりました", GET().teamName(player).toString())
             }

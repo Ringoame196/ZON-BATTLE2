@@ -37,7 +37,8 @@ class Timer {
         val time = GET().gameTime()
         val timeLimit = Scoreboard().getValue("gameData", "timeLimit")
         if (timeLimit != 0) {
-            Scoreboard().set("redTeam", "制限時間", time - timeLimit)
+            Scoreboard().set("RedTeam", "${ChatColor.YELLOW}制限時間", time - timeLimit)
+            Scoreboard().set("BlueTeam", "${ChatColor.YELLOW}制限時間", time - timeLimit)
             if (time != timeLimit) { return }
             GameSystem().gameEndSystem("${ChatColor.AQUA}村人を守り抜いた", "red")
         }

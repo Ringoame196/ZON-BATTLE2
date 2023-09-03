@@ -56,6 +56,8 @@ class Scoreboard {
         Scoreboard().set("RedTeam", "青チーム", 100)
         Scoreboard().set("BlueTeam", "赤チーム", 100)
         Scoreboard().set("BlueTeam", "青チーム(自陣)", 100)
+        Scoreboard().set("RedTeam", "${ChatColor.AQUA}----------", 0)
+        Scoreboard().set("BlueTeam", "${ChatColor.AQUA}----------", 0)
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard objectives setdisplay sidebar.team.red RedTeam")
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard objectives setdisplay sidebar.team.blue BlueTeam")
         Scoreboard().make("RedTeamSystem", "RedSystem")

@@ -120,11 +120,13 @@ class GET {
             "red" -> when (map) {
                 1 -> Data.DataManager.LocationData.redshop
                 2 -> Data.DataManager.LocationData.mredshop
+                3 -> Data.DataManager.LocationData.tmredshop
                 else -> null
             }
             "blue" -> when (map) {
                 1 -> Data.DataManager.LocationData.blueshop
                 2 -> Data.DataManager.LocationData.mblueshop
+                3 -> Data.DataManager.LocationData.tmblueshop
                 else -> null
             }
             else -> null
