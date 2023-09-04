@@ -35,15 +35,15 @@ class GUI {
     }
     fun guiItem(gui: Inventory, number: Int, setItem: Material, displayName: String, lore: String, unbreakable: Boolean) {
         // GUIにアイテムを楽にセットする
-        val item = lore(setItem, displayName, lore, "")
+        val item = lore(setItem, displayName, lore)
         val itemMeta: ItemMeta? = item.itemMeta
         if (unbreakable) { itemMeta?.isUnbreakable = true } // 不破壊
         item.setItemMeta(itemMeta)
         gui.setItem(number, item)
     }
-    fun zombieGUIitem(gui: Inventory, number: Int, setItem: Material, zombieName: String, price: String, id: String) {
+    fun zombieGUIitem(gui: Inventory, number: Int, setItem: Material, zombieName: String, price: String) {
         val displayName = "${ChatColor.YELLOW}[ゾンビ召喚]$zombieName"
-        val item = lore(setItem, displayName, price, id)
+        val item = lore(setItem, displayName, price)
         val itemMeta: ItemMeta? = item.itemMeta
         itemMeta?.isUnbreakable = true
         item.setItemMeta(itemMeta)
@@ -52,7 +52,7 @@ class GUI {
     @Suppress("DEPRECATION")
     fun playerHead(gui: Inventory, number: Int, name: String, displayName: String, lore: String) {
         // GUIにアイテムを楽にセットする
-        val item = lore(Material.PLAYER_HEAD, displayName, lore, "")
+        val item = lore(Material.PLAYER_HEAD, displayName, lore)
         val itemMeta = item.itemMeta as SkullMeta
         itemMeta.owningPlayer = Bukkit.getOfflinePlayer(name) // プレイヤー名で設定
         itemMeta.isUnbreakable = true // 不破壊
@@ -61,7 +61,7 @@ class GUI {
     }
     fun potionGUIitem(gui: Inventory, number: Int, item: Material, lore: String, typePotion: PotionEffectType, level: Int, time: Int) {
         // GUIにポーションを楽にセットする
-        val itemStack = lore(item, "", lore, "")
+        val itemStack = lore(item, "", lore)
         val potionMeta = itemStack.itemMeta as PotionMeta
 
         val regenerationEffect = PotionEffect(typePotion, time * 20, level)
@@ -83,7 +83,7 @@ class GUI {
     }
 
     fun potionArrow(gui: Inventory, number: Int, lore: String, typePotion: PotionEffectType, level: Int, time: Int) {
-        val itemStack = lore(Material.TIPPED_ARROW, "効果付きの矢", lore, "")
+        val itemStack = lore(Material.TIPPED_ARROW, "効果付きの矢", lore)
         val potionMeta = itemStack.itemMeta as PotionMeta
 
         val regenerationEffect = PotionEffect(typePotion, time * 20, level)
@@ -91,14 +91,12 @@ class GUI {
         itemStack.setItemMeta(potionMeta)
         gui.setItem(number, itemStack)
     }
-    fun lore(material: Material, name: String, price: String, subLore: String?): ItemStack {
+    fun lore(material: Material, name: String, price: String): ItemStack {
         val item = ItemStack(material)
         val meta = item.itemMeta
         meta?.setDisplayName(name)
         val loreList: MutableList<String> = mutableListOf(price)
-        if (subLore != null) {
-            loreList.add(subLore)
-        } else if (meta?.displayName?.contains("★") == true) {
+        if (meta?.displayName?.contains("★") == true) {
             loreList.addAll(listOf("", "クリックで発動"))
         }
         meta?.lore = loreList
@@ -224,31 +222,31 @@ class GUI {
         }
 
         guiItem(gui, 0, Material.IRON_SWORD, "攻撃", "", true)
-        zombieGUIitem(gui, 2, Material.SLIME_BALL, "ノーマルゾンビ", "30p", "normal")
-        zombieGUIitem(gui, 3, Material.IRON_NUGGET, "チビゾンビ", "40p", "chibi")
-        zombieGUIitem(gui, 4, Material.RAW_COPPER, "ゾンビソルジャー", "40p", "soldier")
-        zombieGUIitem(gui, 5, Material.FEATHER, "ダッシュマン", "250p", "dashman")
-        zombieGUIitem(gui, 6, Material.BLAZE_POWDER, "バトルロード", "850p", "battleLord")
-        zombieGUIitem(gui, 7, Material.BONE_MEAL, "カスタムロード", "1000p", "customLoad")
+        zombieGUIitem(gui, 2, Material.SLIME_BALL, "ノーマルゾンビ", "30p")
+        zombieGUIitem(gui, 3, Material.IRON_NUGGET, "チビゾンビ", "40p")
+        zombieGUIitem(gui, 4, Material.RAW_COPPER, "ゾンビソルジャー", "40p")
+        zombieGUIitem(gui, 5, Material.FEATHER, "ダッシュマン", "250p")
+        zombieGUIitem(gui, 6, Material.BLAZE_POWDER, "バトルロード", "850p")
+        zombieGUIitem(gui, 7, Material.BONE_MEAL, "カスタムロード", "1000p")
 
         guiItem(gui, 9, Material.IRON_CHESTPLATE, "耐休", "", true)
-        zombieGUIitem(gui, 11, Material.RAW_IRON, "シールドゾンビ", "40p", "shield")
-        zombieGUIitem(gui, 12, Material.IRON_INGOT, "タンクマン", "300p", "tankman")
+        zombieGUIitem(gui, 11, Material.RAW_IRON, "シールドゾンビ", "40p")
+        zombieGUIitem(gui, 12, Material.IRON_INGOT, "タンクマン", "300p")
 
         guiItem(gui, 18, Material.END_CRYSTAL, "特殊", "", true)
-        zombieGUIitem(gui, 20, Material.STRING, "スケルトンマン", "100p", "skeletonman")
-        zombieGUIitem(gui, 21, Material.LIME_CANDLE, "泥棒", "777p", "thief")
+        zombieGUIitem(gui, 20, Material.STRING, "スケルトンマン", "100p")
+        zombieGUIitem(gui, 21, Material.LIME_CANDLE, "泥棒", "777p")
 
         guiItem(gui, 27, Material.SOUL_CAMPFIRE, "範囲", "", true)
-        zombieGUIitem(gui, 29, Material.STICK, "シャーマン", "500p", "shaman")
-        zombieGUIitem(gui, 30, Material.ICE, "フロストメイジ", "700p", "Frostmage")
+        zombieGUIitem(gui, 29, Material.STICK, "シャーマン", "500p")
+        zombieGUIitem(gui, 30, Material.ICE, "フロストメイジ", "700p")
 
         guiItem(gui, 36, Material.HORN_CORAL, "召喚", "", true)
-        zombieGUIitem(gui, 38, Material.BOOK, "ネクロマンサー", "400p", "necromancer")
-        zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p", "emperor")
+        zombieGUIitem(gui, 38, Material.BOOK, "ネクロマンサー", "400p")
+        zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p")
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
-        zombieGUIitem(gui, 47, Material.NETHERITE_SCRAP, "デスクイーン", "3000p", "deathqueen")
+        zombieGUIitem(gui, 47, Material.NETHERITE_SCRAP, "デスクイーン", "3000p")
 
         player.openInventory(gui)
     }
