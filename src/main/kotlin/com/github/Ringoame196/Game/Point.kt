@@ -1,6 +1,7 @@
 package com.github.Ringoame196.Game
 
 import com.github.Ringoame196.data.GET
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -14,8 +15,14 @@ class Point {
     }
     fun add(player: Player, add: Int, change: Boolean) {
         var addpoint = add
+        val teamMagnification = when (GET().teamName(player)) {
+            "red" -> Scoreboard().getValue("RedTeamSystem", "magnification")
+            "blue" -> Scoreboard().getValue("BlueTeamSystem", "magnification")
+            else -> 1
+        }
         if (change) {
             addpoint *= Scoreboard().getValue("gameData", "magnification")
+            addpoint *= teamMagnification
         }
         player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
         val point = Scoreboard().getValue("point", player.name) ?: 0
@@ -25,7 +32,7 @@ class Point {
     }
     fun remove(player: Player, removepoint: Int) {
         player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f)
-        val point = Scoreboard().getValue("point", player.name) ?: 0
+        val point = Scoreboard().getValue("point", player.name)
         val newPoint = point - removepoint
         player.sendMessage("${ChatColor.RED}-$removepoint (${newPoint}ポイント)")
         set(player, newPoint)
@@ -65,6 +72,16 @@ class Point {
             player.playSound(player, Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f)
             remove(player, priceInt)
             true
+        }
+    }
+    fun fountain() {
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
+            val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            if (join != 0) {
+                if (loopPlayer.location.add(0.0, -1.0, 0.0).block.type == Material.SCULK) {
+                    Point().add(loopPlayer, 10, true)
+                }
+            }
         }
     }
 }

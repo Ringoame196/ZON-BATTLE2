@@ -36,6 +36,7 @@ class Timer {
     fun regularly(plugin: Plugin) {
         val time = GET().gameTime()
         val timeLimit = Scoreboard().getValue("gameData", "timeLimit")
+        Point().fountain()
         if (timeLimit != 0) {
             Scoreboard().set("RedTeam", "${ChatColor.YELLOW}制限時間", time - timeLimit)
             Scoreboard().set("BlueTeam", "${ChatColor.YELLOW}制限時間", time - timeLimit)
@@ -56,10 +57,19 @@ class Timer {
                 Data.DataManager.gameData.bossBar.setTitle("${ChatColor.YELLOW}ゾンビ解放まで${GET().minutes(remaining)}")
             } else if (time <= 1200) {
                 val remaining = 1200 - time
-                Data.DataManager.gameData.bossBar.setTitle("${ChatColor.AQUA}ポイント2倍まで${GET().minutes(remaining)}")
+                if (Scoreboard().getValue("gameData", "map") == 3) {
+                    Data.DataManager.gameData.bossBar.setTitle("${ChatColor.RED}制限時間${GET().minutes(timeLimit - time)}")
+                } else {
+                    Data.DataManager.gameData.bossBar.setTitle("${ChatColor.AQUA}ポイント2倍まで${GET().minutes(remaining)}")
+                }
             }
         }
-        if (time == 300) { ParticipatingPlayer().message("${ChatColor.YELLOW}ゾンビ解放!") }
+        if (time == 300) {
+            ParticipatingPlayer().message("${ChatColor.YELLOW}ゾンビ解放!")
+            if (Scoreboard().getValue("gameData", "map") == 3) {
+                Scoreboard().set("RedTeamSystem", "magnification", 2)
+            }
+        }
         if (time % 300 == 0) {
             Map().randomChest()
         }
