@@ -31,14 +31,15 @@ class Map {
     }
     fun getMapName(): String {
         return when (mapNumber) {
-            0 -> "未設定"
             1 -> "チュートリアルマップ"
             2 -> "もちもちマップ"
             3 -> "タイマン"
-            else -> {
-                Scoreboard().set("gameData", "map", 0)
-                "未設定"
-            }
+            else -> "未設定"
+        }
+    }
+    fun resetMapName() {
+        if (mapNumber > 3) {
+            Scoreboard().set("gameData", "map", 0)
         }
     }
     fun mapSetting() {

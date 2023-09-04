@@ -59,6 +59,7 @@ class GameSystem {
                 return
             }
             Scoreboard().add("gameData", "map", 1)
+            Map().resetMapName()
             val playMap = Map().getMapName()
             player.sendMessage("${ChatColor.AQUA}${playMap}を選択しました")
             e.isCancelled = true
