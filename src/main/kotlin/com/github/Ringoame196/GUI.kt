@@ -213,6 +213,9 @@ class GUI {
         } else {
             guiItem(gui, 18, Material.BARRIER, "${ChatColor.RED}選択不可", "", true)
         }
+        val teamName: String? = GET().teamName(player)
+        val fountain = Scoreboard().getValue(GET().getTeamSystemScoreName(teamName), "fountainpoint")
+        guiItem(gui, 19, Material.GOLD_INGOT, "${ChatColor.YELLOW}★噴水ポイントUP", "${fountain * 15}p", true)
     }
     fun zombieshop(player: Player) {
         val gui: Inventory = Bukkit.createInventory(null, 54, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
@@ -465,6 +468,11 @@ class GUI {
                 Scoreboard().set(GET().getTeamScoreName(teamName), "${ChatColor.GOLD}ゾンビ通知", -1)
                 GUI().potionshop(player.openInventory.topInventory, player)
                 Team().sendMessage("${player.name}さんが「ゾンビ襲撃警報」を発動しました ※ゾンビが召喚されたときに ゾンビの声が聞こえるようになりました", GET().teamName(player).toString())
+            }
+            "噴水ポイントUP" -> {
+                Scoreboard().add(GET().getTeamSystemScoreName(teamName), "fountainpoint", 5)
+                Team().sendMessage("${player.name}さんが噴水ポイントを上げました", teamName)
+                GUI().potionshop(player.openInventory.topInventory, player)
             }
         }
     }

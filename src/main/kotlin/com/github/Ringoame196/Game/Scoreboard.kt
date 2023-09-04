@@ -60,6 +60,7 @@ class Scoreboard {
         Scoreboard().make("BlueTeamSystem", "BlueSystem")
         commonToTeams("revivalTime", 5)
         commonToTeams("magnification", 1)
+        commonToTeams("fountainpoint", 10)
     }
     fun commonToTeams(name: String, value: Int) {
         Scoreboard().set("RedTeamSystem", name, value)

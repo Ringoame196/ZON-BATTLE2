@@ -76,11 +76,12 @@ class Point {
     }
     fun fountain() {
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
-            val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name)
             if (join != 0) {
-                if (loopPlayer.location.add(0.0, -1.0, 0.0).block.type == Material.SCULK) {
-                    Point().add(loopPlayer, 10, true)
-                }
+                if (loopPlayer.location.add(0.0, -1.0, 0.0).block.type != Material.SCULK) { continue }
+                val team = GET().teamName(loopPlayer)
+                val point = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "fountainpoint")
+                Point().add(loopPlayer, point, true)
             }
         }
     }
