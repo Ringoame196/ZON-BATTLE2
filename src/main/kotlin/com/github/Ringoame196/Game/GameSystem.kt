@@ -182,7 +182,7 @@ class GameSystem {
                     for (i in 1..5) {
                         loopPlayer.inventory.addItem(Give().coin())
                     }
-                    Ranking().addScore(loopPlayer.name)
+                    Scoreboard().add("RankingData_win", loopPlayer.uniqueId.toString(), 1)
                 } else {
                     loopPlayer.inventory.addItem(Give().coin())
                 }

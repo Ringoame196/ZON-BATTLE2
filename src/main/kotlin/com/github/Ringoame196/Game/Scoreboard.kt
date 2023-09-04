@@ -24,16 +24,12 @@ class Scoreboard {
         val value = getValue(scoreName, name) - remove
         set(scoreName, name, value)
     }
-    fun deleteValue(scoreName: String, name: String) {
-        val objective = scoreboard?.getObjective(scoreName) ?: return
-        val score = objective.getScore(name)
-        scoreboard.resetScores(name)
-    }
     fun getSize(scoreName: String): Int {
         val objective = scoreboard?.getObjective(scoreName) ?: return 0
         var scoreCount = 0
         for (entry in scoreboard.entries) {
             val score = objective.getScore(entry)
+            if (Scoreboard().getValue(scoreName, entry) == 0) { continue }
             if (score.isScoreSet) {
                 scoreCount++
             }

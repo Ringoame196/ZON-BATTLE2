@@ -76,6 +76,7 @@ class Zombie {
         zombie?.equipment?.chestplate = setChestplate(chestplate, color)
         zombie?.equipment?.leggings = setLeggings(leggings, color)
         zombie?.equipment?.boots = setBoots(boots, color)
+        zombie?.scoreboardTags?.add(GET().teamName(player))
 
         additionalInformation(zombie, function)
     }

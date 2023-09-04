@@ -78,12 +78,13 @@ class GET {
     fun shop(entity: Entity): Boolean {
         return entity.scoreboardTags.contains("shop")
     }
-    fun getNearestEntityOfType(location: Location, target: EntityType?, radius: Double): Entity? {
+    fun getNearestEntityOfType(location: Location, target: EntityType?, radius: Double, tag: String?): Entity? {
         var nearestEntity: Entity? = null
         var nearestDistanceSquared = Double.MAX_VALUE
 
         for (entity in location.world!!.getNearbyEntities(location, radius, radius, radius)) {
             if (entity.type == target) {
+                if (tag != null && !entity.scoreboardTags.contains(tag)) { continue }
                 if (entity is Player && entity.gameMode != GameMode.SURVIVAL) { continue }
                 if (entity is Villager && !GET().shop(entity)) { continue }
                 val distanceSquared = entity.location.distanceSquared(location)
@@ -131,7 +132,7 @@ class GET {
             }
             else -> null
         }
-        val shop = getNearestEntityOfType(location!!, EntityType.VILLAGER, 3.0)
+        val shop = getNearestEntityOfType(location!!, EntityType.VILLAGER, 3.0, null)
         return if (shop is Villager) {
             shop
         } else {

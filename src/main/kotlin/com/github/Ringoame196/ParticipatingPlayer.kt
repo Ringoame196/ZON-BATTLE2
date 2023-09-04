@@ -41,7 +41,7 @@ class ParticipatingPlayer {
         if (message == "参加") {
             Scoreboard().set("participatingPlayer", player.name, 1)
         } else {
-            Scoreboard().deleteValue("participatingPlayer", player.name)
+            Scoreboard().set("participatingPlayer", player.name, 0)
             player.sendTitle("", "${ChatColor.YELLOW}退出しました")
         }
         val size = Scoreboard().getSize("participatingPlayer")

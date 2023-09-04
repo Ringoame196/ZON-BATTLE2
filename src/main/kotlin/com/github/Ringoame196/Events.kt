@@ -157,10 +157,17 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.entity
         var radius = 0.0
         val target: EntityType?
+        var tag: String? = null
+        val team = when {
+            entity.scoreboardTags.contains("red") -> "red"
+            entity.scoreboardTags.contains("blue") -> "blue"
+            else -> ""
+        }
         when {
             entity.scoreboardTags.contains("targetshop") -> {
                 target = EntityType.VILLAGER
-                radius = 100.0
+                radius = 150.0
+                tag = GET().opposingTeamname(team)
             }
             entity.scoreboardTags.contains("targetPlayer") -> {
                 target = EntityType.PLAYER
@@ -175,7 +182,7 @@ class Events(private val plugin: Plugin) : Listener {
             }
             else -> { return }
         }
-        e.target = GET().getNearestEntityOfType(entity.location, target, radius)
+        e.target = GET().getNearestEntityOfType(entity.location, target, radius, tag)
     }
     @EventHandler
     fun onSignChange(e: SignChangeEvent) {
@@ -187,8 +194,8 @@ class Events(private val plugin: Plugin) : Listener {
     @EventHandler
     fun onPlayerQuit(e: PlayerQuitEvent) {
         // プレイヤーが抜けたとき
-        Scoreboard().getValue("participatingPlayer", e.player.name) ?: return
-        Scoreboard().deleteValue("participatingPlayer", e.player.name)
+        Scoreboard().getValue("participatingPlayer", e.player.name)
+        Scoreboard().set("participatingPlayer", e.player.name, 0)
     }
     @EventHandler
     fun onPlayerTookDamage(e: EntityDamageEvent) {
