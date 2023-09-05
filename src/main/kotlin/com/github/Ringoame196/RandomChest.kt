@@ -38,6 +38,7 @@ class RandomChest {
         Data.DataManager.LocationData.randomChest?.let { randomChest.add(it) }
         Data.DataManager.LocationData.mrandomChest1?.let { randomChest.add(it) }
         Data.DataManager.LocationData.mrandomChest2?.let { randomChest.add(it) }
+        Data.DataManager.LocationData.tmrandomChest?.let { randomChest.add(it) }
         for (chest in randomChest) {
             if (chest.block.type == Material.CHEST) {
                 val chest = chest.block.state as Chest
