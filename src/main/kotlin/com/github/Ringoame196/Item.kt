@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.ArmorStand
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
@@ -8,15 +9,20 @@ import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.Particle
+import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.entity.Blaze
 import org.bukkit.entity.Fireball
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
+import org.bukkit.entity.Zombie
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
+import org.bukkit.scheduler.BukkitRunnable
+import java.util.Random
 import java.util.Vector
 
 class Item {
@@ -88,17 +94,34 @@ class Item {
             }
             itemName == "${ChatColor.GOLD}ファイヤボール" -> {
                 val playerLocation: Location = player.location.add(0.0, 0.5, 0.0)
-                // プレイヤーの視線の方向ベクトルを取得
                 val direction: org.bukkit.util.Vector = playerLocation.direction
-                // プレイヤーの位置にオフセットを加えて、ファイヤーボールの初期位置を設定
                 val spawnLocation: Location = playerLocation.add(direction.multiply(2.0))
-                // ファイヤーボールを生成
                 val fireball: Fireball = player.world.spawn(spawnLocation, Fireball::class.java)
-                // ファイヤーボールの速度を設定
                 fireball.velocity = direction.multiply(0.3) // 速度を調整できます
                 fireball.yield = 3.0F
-                // オプション: ファイヤーボールが爆発しないように設定
                 fireball.setIsIncendiary(false)
+            }
+            itemName == "${ChatColor.RED}TNT" -> {
+                val playerLocation = player.location
+                val armorStand = ArmorStand().summon(playerLocation, "")
+                var timer = Random().nextInt(1, 10)
+                object : BukkitRunnable() {
+                    override fun run() {
+                        if (timer == 1) {
+                            val nearbyEntities = player.getNearbyEntities(4.0, 4.0, 4.0)
+                            for (entity in nearbyEntities) {
+                                if (entity is Zombie) { entity.damage(100.0) }
+                            }
+                            playerLocation.world?.spawnParticle(Particle.EXPLOSION_HUGE, playerLocation, 1, 0.0, 0.0, 0.0, 0.1)
+                            playerLocation.world?.playSound(playerLocation, Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f)
+                            this.cancel()
+                            armorStand.remove()
+                        }
+                        timer --
+                        playerLocation.world?.playSound(playerLocation, Sound.UI_BUTTON_CLICK, 1f, 1f)
+                        armorStand.customName = "${ChatColor.GREEN}${timer}秒"
+                    }
+                }.runTaskTimer(plugin, 0L, 20L)
             }
             else -> return
         }
