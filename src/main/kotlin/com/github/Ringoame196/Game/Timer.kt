@@ -3,6 +3,7 @@ package com.github.Ringoame196.Game
 import com.github.Ringoame196.Block
 import com.github.Ringoame196.Entity.Blaze
 import com.github.Ringoame196.Entity.Golem
+import com.github.Ringoame196.Entity.PotionShop
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.ParticipatingPlayer
 import com.github.Ringoame196.data.Data
@@ -77,6 +78,9 @@ class Timer {
         if (time % 5 == 0) {
             Golem().golden()
             Blaze().attack()
+        }
+        if (time % 14 == 0) {
+            PotionShop().give()
         }
         if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "normal", "normal") }
         if (time == Scoreboard().getValue("gameData", "feverTime")) { Timer().feverActivation(plugin) }

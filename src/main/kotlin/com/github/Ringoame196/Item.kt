@@ -17,6 +17,7 @@ import org.bukkit.entity.Fireball
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
+import org.bukkit.entity.Villager
 import org.bukkit.entity.Zombie
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
@@ -97,8 +98,8 @@ class Item {
                 val direction: org.bukkit.util.Vector = playerLocation.direction
                 val spawnLocation: Location = playerLocation.add(direction.multiply(2.0))
                 val fireball: Fireball = player.world.spawn(spawnLocation, Fireball::class.java)
-                fireball.velocity = direction.multiply(0.3) // 速度を調整できます
-                fireball.yield = 3.0F
+                fireball.velocity = direction.multiply(0.25) // 速度を調整できます
+                fireball.yield = 2.5F
                 fireball.setIsIncendiary(false)
             }
             itemName == "${ChatColor.RED}TNT" -> {
@@ -110,7 +111,7 @@ class Item {
                         if (timer == 1) {
                             val nearbyEntities = player.getNearbyEntities(4.0, 4.0, 4.0)
                             for (entity in nearbyEntities) {
-                                if (entity is Zombie) { entity.damage(100.0) }
+                                if (entity is Zombie) { entity.damage(20.0) }
                             }
                             playerLocation.world?.spawnParticle(Particle.EXPLOSION_HUGE, playerLocation, 1, 0.0, 0.0, 0.0, 0.1)
                             playerLocation.world?.playSound(playerLocation, Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f)
@@ -119,9 +120,20 @@ class Item {
                         }
                         timer --
                         playerLocation.world?.playSound(playerLocation, Sound.UI_BUTTON_CLICK, 1f, 1f)
-                        armorStand.customName = "${ChatColor.GREEN}${timer}秒"
+                        armorStand.customName = "${ChatColor.GREEN}爆発まで${timer}秒"
                     }
                 }.runTaskTimer(plugin, 0L, 20L)
+            }
+            itemName == "${ChatColor.YELLOW}ポーション屋" -> {
+                e.isCancelled = true
+                if (petC >= 5) {
+                    player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
+                    return
+                }
+                val potionShop: Villager = player.world.spawn(player.location, Villager::class.java)
+                Data.DataManager.gameData.potionShop.add(potionShop)
+                potionShop.scoreboardTags.add("${GET().teamName(player)}")
+                Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             else -> return
         }

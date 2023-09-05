@@ -81,13 +81,14 @@ class Events(private val plugin: Plugin) : Listener {
             e.isCancelled = true
         } else if (damager is Fireball && entity !is org.bukkit.entity.Zombie) {
             e.isCancelled = true
-        }
-        when (entity) {
-            is Villager -> Shop().attack(e, damager, entity)
-            is org.bukkit.entity.Zombie -> Zombie().damage(entity)
-            is Player -> Player().showdamage(damager, entity, damage)
-            is Golem -> com.github.Ringoame196.Entity.Golem().guardPlayerAttack(damager, e)
-            else -> {}
+        } else {
+            when (entity) {
+                is Villager -> Shop().attack(e, damager, entity)
+                is org.bukkit.entity.Zombie -> Zombie().damage(entity)
+                is Player -> Player().showdamage(damager, entity, damage)
+                is Golem -> com.github.Ringoame196.Entity.Golem().guardPlayerAttack(damager, e)
+                else -> {}
+            }
         }
     }
 

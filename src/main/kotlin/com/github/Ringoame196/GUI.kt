@@ -166,8 +166,10 @@ class GUI {
         }
         guiItem(gui, 2, Material.BOW, "弓", "100p", true)
         guiItem(gui, 3, Material.CROSSBOW, "クロスボー", "300p", true)
+        guiItem(gui, 4, Material.FIRE_CHARGE, "${ChatColor.GOLD}ファイヤボール", "300p", true)
         guiItem(gui, 5, Material.ARROW, "矢", "1p", true)
         potionArrow(gui, 7, "30p", PotionEffectType.HEAL, 0, 1)
+        guiItem(gui, 8, Material.TNT, "${ChatColor.RED}TNT", "500p", true)
         enchantGUIitem(gui, 18, "60p", Enchantment.DAMAGE_ALL, 1)
         enchantGUIitem(gui, 19, "350p", Enchantment.DAMAGE_ALL, 2)
         enchantGUIitem(gui, 20, "650p", Enchantment.DAMAGE_ALL, 3)
@@ -175,6 +177,7 @@ class GUI {
         enchantGUIitem(gui, 28, "350p", Enchantment.DAMAGE_UNDEAD, 2)
         enchantGUIitem(gui, 29, "650p", Enchantment.DAMAGE_UNDEAD, 3)
         enchantGUIitem(gui, 30, "1200p", Enchantment.DAMAGE_UNDEAD, 4)
+        enchantGUIitem(gui, 31, "2000p", Enchantment.DAMAGE_UNDEAD, 5)
 
         potionGUIitem(gui, 33, Material.SPLASH_POTION, "15p", PotionEffectType.HEAL, 0, 1)
         potionGUIitem(gui, 34, Material.SPLASH_POTION, "50p", PotionEffectType.HEAL, 1, 1)
@@ -260,6 +263,7 @@ class GUI {
         guiItem(gui, 19, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p", true)
         guiItem(gui, 20, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)
         guiItem(gui, 21, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", true)
+        guiItem(gui, 22, Material.BREWING_STAND, "${ChatColor.YELLOW}ポーション屋", "1200p", true)
     }
     fun generalMerchandiseshop(gui: Inventory, player: Player) {
         player.openInventory(gui)
@@ -451,11 +455,11 @@ class GUI {
             .replace("チーム全員に", "")
         when (checkName) {
             "ショップ解放" -> Shop().release(player, teamName)
-            "攻撃力UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.INCREASE_DAMAGE, null, 0, 180)
+            "攻撃力UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.INCREASE_DAMAGE, null, 2, 180)
             "再生UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.REGENERATION, null, 2, 180)
             "採掘速度UP(5分)" -> Team().GiveEffect(player, itemName, PotionEffectType.FAST_DIGGING, null, 2, 300)
             "耐性(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.DAMAGE_RESISTANCE, null, 1, 180)
-            "移動速度UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.SPEED, null, 1, 180)
+            "移動速度UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.SPEED, null, 3, 180)
             "攻撃力UP&再生(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.REGENERATION, PotionEffectType.INCREASE_DAMAGE, 0, 180)
             "鉱石復活速度UP" -> Team().fastbreaklevel(teamName, player, itemName)
             "村人体力増加" -> Shop().teamMaxHPadd(teamName, player, itemName, 10)
