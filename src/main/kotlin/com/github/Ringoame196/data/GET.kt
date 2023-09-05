@@ -122,15 +122,15 @@ class GET {
                 1 -> Data.DataManager.LocationData.redshop
                 2 -> Data.DataManager.LocationData.mredshop
                 3 -> Data.DataManager.LocationData.tmredshop
-                else -> null
+                else -> return null
             }
             "blue" -> when (map) {
                 1 -> Data.DataManager.LocationData.blueshop
                 2 -> Data.DataManager.LocationData.mblueshop
                 3 -> Data.DataManager.LocationData.tmblueshop
-                else -> null
+                else -> return null
             }
-            else -> null
+            else -> return null
         }
         val shop = getNearestEntityOfType(location!!, EntityType.VILLAGER, 3.0, null)
         return if (shop is Villager) {
