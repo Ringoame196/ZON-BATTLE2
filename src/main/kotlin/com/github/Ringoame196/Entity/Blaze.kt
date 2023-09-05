@@ -19,7 +19,7 @@ class Blaze {
                 val fireball = blaze.launchProjectile(Fireball::class.java)
                 val targetDirection = target.location.subtract(blaze.location).toVector().normalize()
                 fireball.direction = targetDirection
-                fireball.yield = 2.0F
+                fireball.yield = 3.0F
             }
         }
     }

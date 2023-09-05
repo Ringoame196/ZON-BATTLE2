@@ -10,8 +10,10 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.Fireball
 import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
+import org.bukkit.entity.Shulker
 import org.bukkit.entity.Villager
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -75,6 +77,10 @@ class Events(private val plugin: Plugin) : Listener {
         val damage = e.finalDamage.toInt()
         if (damager is org.bukkit.entity.Zombie) {
             Zombie().attack(damager, entity, e)
+        } else if (damager is Shulker && entity !is org.bukkit.entity.Zombie) {
+            e.isCancelled = true
+        } else if (damager is Fireball && entity !is org.bukkit.entity.Zombie) {
+            e.isCancelled = true
         }
         when (entity) {
             is Villager -> Shop().attack(e, damager, entity)
