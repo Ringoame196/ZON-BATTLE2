@@ -161,6 +161,9 @@ class GUI {
             guiItem(gui, 0, Material.BARRIER, "${ChatColor.RED}選択不可", "", true)
         }
         guiItem(gui, 1, Material.STONE_HOE, "${ChatColor.YELLOW}[召喚の杖]", "300p", false)
+        if (Scoreboard().getValue("gameData", "map") == 3 && GET().teamName(player) == "red") {
+            guiItem(gui, 1, Material.BARRIER, "${ChatColor.RED}選択不可", "", true)
+        }
         guiItem(gui, 2, Material.BOW, "弓", "100p", true)
         guiItem(gui, 3, Material.CROSSBOW, "クロスボー", "300p", true)
         guiItem(gui, 5, Material.ARROW, "矢", "1p", true)
