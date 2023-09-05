@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffectType
 class ZombieData {
     fun switching(zombieName: String, player: Player, zombie: Zombie?) {
         zombie?.scoreboardTags?.add("owner:${player.name}")
+        zombie?.scoreboardTags?.add(GET().teamName(player))
         when (zombieName) {
             "ノーマルゾンビ" -> normal(zombie)
             "チビゾンビ" -> chibi(zombie)

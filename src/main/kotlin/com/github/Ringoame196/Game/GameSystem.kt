@@ -201,9 +201,8 @@ class GameSystem {
         Team().make("blue", ChatColor.BLUE, "${ChatColor.BLUE}[青チーム]")
         Ranking().updateRankingScoreboard()
         Scoreboard().make("participatingPlayer", "ParticipatingPlayer")
-        gameData()
     }
-    fun gameData() {
+    fun resetGameData() {
         Scoreboard().make("gameData", "GameData")
         Scoreboard().set("gameData", "map", 0)
         Scoreboard().set("gameData", "status", 0)
@@ -225,6 +224,7 @@ class GameSystem {
         RandomChest().reset()
         if (GET().status()) { return }
         Data.DataManager.gameData = Gamedata() // gameData を新しい Gamedata インスタンスに置き換える
+        resetGameData()
     }
     fun playersJoin(playerName: String, sender: Player) {
         val player = Bukkit.getPlayer(playerName.replace("${ChatColor.YELLOW}", "")) ?: return
