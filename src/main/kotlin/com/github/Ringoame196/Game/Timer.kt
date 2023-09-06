@@ -74,7 +74,7 @@ class Timer {
         if (time % 300 == 0) {
             Map().randomChest()
         }
-        if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "shield", "soldier") }
+        if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "シールドゾンビ", "ゾンビソルジャー") }
         if (time % 5 == 0) {
             Golem().golden()
             Blaze().attack()
@@ -82,7 +82,7 @@ class Timer {
         if (time % 14 == 0) {
             PotionShop().give()
         }
-        if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "normal", "normal") }
+        if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "ノーマルゾンビ", "ノーマルゾンビ") }
         if (time == Scoreboard().getValue("gameData", "feverTime")) { Timer().feverActivation(plugin) }
     }
     fun feverSet() {

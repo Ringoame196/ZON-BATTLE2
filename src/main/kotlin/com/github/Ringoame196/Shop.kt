@@ -128,11 +128,6 @@ class Shop {
     }
     fun attack(e: EntityDamageByEntityEvent, damager: Entity, shop: Villager) {
         if (!GET().shop(shop)) { return }
-        if (damager is Player) {
-            // プレイヤーが殴るのを禁止させる
-            GameSystem().adventure(e, damager)
-            if (damager.gameMode != GameMode.CREATIVE) { return }
-        }
         // ダメージを受けたときにメッセージを出す
         val health = String.format("%.1f", shop.health - e.damage).toDouble()
         if (health <= 0) {
@@ -167,6 +162,7 @@ class Shop {
         Shop().name(villager, initialHP.toString(), initialHP.toString())
         villager.isCustomNameVisible = true
         villager.scoreboardTags.add("shop")
+        villager.scoreboardTags.add("friend")
         villager.setAI(false)
         villager.isSilent = true
         if (tag != null) { villager.scoreboardTags.add(tag) }

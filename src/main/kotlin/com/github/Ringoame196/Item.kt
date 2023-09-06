@@ -131,8 +131,12 @@ class Item {
                     return
                 }
                 val potionShop: Villager = player.world.spawn(player.location, Villager::class.java)
+                potionShop.customName = "${ChatColor.GOLD}ポーション屋"
+                potionShop.isCustomNameVisible = true
                 Data.DataManager.gameData.potionShop.add(potionShop)
                 potionShop.scoreboardTags.add("${GET().teamName(player)}")
+                potionShop.scoreboardTags.add("friend")
+                potionShop.scoreboardTags.add("${GET().teamName(player)}Pet")
                 Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             else -> return

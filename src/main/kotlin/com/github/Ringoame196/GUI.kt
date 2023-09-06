@@ -166,10 +166,8 @@ class GUI {
         }
         guiItem(gui, 2, Material.BOW, "弓", "100p", true)
         guiItem(gui, 3, Material.CROSSBOW, "クロスボー", "300p", true)
-        guiItem(gui, 4, Material.FIRE_CHARGE, "${ChatColor.GOLD}ファイヤボール", "300p", true)
         guiItem(gui, 5, Material.ARROW, "矢", "1p", true)
         potionArrow(gui, 7, "30p", PotionEffectType.HEAL, 0, 1)
-        guiItem(gui, 8, Material.TNT, "${ChatColor.RED}TNT", "500p", true)
         enchantGUIitem(gui, 18, "60p", Enchantment.DAMAGE_ALL, 1)
         enchantGUIitem(gui, 19, "350p", Enchantment.DAMAGE_ALL, 2)
         enchantGUIitem(gui, 20, "650p", Enchantment.DAMAGE_ALL, 3)

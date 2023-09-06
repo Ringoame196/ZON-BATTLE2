@@ -1,6 +1,5 @@
 package com.github.Ringoame196.Entity
 
-import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
@@ -10,7 +9,6 @@ import org.bukkit.Material
 import org.bukkit.entity.Entity
 import org.bukkit.entity.IronGolem
 import org.bukkit.entity.Player
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
@@ -39,10 +37,6 @@ class Golem {
             }
         }
     }
-    fun guardPlayerAttack(damager: Entity, e: EntityDamageByEntityEvent) {
-        if (damager !is Player) { return }
-        GameSystem().adventure(e, damager)
-    }
     fun summon(player: Player, type: Material?, name: String) {
         val location = player.location
         val golem = location.world?.spawn(location, IronGolem::class.java) ?: return
@@ -52,6 +46,7 @@ class Golem {
         golem.isPlayerCreated = true
         golem.scoreboardTags.add("targetZombie")
         golem.scoreboardTags.add("${GET().teamName(player)}Pet")
+        golem.scoreboardTags.add("friend")
 
         when (type) {
             Material.GOLD_BLOCK -> {

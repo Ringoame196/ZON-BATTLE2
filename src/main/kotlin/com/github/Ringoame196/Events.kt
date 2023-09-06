@@ -7,11 +7,11 @@ import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Fireball
-import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
 import org.bukkit.entity.Villager
@@ -76,17 +76,23 @@ class Events(private val plugin: Plugin) : Listener {
         val damager = e.damager
         val damage = e.finalDamage.toInt()
         if (damager is org.bukkit.entity.Zombie) {
+            // ゾンビの特殊能力
             Zombie().attack(damager, entity, e)
         } else if (damager is Shulker && entity !is org.bukkit.entity.Zombie) {
+            // シュルカー 仲間にダメージを与えない
             e.isCancelled = true
         } else if (damager is Fireball && entity !is org.bukkit.entity.Zombie) {
+            // ファイヤーボール ゾンビ以外にダメージを与えない
+            e.isCancelled = true
+        } else if (damager is Player && entity.scoreboardTags.contains("friend")) {
+            // friendというタグをつけていると プレイヤーからのダメージを無効にする
+            if (damager.gameMode == GameMode.CREATIVE) { return }
             e.isCancelled = true
         } else {
             when (entity) {
                 is Villager -> Shop().attack(e, damager, entity)
                 is org.bukkit.entity.Zombie -> Zombie().damage(entity)
                 is Player -> Player().showdamage(damager, entity, damage)
-                is Golem -> com.github.Ringoame196.Entity.Golem().guardPlayerAttack(damager, e)
                 else -> {}
             }
         }
@@ -206,7 +212,7 @@ class Events(private val plugin: Plugin) : Listener {
     }
     @EventHandler
     fun onPlayerTookDamage(e: EntityDamageEvent) {
-        // ダメージを受けたプレイヤー
+        // プレイヤーの無敵 & 殺したときにポイントを与える
         val player = e.entity
         if (player !is Player) { return }
 
