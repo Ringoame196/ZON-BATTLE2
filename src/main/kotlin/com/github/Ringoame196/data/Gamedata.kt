@@ -18,6 +18,7 @@ class Gamedata {
     var title: MutableList<ArmorStand> = mutableListOf()
     var goldenGolem: MutableList<Golem> = mutableListOf()
     var potionShop: MutableList<Villager> = mutableListOf()
+    var minion: MutableList<Villager> = mutableListOf()
     val bossBar: BossBar = Bukkit.createBossBar("ゾンビ解放まで", BarColor.BLUE, BarStyle.SEGMENTED_10)
     var blaze: MutableList<Blaze> = mutableListOf()
     val blueTeamChest: Inventory = Bukkit.createInventory(null, 27, "${ChatColor.DARK_GREEN}チームチェスト")

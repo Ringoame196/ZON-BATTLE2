@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
-import com.github.Ringoame196.Entity.ArmorStand
+import com.github.Ringoame196.Entity.PotionShop
+import com.github.Ringoame196.Entity.TNT
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
@@ -9,29 +10,21 @@ import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.Particle
-import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.entity.Blaze
 import org.bukkit.entity.Fireball
-import org.bukkit.entity.Golem
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
-import org.bukkit.entity.Villager
-import org.bukkit.entity.Zombie
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
-import org.bukkit.scheduler.BukkitRunnable
-import java.util.Random
-import java.util.Vector
 
 class Item {
     fun clickSystem(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
         val itemName = item?.itemMeta?.displayName.toString()
         val itemType = item?.type
         val team = GET().teamName(player)
-        val petC: Int = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "petCount")
+        val petC = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "petCount") <= 5
         when {
             itemType == Material.EMERALD -> {
                 money(player, itemName)
@@ -39,7 +32,7 @@ class Item {
             }
             itemName.contains("ゴーレム") -> {
                 e.isCancelled = true
-                if (petC >= 5) {
+                if (!petC) {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
@@ -66,7 +59,7 @@ class Item {
             }
             itemName == "${ChatColor.YELLOW}シュルカー" -> {
                 e.isCancelled = true
-                if (petC >= 5) {
+                if (!petC) {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
@@ -78,7 +71,7 @@ class Item {
             }
             itemName == "${ChatColor.RED}ブレイズ" -> {
                 e.isCancelled = true
-                if (petC >= 5) {
+                if (!petC) {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
@@ -102,41 +95,14 @@ class Item {
                 fireball.yield = 2.5F
                 fireball.setIsIncendiary(false)
             }
-            itemName == "${ChatColor.RED}TNT" -> {
-                val playerLocation = player.location
-                val armorStand = ArmorStand().summon(playerLocation, "")
-                var timer = Random().nextInt(1, 10)
-                object : BukkitRunnable() {
-                    override fun run() {
-                        if (timer == 1) {
-                            val nearbyEntities = player.getNearbyEntities(4.0, 4.0, 4.0)
-                            for (entity in nearbyEntities) {
-                                if (entity is Zombie) { entity.damage(20.0) }
-                            }
-                            playerLocation.world?.spawnParticle(Particle.EXPLOSION_HUGE, playerLocation, 1, 0.0, 0.0, 0.0, 0.1)
-                            playerLocation.world?.playSound(playerLocation, Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f)
-                            this.cancel()
-                            armorStand.remove()
-                        }
-                        timer --
-                        playerLocation.world?.playSound(playerLocation, Sound.UI_BUTTON_CLICK, 1f, 1f)
-                        armorStand.customName = "${ChatColor.GREEN}爆発まで${timer}秒"
-                    }
-                }.runTaskTimer(plugin, 0L, 20L)
-            }
+            itemName == "${ChatColor.RED}TNT" -> TNT().summon(player, plugin)
             itemName == "${ChatColor.YELLOW}ポーション屋" -> {
                 e.isCancelled = true
-                if (petC >= 5) {
+                if (!petC) {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
-                val potionShop: Villager = player.world.spawn(player.location, Villager::class.java)
-                potionShop.customName = "${ChatColor.GOLD}ポーション屋"
-                potionShop.isCustomNameVisible = true
-                Data.DataManager.gameData.potionShop.add(potionShop)
-                potionShop.scoreboardTags.add("${GET().teamName(player)}")
-                potionShop.scoreboardTags.add("friend")
-                potionShop.scoreboardTags.add("${GET().teamName(player)}Pet")
+                PotionShop().summon(player)
                 Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             else -> return
