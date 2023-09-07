@@ -44,7 +44,9 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.rightClicked
         val teamName = GET().teamName(player) ?: return
         if (GET().shop(entity)) {
-            if (!entity.scoreboardTags.contains("center")) { Shop().open(e, player, entity as Villager, teamName) }
+            if (!entity.scoreboardTags.contains("center")) {
+                Shop().open(e, player, entity as Villager, teamName)
+            }
         }
     }
 
@@ -89,15 +91,16 @@ class Events(private val plugin: Plugin) : Listener {
             e.isCancelled = true
         } else if (damager is Player && entity.scoreboardTags.contains("friend")) {
             // friendというタグをつけていると プレイヤーからのダメージを無効にする
-            if (damager.gameMode == GameMode.CREATIVE) { return }
-            e.isCancelled = true
-        } else {
-            when (entity) {
-                is Villager -> Shop().attack(e, damager, entity)
-                is org.bukkit.entity.Zombie -> Zombie().damage(entity)
-                is Player -> Player().showdamage(damager, entity, damage)
-                else -> {}
+            if (damager.gameMode != GameMode.CREATIVE) {
+                e.isCancelled = true
+                return
             }
+        }
+        when (entity) {
+            is Villager -> Shop().attack(e, damager, entity)
+            is org.bukkit.entity.Zombie -> Zombie().damage(entity)
+            is Player -> Player().showdamage(damager, entity, damage)
+            else -> {}
         }
     }
 
@@ -122,7 +125,9 @@ class Events(private val plugin: Plugin) : Listener {
         // ブロックを破壊したとき
         val player = e.player
         val worldName = player.world.name
-        if (worldName != "BATTLE" && worldName != "jikken") { return }
+        if (worldName != "BATTLE" && worldName != "jikken") {
+            return
+        }
         GameSystem().adventure(e, player)
         val block = e.block
         when (block.type) {
@@ -133,7 +138,9 @@ class Events(private val plugin: Plugin) : Listener {
 
     @EventHandler
     fun onBlockPlace(e: BlockPlaceEvent) {
-        if (e.player.world.name != "BATTLE") { return }
+        if (e.player.world.name != "BATTLE") {
+            return
+        }
         GameSystem().adventure(e, e.player)
     }
 
@@ -159,7 +166,9 @@ class Events(private val plugin: Plugin) : Listener {
     @EventHandler
     fun onEntityRegainHealth(e: EntityRegainHealthEvent) {
         // ショップが回復したときにHP反映させる
-        if (e.entity !is Villager) { return }
+        if (e.entity !is Villager) {
+            return
+        }
         val shop = e.entity as Villager
         val amout = e.amount
         if (GET().shop(shop)) {
@@ -185,26 +194,35 @@ class Events(private val plugin: Plugin) : Listener {
                 radius = 150.0
                 tag = GET().opposingTeamname(team)
             }
+
             entity.scoreboardTags.contains("targetPlayer") -> {
                 target = EntityType.PLAYER
                 radius = 20.0
             }
+
             entity.scoreboardTags.contains("targetZombie") -> {
                 target = EntityType.ZOMBIE
                 radius = 100.0
             }
+
             entity.scoreboardTags.contains("friendship") -> {
                 target = null
             }
-            else -> { return }
+
+            else -> {
+                return
+            }
         }
         e.target = GET().getNearestEntityOfType(entity.location, target, radius, tag)
     }
+
     @EventHandler
     fun onSignChange(e: SignChangeEvent) {
         // 看板に文字を決定したとき
         val block = e.block.type == Material.OAK_WALL_SIGN
-        if (block) { Sign().make(e) }
+        if (block) {
+            Sign().make(e)
+        }
     }
 
     @EventHandler
@@ -213,20 +231,25 @@ class Events(private val plugin: Plugin) : Listener {
         Scoreboard().getValue("participatingPlayer", e.player.name)
         Scoreboard().set("participatingPlayer", e.player.name, 0)
     }
+
     @EventHandler
     fun onPlayerTookDamage(e: EntityDamageEvent) {
         // 殺したときにポイントを与える
         val player = e.entity
-        if (player !is Player) { return }
+        if (player !is Player) {
+            return
+        }
         if (e.damage > 0 && player.health <= e.damage) {
             Player().death(e, player, plugin)
         }
     }
+
     @EventHandler
     fun onBlockDamage(e: BlockDamageEvent) {
         // ブロックにダメージを与えたときの処理
         Block().notAppropriate(e.player.inventory.itemInMainHand, e.block, e)
     }
+
     @EventHandler
     fun onPlayerToggleSneak(e: PlayerToggleSneakEvent) {
         val isSneak = e.isSneaking

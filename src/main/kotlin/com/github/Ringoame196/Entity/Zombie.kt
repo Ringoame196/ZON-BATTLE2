@@ -114,9 +114,7 @@ class Zombie {
     fun offhandSet(player: Player) {
         val mainHandItem = player.inventory.itemInMainHand.clone()
         val offhandItem = player.inventory.itemInOffHand.clone()
-        if (offhandItem != null) {
-            player.inventory.setItemInMainHand(offhandItem)
-        }
+        player.inventory.setItemInMainHand(offhandItem)
         player.inventory.setItemInOffHand(mainHandItem)
     }
 }
