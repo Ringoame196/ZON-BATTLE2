@@ -26,5 +26,6 @@ class Main : JavaPlugin() {
 
     override fun onDisable() {
         super.onDisable()
+        Data.DataManager.gameData.bossBar.removeAll()
     }
 }

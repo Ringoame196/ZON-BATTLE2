@@ -60,6 +60,7 @@ class Give {
         when (color) {
             "GREEN" -> meta.setColor(Color.GREEN)
             "AQUA" -> meta.setColor(Color.AQUA)
+            "BLACK" -> meta.setColor(Color.BLACK)
         }
         item.setItemMeta(meta)
         return item

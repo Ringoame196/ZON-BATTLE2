@@ -239,7 +239,8 @@ class GUI {
 
         guiItem(gui, 18, Material.END_CRYSTAL, "特殊", "", true)
         zombieGUIitem(gui, 20, Material.STRING, "スケルトンマン", "100p")
-        zombieGUIitem(gui, 21, Material.LIME_CANDLE, "泥棒", "777p")
+        zombieGUIitem(gui, 21, Material.LEAD, "誘拐犯", "500p")
+        zombieGUIitem(gui, 22, Material.LIME_CANDLE, "泥棒", "777p")
 
         guiItem(gui, 27, Material.SOUL_CAMPFIRE, "範囲", "", true)
         zombieGUIitem(gui, 29, Material.STICK, "シャーマン", "500p")

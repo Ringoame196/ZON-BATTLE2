@@ -31,6 +31,7 @@ class ZombieData {
             "エンペラー" -> emperor(zombie)
             "デスクイーン" -> deathQueen(zombie)
             "ネザライトゾンビ" -> netherite(zombie)
+            "誘拐犯" -> kidnapping(zombie)
         }
     }
     fun normal(zombie: Zombie?) {
@@ -263,6 +264,21 @@ class ZombieData {
             it.equipment?.chestplate = ItemStack(Material.NETHERITE_CHESTPLATE)
             it.equipment?.leggings = ItemStack(Material.NETHERITE_LEGGINGS)
             it.equipment?.boots = ItemStack(Material.NETHERITE_BOOTS)
+        }
+    }
+    fun kidnapping(zombie: Zombie?) {
+        zombie?.let {
+            it.isBaby = false
+            it.customName = "${ChatColor.DARK_RED}誘拐犯"
+            it.maxHealth = 25.0
+            it.health = 25.0
+            it.equipment?.helmet = ItemStack(Material.WITHER_SKELETON_SKULL)
+            it.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, "BLACK")
+            it.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, "BLACK")
+            it.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, "BLACK")
+            it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
+            it.damage(4.0)
+            it.scoreboardTags.add("targetPlayer")
         }
     }
 }

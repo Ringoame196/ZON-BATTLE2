@@ -10,6 +10,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
+import org.bukkit.entity.Villager
 import org.bukkit.entity.Zombie
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.inventory.ItemStack
@@ -77,6 +78,11 @@ class Zombie {
                 Point().remove(entity, removeCoin)
                 entity.sendTitle("", "${ChatColor.RED}泥棒に${removeCoin}p盗まれた")
                 Point().add(owner!!, removeCoin, false)
+            }
+            "${ChatColor.DARK_RED}誘拐犯" -> {
+                if (entity is Villager) { return }
+                zombie.addPassenger(entity)
+                entity.sendMessage("${ChatColor.GREEN}誘拐された")
             }
         }
     }
