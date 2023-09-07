@@ -75,7 +75,10 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.entity
         val damager = e.damager
         val damage = e.finalDamage.toInt()
-        if (damager is org.bukkit.entity.Zombie) {
+        if (entity.scoreboardTags.contains("invincible")) {
+            // 無敵タグ
+            e.isCancelled = true
+        } else if (damager is org.bukkit.entity.Zombie) {
             // ゾンビの特殊能力
             Zombie().attack(damager, entity, e)
         } else if (damager is Shulker && entity !is org.bukkit.entity.Zombie) {
@@ -212,13 +215,10 @@ class Events(private val plugin: Plugin) : Listener {
     }
     @EventHandler
     fun onPlayerTookDamage(e: EntityDamageEvent) {
-        // プレイヤーの無敵 & 殺したときにポイントを与える
+        // 殺したときにポイントを与える
         val player = e.entity
         if (player !is Player) { return }
-
-        if (player.scoreboardTags.contains("invincible")) {
-            e.isCancelled = true
-        } else if (e.damage > 0 && player.health <= e.damage) {
+        if (e.damage > 0 && player.health <= e.damage) {
             Player().death(e, player, plugin)
         }
     }

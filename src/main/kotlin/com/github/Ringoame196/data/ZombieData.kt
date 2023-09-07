@@ -32,6 +32,8 @@ class ZombieData {
             "デスクイーン" -> deathQueen(zombie)
             "ネザライトゾンビ" -> netherite(zombie)
             "誘拐犯" -> kidnapping(zombie)
+            "大泥棒" -> bigThief(zombie)
+            "ゴースト" -> ghost(zombie)
         }
     }
     fun normal(zombie: Zombie?) {
@@ -279,6 +281,34 @@ class ZombieData {
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
             it.damage(4.0)
             it.scoreboardTags.add("targetPlayer")
+        }
+    }
+    fun bigThief(zombie: Zombie?) {
+        zombie?.let {
+            it.isBaby = false
+            it.customName = "大泥棒"
+            it.maxHealth = 200.0
+            it.health = 200.0
+            it.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, "BLACK")
+            it.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, "GREEN")
+            it.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, "BLACK")
+            it.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, "GREEN")
+            it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
+            it.damage(0.0)
+            it.scoreboardTags.add("targetPlayer")
+        }
+    }
+    fun ghost(zombie: Zombie?) {
+        zombie?.let {
+            it.isBaby = false
+            it.customName = "ゴースト"
+            it.maxHealth = 44.0
+            it.health = 44.0
+            it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
+            it.damage(4.0)
+            it.scoreboardTags.add("targetshop")
+            it.scoreboardTags.add("invincible")
+            it.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))
         }
     }
 }

@@ -239,8 +239,9 @@ class GUI {
 
         guiItem(gui, 18, Material.END_CRYSTAL, "特殊", "", true)
         zombieGUIitem(gui, 20, Material.STRING, "スケルトンマン", "100p")
-        zombieGUIitem(gui, 21, Material.LEAD, "誘拐犯", "500p")
-        zombieGUIitem(gui, 22, Material.LIME_CANDLE, "泥棒", "777p")
+        zombieGUIitem(gui, 21, Material.GLASS, "ゴースト", "400p")
+        zombieGUIitem(gui, 22, Material.LEAD, "誘拐犯", "500p")
+        zombieGUIitem(gui, 23, Material.LIME_CANDLE, "泥棒", "777p")
 
         guiItem(gui, 27, Material.SOUL_CAMPFIRE, "範囲", "", true)
         zombieGUIitem(gui, 29, Material.STICK, "シャーマン", "500p")
@@ -251,7 +252,8 @@ class GUI {
         zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p")
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
-        zombieGUIitem(gui, 47, Material.NETHERITE_SCRAP, "デスクイーン", "3000p")
+        zombieGUIitem(gui, 47, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "2000p")
+        zombieGUIitem(gui, 48, Material.NETHERITE_SCRAP, "デスクイーン", "3000p")
 
         player.openInventory(gui)
     }

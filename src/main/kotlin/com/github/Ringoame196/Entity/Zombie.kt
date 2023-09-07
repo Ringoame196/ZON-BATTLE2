@@ -8,6 +8,8 @@ import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.ZombieData
 import org.bukkit.ChatColor
 import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
@@ -71,20 +73,43 @@ class Zombie {
     fun attack(zombie: Zombie, entity: Entity, e: EntityDamageByEntityEvent) {
         when (zombie.customName) {
             "泥棒" -> {
-                val owner = GET().owner(zombie)
-                if (entity !is Player) { return }
                 e.isCancelled = true
-                val removeCoin: Int = Scoreboard().getValue("point", entity.name) ?: (0 / 2)
-                Point().remove(entity, removeCoin)
-                entity.sendTitle("", "${ChatColor.RED}泥棒に${removeCoin}p盗まれた")
-                Point().add(owner!!, removeCoin, false)
+                takeAway(zombie, entity)
             }
             "${ChatColor.DARK_RED}誘拐犯" -> {
                 if (entity is Villager) { return }
                 zombie.addPassenger(entity)
                 entity.sendMessage("${ChatColor.GREEN}誘拐された")
             }
+            "大泥棒" -> {
+                e.isCancelled = true
+                val item = Random.nextInt(1, 3) == 1
+                val point = Random.nextInt(1, 6) == 1
+                if (item) {
+                    takeItem(zombie, entity)
+                } else if (point) {
+                    takeAway(zombie, entity)
+                }
+            }
         }
+    }
+    fun takeAway(zombie: Zombie, entity: Entity) {
+        val owner = GET().owner(zombie) ?: return
+        if (entity !is Player) { return }
+        val removeCoin: Int = Scoreboard().getValue("point", entity.name) / 2
+        Point().remove(entity, removeCoin)
+        entity.sendTitle("", "${ChatColor.RED}${zombie.customName}に${removeCoin}p盗まれた")
+        Point().add(owner, removeCoin, false)
+    }
+    fun takeItem(zombie: Zombie, entity: Entity) {
+        val owner = GET().owner(zombie) ?: return
+        if (entity !is Player) { return }
+        val item = entity.inventory.itemInMainHand.clone()
+        entity.inventory.setItemInMainHand(ItemStack(Material.AIR))
+        owner.inventory?.addItem(item)
+        entity.sendTitle("", "${ChatColor.RED}${zombie.customName}にアイテムを盗まれた")
+        owner.sendTitle("", "${ChatColor.GREEN}${zombie.customName}がアイテムを盗んできてくれた")
+        entity.playSound(entity, Sound.ITEM_TRIDENT_RETURN, 1f, 1f)
     }
     fun offhandSet(player: Player) {
         val mainHandItem = player.inventory.itemInMainHand.clone()
