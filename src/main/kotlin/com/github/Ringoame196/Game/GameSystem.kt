@@ -194,7 +194,7 @@ class GameSystem {
                 Bukkit.getWorld("world")?.let { player.teleport(it.spawnLocation) }
             }
         }
-        Sign().numberdisplay("(参加中:0人)")
+        Sign().numberdisplay("参加者:0人")
         Scoreboard().set("gameData", "status", 0)
         reset()
         Team().make("red", ChatColor.RED, "${ChatColor.RED}[赤チーム]")
