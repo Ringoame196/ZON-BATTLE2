@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.Entity.Wolf
 import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Map

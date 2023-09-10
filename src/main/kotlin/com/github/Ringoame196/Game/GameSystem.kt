@@ -1,11 +1,11 @@
 package com.github.Ringoame196.Game
 
 import com.github.Ringoame196.Block
+import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.GUI
 import com.github.Ringoame196.Give
 import com.github.Ringoame196.ParticipatingPlayer
 import com.github.Ringoame196.RandomChest
-import com.github.Ringoame196.Shop
 import com.github.Ringoame196.Sign
 import com.github.Ringoame196.Team
 import com.github.Ringoame196.data.Data

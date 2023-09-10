@@ -1,6 +1,8 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Minion
 import com.github.Ringoame196.Entity.PotionShop
+import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.Entity.TNT
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Game.Scoreboard
@@ -103,6 +105,15 @@ class Item {
                     return
                 }
                 PotionShop().summon(player)
+                Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
+            }
+            itemName == "${ChatColor.GREEN}ミニオン" -> {
+                e.isCancelled = true
+                if (!petC) {
+                    player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
+                    return
+                }
+                Minion().summon(block?.location?.add(0.0, 1.0, 0.0) ?: player.location)
                 Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             else -> return

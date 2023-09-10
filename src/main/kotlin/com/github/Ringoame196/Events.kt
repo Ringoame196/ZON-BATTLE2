@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Point

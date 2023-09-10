@@ -1,8 +1,11 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.Entity
 
+import com.github.Ringoame196.GUI
 import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Game.Scoreboard
+import com.github.Ringoame196.Give
+import com.github.Ringoame196.Team
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -175,7 +178,7 @@ class Shop {
         // アーマースタンドを召喚
         val armorStandLocation = location.clone()
         armorStandLocation.add(0.0, 1.3, 0.0)
-        com.github.Ringoame196.Entity.ArmorStand().summon(armorStandLocation, "${ChatColor.GOLD}攻防戦ショップ")
+        ArmorStand().summon(armorStandLocation, "${ChatColor.GOLD}攻防戦ショップ")
     }
     fun deletename(location: Location) {
         val nearbyEntities = location.world?.getNearbyEntities(location, 3.0, 3.0, 3.0)

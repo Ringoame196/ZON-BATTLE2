@@ -1,11 +1,10 @@
 package com.github.Ringoame196.Game
 
 import com.github.Ringoame196.Entity.ArmorStand
+import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.GUI
-import com.github.Ringoame196.Player
 import com.github.Ringoame196.RandomChest
-import com.github.Ringoame196.Shop
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
