@@ -82,8 +82,6 @@ class Timer {
         }
         if (time % 14 == 0) {
             PotionShop().give()
-        }
-        if (time % 10 == 0) {
             Minion().loopMinion(plugin)
         }
         if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "ノーマルゾンビ", "ノーマルゾンビ") }

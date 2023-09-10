@@ -29,6 +29,7 @@ class Minion {
                 Data.DataManager.gameData.minion.remove(minion)
                 continue
             }
+            if (minion.equipment?.itemInMainHand?.type != Material.IRON_PICKAXE) { continue }
             breakore(minion, plugin)
         }
     }

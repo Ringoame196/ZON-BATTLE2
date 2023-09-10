@@ -265,7 +265,8 @@ class GUI {
         guiItem(gui, 19, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p", true)
         guiItem(gui, 20, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)
         guiItem(gui, 21, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", true)
-        guiItem(gui, 22, Material.BREWING_STAND, "${ChatColor.YELLOW}ポーション屋", "1200p", true)
+        guiItem(gui, 22, Material.ZOMBIE_HEAD, "${ChatColor.GREEN}ミニオン", "1000p", true)
+        guiItem(gui, 23, Material.BREWING_STAND, "${ChatColor.YELLOW}ポーション屋", "1200p", true)
     }
     fun generalMerchandiseshop(gui: Inventory, player: Player) {
         player.openInventory(gui)
