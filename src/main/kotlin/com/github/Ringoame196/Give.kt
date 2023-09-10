@@ -72,4 +72,11 @@ class Give {
         chatBook.setItemMeta(meta)
         return chatBook
     }
+    fun point(price: Int): ItemStack {
+        val item = ItemStack(Material.EMERALD)
+        val meta = item.itemMeta
+        meta?.setDisplayName("${ChatColor.GREEN}${price}p")
+        item.setItemMeta(meta)
+        return item
+    }
 }

@@ -253,7 +253,7 @@ class GUI {
         zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p")
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
-        zombieGUIitem(gui, 47, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "2000p")
+        zombieGUIitem(gui, 47, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "2777p")
         zombieGUIitem(gui, 48, Material.NETHERITE_SCRAP, "デスクイーン", "3000p")
 
         player.openInventory(gui)
