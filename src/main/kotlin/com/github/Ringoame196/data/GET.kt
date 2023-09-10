@@ -4,6 +4,7 @@ import com.github.Ringoame196.Game.Scoreboard
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
@@ -13,14 +14,14 @@ import org.bukkit.inventory.Inventory
 
 class GET {
     fun teamName(entity: Entity): String? {
-        return if(entity is Player) {
+        return if (entity is Player) {
             entity.scoreboard.teams.firstOrNull { it.hasEntry(entity.name) }?.name
-        } else{
-            if(entity.scoreboardTags.contains("red")){
+        } else {
+            if (entity.scoreboardTags.contains("red")) {
                 "red"
-            } else if(entity.scoreboardTags.contains("blue")){
+            } else if (entity.scoreboardTags.contains("blue")) {
                 "blue"
-            } else {null}
+            } else { null }
         }
     }
 
@@ -156,5 +157,22 @@ class GET {
     }
     fun gameTime(): Int {
         return Scoreboard().getValue("gameData", "time")
+    }
+    fun cooltime(block: Material, teamName: String): Int {
+        return when (block) {
+            Material.DIAMOND_ORE -> 90
+            Material.BEDROCK -> -1
+            else -> GET().getTeamRevivalTime(teamName)
+        }
+    }
+    fun orePoint(block: Material): Int? {
+        return when (block) {
+            Material.COAL_ORE -> 1
+            Material.IRON_ORE -> 10
+            Material.GOLD_ORE -> 20
+            Material.DIAMOND_ORE -> 100
+            Material.BEDROCK -> 10000
+            else -> null
+        }
     }
 }

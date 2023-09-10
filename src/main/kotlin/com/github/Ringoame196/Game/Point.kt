@@ -42,24 +42,10 @@ class Point {
         val blockType = block.type
         val blockData = block.blockData
         GameSystem().adventure(e, player)
-        var cooltime = GET().getTeamRevivalTime(team) ?: -1
-        val point: Int
-        when (blockType) {
-            Material.COAL_ORE -> point = 1
-            Material.IRON_ORE -> point = 10
-            Material.GOLD_ORE -> point = 20
-            Material.DIAMOND_ORE -> {
-                point = 100
-                cooltime = 90 // ダイヤモンドだけ別時間
-            }
-            Material.BEDROCK -> {
-                point = 10000
-                cooltime = -1
-            }
-            else -> return
-        }
+        val coolTime = GET().cooltime(blockType, team)
+        val point = GET().orePoint(blockType) ?: return
         add(player, point, true)
-        com.github.Ringoame196.Block().revival(plugin, block.location, cooltime, blockType, blockData)
+        com.github.Ringoame196.Block().revival(plugin, block.location, coolTime, blockType, blockData)
     }
 
     fun purchase(player: Player, price: String): Boolean {
