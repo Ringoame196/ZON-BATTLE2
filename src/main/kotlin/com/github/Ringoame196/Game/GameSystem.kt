@@ -49,7 +49,6 @@ class GameSystem {
             Map().settingOpenGUI(displayName, player)
             return
         }
-        player.closeInventory()
         if (item.type == Material.ENDER_EYE && e.isShiftClick) {
             setlocation(item, player)
             e.isCancelled = true
@@ -63,7 +62,10 @@ class GameSystem {
             val playMap = Map().getMapName()
             player.sendMessage("${ChatColor.AQUA}${playMap}を選択しました")
             e.isCancelled = true
+            GUI().gamesettingGUI(player)
+            return
         }
+        player.closeInventory()
     }
     fun setlocation(item: ItemStack, player: Player) {
         when (item.itemMeta?.displayName) {

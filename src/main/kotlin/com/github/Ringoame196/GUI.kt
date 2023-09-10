@@ -234,7 +234,7 @@ class GUI {
         zombieGUIitem(gui, 6, Material.BLAZE_POWDER, "バトルロード", "850p")
         zombieGUIitem(gui, 7, Material.BONE_MEAL, "カスタムロード", "1000p")
 
-        guiItem(gui, 9, Material.IRON_CHESTPLATE, "耐休", "", true)
+        guiItem(gui, 9, Material.IRON_CHESTPLATE, "耐久", "", true)
         zombieGUIitem(gui, 11, Material.RAW_IRON, "シールドゾンビ", "40p")
         zombieGUIitem(gui, 12, Material.IRON_INGOT, "タンクマン", "300p")
 
@@ -265,7 +265,7 @@ class GUI {
         guiItem(gui, 19, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p", true)
         guiItem(gui, 20, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)
         guiItem(gui, 21, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", true)
-        guiItem(gui, 22, Material.ZOMBIE_HEAD, "${ChatColor.GREEN}ミニオン", "1000p", true)
+        playerHead(gui, 22, "akamaru58", "${ChatColor.GREEN}ミニオン", "1000p")
         guiItem(gui, 23, Material.BREWING_STAND, "${ChatColor.YELLOW}ポーション屋", "1200p", true)
     }
     fun generalMerchandiseshop(gui: Inventory, player: Player) {
