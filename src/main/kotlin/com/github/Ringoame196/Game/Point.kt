@@ -59,7 +59,7 @@ class Point {
             else -> return
         }
         add(player, point, true)
-        com.github.Ringoame196.Block().revival(plugin, block.location, cooltime!!, blockType, blockData)
+        com.github.Ringoame196.Block().revival(plugin, block.location, cooltime, blockType, blockData)
     }
 
     fun purchase(player: Player, price: String): Boolean {

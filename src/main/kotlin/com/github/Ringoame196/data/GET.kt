@@ -12,8 +12,16 @@ import org.bukkit.entity.Villager
 import org.bukkit.inventory.Inventory
 
 class GET {
-    fun teamName(player: Player): String? {
-        return player.scoreboard.teams.firstOrNull { it.hasEntry(player.name) }?.name
+    fun teamName(entity: Entity): String? {
+        return if(entity is Player) {
+            entity.scoreboard.teams.firstOrNull { it.hasEntry(entity.name) }?.name
+        } else{
+            if(entity.scoreboardTags.contains("red")){
+                "red"
+            } else if(entity.scoreboardTags.contains("blue")){
+                "blue"
+            } else {null}
+        }
     }
 
     fun joinTeam(player: Player): Boolean {
