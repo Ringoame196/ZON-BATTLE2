@@ -113,7 +113,7 @@ class Item {
                     player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
                     return
                 }
-                Minion().summon(block?.location?.add(0.0, 1.0, 0.0) ?: player.location)
+                Minion().summon(block?.location?.add(0.0, 1.0, 0.0) ?: player.location, team)
                 Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
             else -> return

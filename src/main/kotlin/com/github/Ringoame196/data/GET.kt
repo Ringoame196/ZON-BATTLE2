@@ -159,6 +159,10 @@ class GET {
         return Scoreboard().getValue("gameData", "time")
     }
     fun cooltime(block: Material, teamName: String): Int {
+        val fever = Scoreboard().getValue("gameData", "fever") == 1
+        if (fever) {
+            return -1
+        }
         return when (block) {
             Material.DIAMOND_ORE -> 90
             Material.BEDROCK -> -1

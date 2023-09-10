@@ -2,7 +2,6 @@ package com.github.Ringoame196
 
 import com.github.Ringoame196.Entity.ArmorStand
 import com.github.Ringoame196.Game.GameSystem
-import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -20,10 +19,6 @@ import org.bukkit.scheduler.BukkitRunnable
 class Block {
     fun revival(plugin: Plugin, location: Location, cool: Int, type: Material, blockData: BlockData) {
         var cooltime = cool
-        val fever = Scoreboard().getValue("gameData", "fever")
-        if (fever == 1) {
-            cooltime = -1
-        }
         val setLocation = location.clone()
         setLocation.block.type = Material.LIGHT_BLUE_STAINED_GLASS
         setLocation.add(0.5, -1.0, 0.5).clone()
