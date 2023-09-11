@@ -4,6 +4,7 @@ import com.github.Ringoame196.Entity.ArmorStand
 import com.github.Ringoame196.Game.GameSystem
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
@@ -43,7 +44,9 @@ class Block {
         }.runTaskTimer(plugin, 0L, 20L)
     }
     fun deleteRevival() {
-        for (armorStand in Data.DataManager.gameData.title) {
+        val entitys = Bukkit.getWorld("BATTLE")?.entities ?: return
+        for (armorStand in entitys) {
+            if (armorStand !is org.bukkit.entity.ArmorStand) { continue }
             val location = armorStand.location.clone().add(-0.5, 1.0, -0.5)
             val blockType = when {
                 armorStand.scoreboardTags.contains("DIAMOND_ORE") -> Material.DIAMOND_ORE

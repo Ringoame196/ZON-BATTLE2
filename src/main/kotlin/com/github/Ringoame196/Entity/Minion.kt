@@ -42,10 +42,11 @@ class Minion {
             for (y in -radius..radius) {
                 for (z in -radius..radius) {
                     val block = center.clone().add(x.toDouble(), y.toDouble(), z.toDouble()).block
-                    if (block.type == Material.BEDROCK) { continue }
+                    val blockType = block.type
+                    if (blockType == Material.BEDROCK) { continue }
                     GET().orePoint(block.type) ?: continue
                     val orepoint = GET().orePoint(block.type) ?: 0
-                    Block().revival(plugin, block.location, GET().cooltime(block.type, team), block.type, block.blockData)
+                    Block().revival(plugin, block.location, GET().cooltime(blockType, team), blockType, block.blockData)
                     point += orepoint
                 }
             }

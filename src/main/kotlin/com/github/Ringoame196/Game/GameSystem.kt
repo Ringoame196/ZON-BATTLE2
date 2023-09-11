@@ -173,7 +173,7 @@ class GameSystem {
                 loopPlayer.sendMessage("${ChatColor.RED}${winTeam}チームの勝利")
                 loopPlayer.playSound(loopPlayer.location, Sound.BLOCK_ANVIL_USE, 1f, 1f)
                 loopPlayer.inventory.clear()
-                loopPlayer.walkSpeed = 2.0f
+                loopPlayer.walkSpeed = 0.2f
                 if (loopPlayer.isOp) {
                     loopPlayer.inventory.addItem(Give().gameSetting())
                 }
