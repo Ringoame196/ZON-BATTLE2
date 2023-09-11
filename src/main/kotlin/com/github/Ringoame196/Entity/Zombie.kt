@@ -127,10 +127,10 @@ class Zombie {
         if (Scoreboard().getValue("point", player.name) <1000) {
             player.sendTitle("${ChatColor.RED}脱出失敗", "${ChatColor.RED}お金が足りず うまく逃げ切れなかった")
             e.isCancelled = true
-        }else {
+        } else {
             Point().remove(player, 1000)
             zombie.remove()
-            player.sendTitle("${ChatColor.GREEN}脱出","${ChatColor.YELLOW}身代金を払った")
+            player.sendTitle("${ChatColor.GREEN}脱出", "${ChatColor.YELLOW}身代金を払った")
         }
     }
 }

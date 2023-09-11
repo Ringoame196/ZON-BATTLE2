@@ -25,7 +25,6 @@ class Hoe {
                 Player().errormessage("${ChatColor.RED}ガラスの上で実行してください(ガラスの上に行くには、自陣の後ろにあるボタンをクリック)", player)
                 return
             }
-
             val zombie = player.inventory.itemInOffHand
             Zombie().summonSorting(player, zombie)
             val teamName = GET().opposingTeamname(GET().teamName(player).toString())

@@ -254,6 +254,7 @@ class GUI {
         guiItem(gui, 36, Material.HORN_CORAL, "召喚", "", true)
         zombieGUIitem(gui, 38, Material.BOOK, "ネクロマンサー", "400p", "子分生成")
         zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p", "強い子分生成")
+        zombieGUIitem(gui, 40, Material.GREEN_SHULKER_BOX, "ランダム", "750p", "ランダム")
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
         zombieGUIitem(gui, 47, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "2777p", "泥棒の上位互換")

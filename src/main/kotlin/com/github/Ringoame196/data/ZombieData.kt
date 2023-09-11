@@ -9,12 +9,67 @@ import org.bukkit.entity.Zombie
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import kotlin.random.Random
 
 class ZombieData {
+    fun random(player: Player): String {
+        val zombieList: MutableList<String> = mutableListOf(
+            "ノーマルゾンビ",
+            "ノーマルゾンビ",
+            "ノーマルゾンビ",
+            "ノーマルゾンビ",
+            "ノーマルゾンビ",
+            "ノーマルゾンビ",
+            "ノーマルゾンビ",
+            "ノーマルゾンビ",
+            "チビゾンビ",
+            "チビゾンビ",
+            "チビゾンビ",
+            "チビゾンビ",
+            "チビゾンビ",
+            "ゾンビソルジャー",
+            "ゾンビソルジャー",
+            "ゾンビソルジャー",
+            "ダッシュマン",
+            "ダッシュマン",
+            "ダッシュマン",
+            "バトルロード",
+            "カスタムロード",
+            "シールドゾンビ",
+            "シールドゾンビ",
+            "シールドゾンビ",
+            "シールドゾンビ",
+            "シールドゾンビ",
+            "タンクマン",
+            "タンクマン",
+            "スケルトンマン",
+            "スケルトンマン",
+            "スケルトンマン",
+            "泥棒",
+            "泥棒",
+            "シャーマン",
+            "シャーマン",
+            "フロストメイジ",
+            "フロストメイジ",
+            "フロストメイジ",
+            "フロストメイジ",
+            "ネクロマンサー",
+            "エンペラー",
+            "デスクイーン",
+            "誘拐犯",
+            "大泥棒",
+            "ゴースト"
+        )
+        val random = Random.nextInt(0, zombieList.size)
+        val zombie = zombieList.get(random)
+        player.sendMessage("${ChatColor.AQUA}${zombie}を召喚しました")
+        return zombie
+    }
     fun switching(zombieName: String, player: Player, zombie: Zombie?) {
         zombie?.scoreboardTags?.add("owner:${player.name}")
         zombie?.scoreboardTags?.add(GET().teamName(player))
         when (zombieName) {
+            "ランダム" -> switching(random(player), player, zombie)
             "ノーマルゾンビ" -> normal(zombie)
             "チビゾンビ" -> chibi(zombie)
             "ゾンビソルジャー" -> solder(zombie)
