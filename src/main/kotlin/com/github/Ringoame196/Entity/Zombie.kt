@@ -119,17 +119,18 @@ class Zombie {
     }
     fun ransom(player: Player, zombie: Entity, e: EntityDismountEvent) {
         if (zombie !is Zombie) { return }
-        if (Scoreboard().getValue("point", player.name) <1000) {
-            if (Random.nextInt(1, 101) == 1) {
-                player.sendTitle("${ChatColor.GREEN}脱出成功", "${ChatColor.AQUA}うまく逃げた")
-                zombie.remove()
-            } else {
-                player.sendTitle("${ChatColor.RED}脱出失敗", "${ChatColor.RED}お金が足りなかった")
-                e.isCancelled = true
-            }
+        if (Random.nextInt(1, 31) == 1) {
+            player.sendTitle("${ChatColor.GREEN}脱出成功", "${ChatColor.AQUA}うまく逃げた")
+            zombie.remove()
             return
         }
-        Point().remove(player, 1000)
-        zombie.remove()
+        if (Scoreboard().getValue("point", player.name) <1000) {
+            player.sendTitle("${ChatColor.RED}脱出失敗", "${ChatColor.RED}お金が足りず うまく逃げ切れなかった")
+            e.isCancelled = true
+        }else {
+            Point().remove(player, 1000)
+            zombie.remove()
+            player.sendTitle("${ChatColor.GREEN}脱出","${ChatColor.YELLOW}身代金を払った")
+        }
     }
 }
