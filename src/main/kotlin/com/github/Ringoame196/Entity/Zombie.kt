@@ -12,10 +12,10 @@ import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
-import org.bukkit.entity.Villager
 import org.bukkit.entity.Zombie
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.inventory.ItemStack
+import org.spigotmc.event.entity.EntityDismountEvent
 import kotlin.random.Random
 
 class Zombie {
@@ -77,9 +77,9 @@ class Zombie {
                 takeAway(zombie, entity)
             }
             "${ChatColor.DARK_RED}誘拐犯" -> {
-                if (entity is Villager) { return }
+                if (entity !is Player) { return }
                 zombie.addPassenger(entity)
-                entity.sendMessage("${ChatColor.GREEN}誘拐された")
+                entity.sendTitle("${ChatColor.GREEN}誘拐中", "${ChatColor.RED}身代金1000p")
             }
             "大泥棒" -> {
                 e.isCancelled = true
@@ -116,5 +116,20 @@ class Zombie {
         val offhandItem = player.inventory.itemInOffHand.clone()
         player.inventory.setItemInMainHand(offhandItem)
         player.inventory.setItemInOffHand(mainHandItem)
+    }
+    fun ransom(player: Player, zombie: Entity, e: EntityDismountEvent) {
+        if (zombie !is Zombie) { return }
+        if (Scoreboard().getValue("point", player.name) <1000) {
+            if (Random.nextInt(1, 101) == 1) {
+                player.sendTitle("${ChatColor.GREEN}脱出成功", "${ChatColor.AQUA}うまく逃げた")
+                zombie.remove()
+            } else {
+                player.sendTitle("${ChatColor.RED}脱出失敗", "${ChatColor.RED}お金が足りなかった")
+                e.isCancelled = true
+            }
+            return
+        }
+        Point().remove(player, 1000)
+        zombie.remove()
     }
 }

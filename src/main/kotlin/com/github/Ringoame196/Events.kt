@@ -35,6 +35,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
 import org.bukkit.plugin.Plugin
+import org.spigotmc.event.entity.EntityDismountEvent
 
 class Events(private val plugin: Plugin) : Listener {
 
@@ -258,6 +259,15 @@ class Events(private val plugin: Plugin) : Listener {
         val item = e.player.inventory.itemInMainHand
         if (isSneak && item.itemMeta?.displayName?.contains("[ゾンビ召喚]") == true) {
             Zombie().offhandSet(player)
+        }
+    }
+    @EventHandler
+    fun ona(e: EntityDismountEvent) {
+        val player = e.entity
+        val entity = e.dismounted
+        if (player !is Player) { return }
+        when (entity.customName) {
+            "${ChatColor.DARK_RED}誘拐犯" -> Zombie().ransom(player, entity, e)
         }
     }
 }
