@@ -323,15 +323,20 @@ class GUI {
         } else {
             guiItem(gui, 0, Material.EMERALD, "${ChatColor.AQUA}ゲームスタート", "", true)
         }
-        guiItem(gui, 1, Material.VILLAGER_SPAWN_EGG, "${ChatColor.YELLOW}ショップ召喚", "", true)
-        guiItem(gui, 2, Material.DIAMOND, "${ChatColor.GREEN}参加", "", true)
-        guiItem(gui, 3, Material.PLAYER_HEAD, "${ChatColor.BLUE}プレイヤー", "", true)
-        guiItem(gui, 4, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}実験所へ", "", true)
-        guiItem(gui, 5, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}ロビーへ", "", true)
-        guiItem(gui, 6, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}バトルへ", "", true)
-        guiItem(gui, 7, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}トレジャーバトル", "", true)
-        guiItem(gui, 8, Material.REDSTONE, Map().getMapName(), "", true)
-        guiItem(gui, 9, Material.MAP, "${ChatColor.GREEN}座標設定", "", true)
+        if (GET().status()) {
+            guiItem(gui, 1, Material.GOLD_BLOCK, "${ChatColor.RED}強制再生", "", true)
+        } else {
+            guiItem(gui, 1, Material.BARRIER, "${ChatColor.RED}選択禁止", "", true)
+        }
+        guiItem(gui, 2, Material.VILLAGER_SPAWN_EGG, "${ChatColor.YELLOW}ショップ召喚", "", true)
+        guiItem(gui, 3, Material.DIAMOND, "${ChatColor.GREEN}参加", "", true)
+        guiItem(gui, 4, Material.PLAYER_HEAD, "${ChatColor.BLUE}プレイヤー", "", true)
+        guiItem(gui, 5, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}実験所へ", "", true)
+        guiItem(gui, 6, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}ロビーへ", "", true)
+        guiItem(gui, 7, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}バトルへ", "", true)
+        guiItem(gui, 8, Material.COMMAND_BLOCK, "${ChatColor.YELLOW}トレジャーバトル", "", true)
+        guiItem(gui, 9, Material.REDSTONE, Map().getMapName(), "", true)
+        guiItem(gui, 10, Material.MAP, "${ChatColor.GREEN}座標設定", "", true)
         player.openInventory(gui)
     }
     fun locationtutorialMap(player: Player) {

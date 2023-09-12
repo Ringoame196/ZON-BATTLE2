@@ -44,6 +44,10 @@ class GameSystem {
                 Map().selectworld(player)
                 return
             }
+            "${ChatColor.RED}強制再生" -> {
+                if (!e.isShiftClick) { return }
+                reproduction(plugin)
+            }
         }
         if (item.type == Material.CHEST && displayName?.contains("マップ") == true) {
             Map().settingOpenGUI(displayName, player)
@@ -239,5 +243,17 @@ class GameSystem {
             Scoreboard().set("participatingPlayer", playerName, join + 1)
         }
         GUI().joinPlayers(sender)
+    }
+    fun reproduction(plugin: Plugin) {
+        Timer().GameTimer(plugin)
+        Block().deleteRevival()
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
+            val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            if (join != 0) {
+                Data.DataManager.gameData.bossBar.addPlayer(loopPlayer)
+                loopPlayer.sendMessage("${ChatColor.RED}強制続行します")
+                loopPlayer.playSound(loopPlayer, Sound.ENTITY_ENDER_DRAGON_AMBIENT, 1f, 1f)
+            }
+        }
     }
 }

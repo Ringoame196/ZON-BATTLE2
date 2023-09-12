@@ -52,7 +52,7 @@ class Block {
                 armorStand.scoreboardTags.contains("DIAMOND_ORE") -> Material.DIAMOND_ORE
                 armorStand.scoreboardTags.contains("GOLD_ORE") -> Material.GOLD_ORE
                 armorStand.scoreboardTags.contains("IRON_ORE") -> Material.IRON_ORE
-                armorStand.scoreboardTags.contains("COAL_BLOCK") -> Material.COAL_BLOCK
+                armorStand.scoreboardTags.contains("COAL_ORE") -> Material.COAL_ORE
                 armorStand.scoreboardTags.contains("OAK_LOG") -> Material.OAK_LOG
                 else -> continue // 不明なタグの場合、スキップ
             }
