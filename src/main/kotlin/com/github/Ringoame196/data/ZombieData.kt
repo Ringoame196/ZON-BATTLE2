@@ -297,8 +297,8 @@ class ZombieData {
         zombie?.let {
             it.isBaby = false
             it.customName = "${ChatColor.RED}デスクイーン"
-            it.maxHealth = 65.0
-            it.health = 65.0
+            it.maxHealth = 130.0
+            it.health = 130.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
             it.damage(10.0)
             it.scoreboardTags.add("targetshop")

@@ -74,7 +74,9 @@ class Zombie {
         when (zombie.customName) {
             "泥棒" -> {
                 e.isCancelled = true
-                takeAway(zombie, entity)
+                if(Random.nextInt(1,3) == 1) {
+                    takeAway(zombie, entity)
+                }
             }
             "${ChatColor.DARK_RED}誘拐犯" -> {
                 if (entity !is Player) { return }

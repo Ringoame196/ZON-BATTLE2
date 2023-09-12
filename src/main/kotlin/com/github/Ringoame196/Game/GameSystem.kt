@@ -25,6 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class GameSystem {
     fun gameSettingGUIClick(plugin: Plugin, player: Player, item: ItemStack, e: InventoryClickEvent) {
+        e.isCancelled = true
         player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
         val displayName = item.itemMeta?.displayName
         when (displayName) {
@@ -222,6 +223,7 @@ class GameSystem {
     }
     fun reset() {
         Block().deleteRevival()
+        Scoreboard().set("gameData", "reload", 0)
         for (entity in Bukkit.getWorld("BATTLE")?.entities!!) {
             if (entity !is Player) {
                 entity.remove()
@@ -247,6 +249,7 @@ class GameSystem {
     fun reproduction(plugin: Plugin) {
         Timer().GameTimer(plugin)
         Block().deleteRevival()
+        Scoreboard().set("gameData", "reload", 0)
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
             if (join != 0) {

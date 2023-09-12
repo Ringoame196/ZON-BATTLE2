@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -22,6 +23,7 @@ class Main : JavaPlugin() {
             Data.DataManager.LocationData.loadLocationDataFromYaml(locationFilePath)
         }
         Bukkit.broadcastMessage("${ChatColor.YELLOW}[攻防戦]プラグインが再読込されました")
+        Scoreboard().set("gameData", "reload", 1)
     }
 
     override fun onDisable() {

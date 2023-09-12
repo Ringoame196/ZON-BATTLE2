@@ -244,8 +244,8 @@ class GUI {
         guiItem(gui, 18, Material.END_CRYSTAL, "特殊", "", true)
         zombieGUIitem(gui, 20, Material.STRING, "スケルトンマン", "100p", "ほぼ透明")
         zombieGUIitem(gui, 21, Material.GLASS, "ゴースト", "500p", "幽霊")
-        zombieGUIitem(gui, 22, Material.LEAD, "誘拐犯", "600p", "プレイヤーを誘拐")
-        zombieGUIitem(gui, 23, Material.LIME_CANDLE, "泥棒", "777p", "所持金半分奪う")
+        zombieGUIitem(gui, 22, Material.LIME_CANDLE, "泥棒", "777p", "所持金半分奪う")
+        zombieGUIitem(gui, 23, Material.LEAD, "誘拐犯", "850p", "プレイヤーを誘拐")
 
         guiItem(gui, 27, Material.SOUL_CAMPFIRE, "範囲", "", true)
         zombieGUIitem(gui, 29, Material.STICK, "シャーマン", "500p", "周りのゾンビ強化")
@@ -319,11 +319,11 @@ class GUI {
     fun gamesettingGUI(player: Player) {
         val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
         if (GET().status()) {
-            guiItem(gui, 0, Material.BARRIER, "${ChatColor.RED}終了", "", true)
+            guiItem(gui, 0, Material.REDSTONE_BLOCK, "${ChatColor.RED}終了", "", true)
         } else {
             guiItem(gui, 0, Material.EMERALD, "${ChatColor.AQUA}ゲームスタート", "", true)
         }
-        if (GET().status()) {
+        if (GET().status() && Scoreboard().getValue("gameData", "reload") == 1) {
             guiItem(gui, 1, Material.GOLD_BLOCK, "${ChatColor.RED}強制再生", "", true)
         } else {
             guiItem(gui, 1, Material.BARRIER, "${ChatColor.RED}選択禁止", "", true)
@@ -471,7 +471,7 @@ class GUI {
             "再生UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.REGENERATION, null, 2, 180)
             "採掘速度UP(5分)" -> Team().GiveEffect(player, itemName, PotionEffectType.FAST_DIGGING, null, 2, 300)
             "耐性(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.DAMAGE_RESISTANCE, null, 1, 180)
-            "移動速度UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.SPEED, null, 3, 180)
+            "移動速度UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.SPEED, null, 1, 180)
             "攻撃力UP&再生(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.REGENERATION, PotionEffectType.INCREASE_DAMAGE, 0, 180)
             "鉱石復活速度UP" -> Team().fastbreaklevel(teamName, player, itemName)
             "村人体力増加" -> Shop().teamMaxHPadd(teamName, player, itemName, 10)
