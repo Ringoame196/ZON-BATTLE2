@@ -78,6 +78,8 @@ class Timer {
         if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "シールドゾンビ", "ゾンビソルジャー") }
         if (time % 5 == 0) {
             Golem().golden()
+        }
+        if (time % 3 == 0) {
             Blaze().attack()
         }
         if (time % 14 == 0) {

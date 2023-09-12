@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.GET
 import org.bukkit.Color
 import org.bukkit.Material
@@ -16,10 +17,14 @@ class Equipment {
         player.inventory.leggings = unbreakable(ItemStack(Material.LEATHER_LEGGINGS))
         player.inventory.boots = unbreakable(ItemStack(Material.LEATHER_BOOTS))
         player.inventory.addItem(unbreakable(ItemStack(Material.WOODEN_SWORD)))
-        val pickaxe = unbreakable(ItemStack(Material.WOODEN_PICKAXE))
-        pickaxe.addEnchantment(Enchantment.DIG_SPEED, 1)
-        player.inventory.addItem(pickaxe)
-        player.inventory.addItem(Give().chatBook())
+        if (Scoreboard().getValue("gameData", "map") == 3 && GET().teamName(player) == "blue") {
+            player.inventory.addItem(unbreakable(ItemStack(Material.IRON_PICKAXE)))
+        } else {
+            val pickaxe = unbreakable(ItemStack(Material.WOODEN_PICKAXE))
+            pickaxe.addEnchantment(Enchantment.DIG_SPEED, 1)
+            player.inventory.addItem(pickaxe)
+            player.inventory.addItem(Give().chatBook())
+        }
     }
     fun hat(player: Player) {
         val hat = ItemStack(Material.LEATHER_HELMET)

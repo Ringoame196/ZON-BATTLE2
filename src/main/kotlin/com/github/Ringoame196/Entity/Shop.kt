@@ -85,7 +85,11 @@ class Shop {
         GUI().guiItem(gui, 1, Material.IRON_PICKAXE, "${ChatColor.YELLOW}ツール", "", true)
         GUI().guiItem(gui, 3, Material.IRON_SWORD, "${ChatColor.YELLOW}武器", "", true)
         GUI().guiItem(gui, 5, Material.IRON_CHESTPLATE, "${ChatColor.YELLOW}防具", "", true)
-        GUI().guiItem(gui, 7, Material.TNT, "${ChatColor.YELLOW}お邪魔アイテム", "", true)
+        if (Scoreboard().getValue("gameData", "map") != 3) {
+            GUI().guiItem(gui, 7, Material.TNT, "${ChatColor.YELLOW}お邪魔アイテム", "", true)
+        } else {
+            GUI().guiItem(gui, 7, Material.BARRIER, "${ChatColor.RED}選択不可", "", true)
+        }
         if (GET().gameTime() >= 300 || player.gameMode == GameMode.CREATIVE) {
             GUI().guiItem(gui, 10, Material.ZOMBIE_SPAWN_EGG, "${ChatColor.YELLOW}ゾンビ", "", true)
             if (Scoreboard().getValue("gameData", "map") == 3 && GET().teamName(player) == "red") {

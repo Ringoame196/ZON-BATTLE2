@@ -74,7 +74,7 @@ class Zombie {
         when (zombie.customName) {
             "泥棒" -> {
                 e.isCancelled = true
-                if(Random.nextInt(1,3) == 1) {
+                if (Random.nextInt(1, 3) == 1) {
                     takeAway(zombie, entity)
                 }
             }
