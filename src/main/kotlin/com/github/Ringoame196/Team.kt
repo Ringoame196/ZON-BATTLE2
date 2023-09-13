@@ -22,7 +22,7 @@ class Team {
         player.playSound(player, Sound.BLOCK_CHEST_OPEN, 1f, 1f)
         player.openInventory(GET().teamChest(teamName) ?: return)
     }
-    fun fastbreaklevel(teamName: String, player: Player, itemName: String) {
+    fun fastbreaklevel(teamName: String, player: Player) {
         com.github.Ringoame196.Game.Scoreboard().set(
             GET().getTeamSystemScoreName(teamName), "revivalTime",
             GET().getTeamRevivalTime(teamName) - 1
@@ -45,31 +45,34 @@ class Team {
         Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("kansen")?.unregister()
     }
     fun division() {
+        var red = 0
+        var blue = 0
         val redTeam = Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red")
         val blueTeam = Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue")
-        var team = true
-        var blueCount = 0
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
-            val join = com.github.Ringoame196.Game.Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            val join = com.github.Ringoame196.Game.Scoreboard().getValue("participatingPlayer", loopPlayer.name)
             if (join == 0) { continue }
             Data.DataManager.gameData.bossBar.addPlayer(loopPlayer)
             loopPlayer.setPlayerListName(null)
             loopPlayer.setDisplayName(null)
             if (join == 1) {
-                if (team) {
+                if (red <= blue) {
                     redTeam?.addPlayer(loopPlayer)
                     loopPlayer.teleport(TeamLocation().redRespawn() ?: return)
+                    red++
                 } else {
                     blueTeam?.addPlayer(loopPlayer)
                     loopPlayer.teleport(TeamLocation().blueRespawn() ?: return)
-                    blueCount++
+                    blue++
                 }
             } else if (join == 2) {
                 redTeam?.addPlayer(loopPlayer)
                 loopPlayer.teleport(TeamLocation().redRespawn() ?: return)
+                red++
             } else if (join == 3) {
                 blueTeam?.addPlayer(loopPlayer)
                 loopPlayer.teleport(TeamLocation().blueRespawn() ?: return)
+                blue++
             }
             loopPlayer.scoreboardTags.remove("pvpjoin")
             loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, Int.MAX_VALUE, 100, true, false))
@@ -80,7 +83,6 @@ class Team {
             if (loopPlayer.isOp) {
                 loopPlayer.inventory.addItem(Give().gameSetting())
             }
-            team = !team
         }
     }
     fun waitingState(player: Player) {

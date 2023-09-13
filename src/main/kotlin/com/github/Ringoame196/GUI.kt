@@ -473,7 +473,7 @@ class GUI {
             "耐性(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.DAMAGE_RESISTANCE, null, 1, 180)
             "移動速度UP(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.SPEED, null, 1, 180)
             "攻撃力UP&再生(3分)" -> Team().GiveEffect(player, itemName, PotionEffectType.REGENERATION, PotionEffectType.INCREASE_DAMAGE, 0, 180)
-            "鉱石復活速度UP" -> Team().fastbreaklevel(teamName, player, itemName)
+            "鉱石復活速度UP" -> Team().fastbreaklevel(teamName, player)
             "村人体力増加" -> Shop().teamMaxHPadd(teamName, player, itemName, 10)
             "盲目(10秒)[妨害]" -> Team().GiveEffect(player, itemName, PotionEffectType.BLINDNESS, null, 255, 10)
             "弱体化(10秒)[妨害]" -> Team().GiveEffect(player, itemName, PotionEffectType.WEAKNESS, null, 255, 10)

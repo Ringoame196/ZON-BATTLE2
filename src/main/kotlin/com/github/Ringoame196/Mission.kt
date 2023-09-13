@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import kotlin.random.Random
 
 class Mission {
+    @Suppress("DEPRECATION")
     fun set(teamName: String, plugin: Plugin) {
         val clickCount = Random.nextInt(1, 16)
         val bossbar = Bukkit.createBossBar("ミッション", BarColor.RED, BarStyle.SEGMENTED_10)
@@ -36,7 +37,7 @@ class Mission {
                 if (countTime > 0) {
                     val count = Scoreboard().getValue(GET().getTeamScoreName(teamName), "ミッション")
                     countTime--
-                    if(countTime == 0){
+                    if (countTime == 0) {
                         bossBar.setTitle("${ChatColor.YELLOW}ミッションクリア")
                     } else {
                         bossBar.setTitle("${ChatColor.RED}ミッション:${count}個 (残り${countTime}秒)")
