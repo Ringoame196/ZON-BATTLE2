@@ -38,17 +38,16 @@ class Shop {
         if (item.type == Material.RED_STAINED_GLASS_PANE) {
             return
         }
-        val itemname = item.itemMeta?.displayName
         val price = item.itemMeta?.lore?.get(0) // 値段取得
+        val giveitem = Give().removelore(item.clone())
+        val itemName = giveitem.itemMeta?.displayName ?: return
         if (!price!!.contains("p")) { return }
         if (!Point().purchase(player, price)) { return }
 
-        if (itemname?.contains("★")!!) {
+        if (itemName.contains("★")) {
             val setteamname = GET().teamName(player) ?: return
-            GUI().clickInvocation(player, itemname, setteamname)
+            GUI().clickInvocation(player, itemName, setteamname)
         } else {
-            val giveitem = Give().removelore(item.clone())
-            val itemName = giveitem.itemMeta?.displayName ?: return
             when {
                 itemName.contains("[装備]") -> {
                     Give().equipment(player, giveitem)

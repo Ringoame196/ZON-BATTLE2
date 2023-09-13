@@ -6,6 +6,7 @@ import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Minion
 import com.github.Ringoame196.Entity.PotionShop
 import com.github.Ringoame196.Entity.Zombie
+import com.github.Ringoame196.Mission
 import com.github.Ringoame196.ParticipatingPlayer
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
@@ -74,6 +75,11 @@ class Timer {
         }
         if (time % 300 == 0) {
             Map().randomChest()
+        }
+        if (time % 60 == 0) {
+            if (Scoreboard().getValue("gameData", "map") == 3) {
+                Mission().set("red", plugin)
+            }
         }
         if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "シールドゾンビ", "ゾンビソルジャー") }
         if (time % 5 == 0) {

@@ -54,6 +54,7 @@ class Block {
                 armorStand.scoreboardTags.contains("IRON_ORE") -> Material.IRON_ORE
                 armorStand.scoreboardTags.contains("COAL_ORE") -> Material.COAL_ORE
                 armorStand.scoreboardTags.contains("OAK_LOG") -> Material.OAK_LOG
+                armorStand.scoreboardTags.contains("DAYLIGHT_DETECTOR") -> Material.DAYLIGHT_DETECTOR
                 else -> continue // 不明なタグの場合、スキップ
             }
             armorStand.remove()

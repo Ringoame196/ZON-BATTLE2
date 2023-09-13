@@ -115,6 +115,8 @@ class Events(private val plugin: Plugin) : Listener {
         val action = e.action
         if (item?.itemMeta?.displayName == "${ChatColor.YELLOW}[召喚の杖]") {
             Hoe().clickEvent(player, e)
+        } else if (block?.type == Material.DAYLIGHT_DETECTOR) {
+            Mission().blockClick(player, block, plugin)
         } else if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
             Item().clickSystem(player, item, block, e, plugin)
         } else if (block != null) {
