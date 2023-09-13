@@ -37,7 +37,7 @@ class Mission {
                 if (countTime > 0) {
                     val count = Scoreboard().getValue(GET().getTeamScoreName(teamName), "ミッション")
                     countTime--
-                    if (countTime == 0) {
+                    if (count == 0) {
                         bossBar.setTitle("${ChatColor.YELLOW}ミッションクリア")
                     } else {
                         bossBar.setTitle("${ChatColor.RED}ミッション:${count}個 (残り${countTime}秒)")
