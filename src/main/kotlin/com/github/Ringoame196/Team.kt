@@ -47,32 +47,32 @@ class Team {
     fun division() {
         var red = 0
         var blue = 0
-        val redTeam = Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("red")
-        val blueTeam = Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam("blue")
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             val join = com.github.Ringoame196.Game.Scoreboard().getValue("participatingPlayer", loopPlayer.name)
             if (join == 0) { continue }
             Data.DataManager.gameData.bossBar.addPlayer(loopPlayer)
             loopPlayer.setPlayerListName(null)
             loopPlayer.setDisplayName(null)
-            if (join == 1) {
-                if (red <= blue) {
-                    redTeam?.addPlayer(loopPlayer)
-                    loopPlayer.teleport(TeamLocation().redRespawn() ?: return)
+            when (join) {
+                1 -> {
+                    if (red <= blue) {
+                        join("red", loopPlayer)
+                        red++
+                    } else {
+                        join("blue", loopPlayer)
+                        blue++
+                    }
+                }
+
+                2 -> {
+                    join("red", loopPlayer)
                     red++
-                } else {
-                    blueTeam?.addPlayer(loopPlayer)
-                    loopPlayer.teleport(TeamLocation().blueRespawn() ?: return)
+                }
+
+                3 -> {
+                    join("blue", loopPlayer)
                     blue++
                 }
-            } else if (join == 2) {
-                redTeam?.addPlayer(loopPlayer)
-                loopPlayer.teleport(TeamLocation().redRespawn() ?: return)
-                red++
-            } else if (join == 3) {
-                blueTeam?.addPlayer(loopPlayer)
-                loopPlayer.teleport(TeamLocation().blueRespawn() ?: return)
-                blue++
             }
             loopPlayer.scoreboardTags.remove("pvpjoin")
             loopPlayer.addPotionEffect(PotionEffect(PotionEffectType.SATURATION, Int.MAX_VALUE, 100, true, false))
@@ -83,6 +83,16 @@ class Team {
             if (loopPlayer.isOp) {
                 loopPlayer.inventory.addItem(Give().gameSetting())
             }
+        }
+    }
+    fun join(teamName: String, player: Player) {
+        val team = Bukkit.getScoreboardManager()?.mainScoreboard?.getTeam(teamName) ?: return
+        team.addPlayer(player)
+        when (teamName) {
+            "red" -> {
+                player.teleport(TeamLocation().redRespawn() ?: return)
+            }
+            "blue" -> player.teleport(TeamLocation().blueRespawn() ?: return)
         }
     }
     fun waitingState(player: Player) {
