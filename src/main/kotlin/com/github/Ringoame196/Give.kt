@@ -79,4 +79,10 @@ class Give {
         item.setItemMeta(meta)
         return item
     }
+    fun removelore(item: ItemStack): ItemStack {
+        val meta = item.itemMeta
+        meta?.lore = null
+        item.setItemMeta(meta)
+        return item
+    }
 }

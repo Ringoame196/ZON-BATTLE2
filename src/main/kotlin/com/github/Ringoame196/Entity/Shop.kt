@@ -47,33 +47,32 @@ class Shop {
             val setteamname = GET().teamName(player) ?: return
             GUI().clickInvocation(player, itemname, setteamname)
         } else {
-            val giveitem = ItemStack(item)
-            giveitem.let {
-                val meta = item.itemMeta
-                val lore = meta?.lore
-                if (!lore.isNullOrEmpty()) {
-                    lore.removeAt(0) // 1行目を削除
-                    meta.lore = lore
-                }
-                giveitem.itemMeta = meta
-                if (it.itemMeta?.displayName?.contains("[装備]") == true) {
-                    Give().equipment(player, it)
+            val giveitem = Give().removelore(item.clone())
+            val itemName = giveitem.itemMeta?.displayName ?: return
+            when {
+                itemName.contains("[装備]") -> {
+                    Give().equipment(player, giveitem)
                     return
-                } else if (it.itemMeta?.displayName?.contains("[武器]") == true) {
-                    Give().sword(player)
-                    player.inventory.addItem(it)
-                    GUI().weaponshop(player.openInventory.topInventory, player)
-                } else if (it.itemMeta?.displayName?.contains("[ツール]") == true) {
-                    Give().pickaxe(player)
-                    player.inventory.addItem(it)
-                    GUI().pickaxeshop(player.openInventory.topInventory, player)
-                } else if (it.itemMeta?.displayName?.contains("[斧]") == true) {
-                    Give().axe(player)
-                    player.inventory.addItem(it)
-                    GUI().pickaxeshop(player.openInventory.topInventory, player)
-                } else {
-                    player.inventory.addItem(it)
                 }
+
+                itemName.contains("[武器]") -> {
+                    Give().sword(player)
+                    player.inventory.addItem(giveitem)
+                    GUI().weaponshop(player.openInventory.topInventory, player)
+                }
+
+                itemName.contains("[ツール]") -> {
+                    Give().pickaxe(player)
+                    player.inventory.addItem(giveitem)
+                    GUI().pickaxeshop(player.openInventory.topInventory, player)
+                }
+
+                itemName.contains("[斧]") -> {
+                    Give().axe(player)
+                    player.inventory.addItem(giveitem)
+                    GUI().pickaxeshop(player.openInventory.topInventory, player)
+                }
+                else -> player.inventory.addItem(giveitem)
             }
         }
     }
