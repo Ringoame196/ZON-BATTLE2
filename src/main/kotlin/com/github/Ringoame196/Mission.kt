@@ -22,7 +22,7 @@ class Mission {
         Scoreboard().set(GET().getTeamScoreName(teamName), "ミッション", clickCount)
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             if (GET().teamName(loopPlayer) == teamName) {
-                loopPlayer.sendTitle("${ChatColor.AQUA}ミッション", "日照センサーを${clickCount}回クリック！")
+                loopPlayer.sendTitle("${ChatColor.AQUA}ミッション", "ビーコンの上で${clickCount}回シフト！")
                 loopPlayer.playSound(loopPlayer, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1f, 1f)
                 bossbar.addPlayer(loopPlayer)
             }
@@ -36,7 +36,11 @@ class Mission {
                 if (countTime > 0) {
                     val count = Scoreboard().getValue(GET().getTeamScoreName(teamName), "ミッション")
                     countTime--
-                    bossBar.setTitle("ミッション:${count}個 (残り${countTime}秒)")
+                    if(countTime == 0){
+                        bossBar.setTitle("${ChatColor.YELLOW}ミッションクリア")
+                    } else {
+                        bossBar.setTitle("${ChatColor.RED}ミッション:${count}個 (残り${countTime}秒)")
+                    }
                 } else {
                     bossBar.removeAll()
                     check(teamName)
@@ -59,12 +63,13 @@ class Mission {
     }
     fun blockClick(player: Player, block: Block?, plugin: Plugin) {
         if (block == null) { return }
+
         val team = GET().teamName(player)
         if (Scoreboard().getValue(GET().getTeamScoreName(team), "ミッション") == 0) {
             return
         }
         Scoreboard().remove(GET().getTeamScoreName(team), "ミッション", 1)
         player.sendMessage("${ChatColor.GREEN}-1")
-        Block().revival(plugin, block.location, 15, Material.DAYLIGHT_DETECTOR, block.blockData)
+        Block().revival(plugin, block.location, 15, Material.BEACON, block.blockData)
     }
 }

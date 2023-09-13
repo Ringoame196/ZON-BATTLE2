@@ -115,8 +115,6 @@ class Events(private val plugin: Plugin) : Listener {
         val action = e.action
         if (item?.itemMeta?.displayName == "${ChatColor.YELLOW}[召喚の杖]") {
             Hoe().clickEvent(player, e)
-        } else if (block?.type == Material.DAYLIGHT_DETECTOR) {
-            Mission().blockClick(player, block, plugin)
         } else if ((action == Action.RIGHT_CLICK_AIR) || (action == Action.RIGHT_CLICK_BLOCK)) {
             Item().clickSystem(player, item, block, e, plugin)
         } else if (block != null) {
@@ -261,6 +259,8 @@ class Events(private val plugin: Plugin) : Listener {
         val item = e.player.inventory.itemInMainHand
         if (isSneak && item.itemMeta?.displayName?.contains("[ゾンビ召喚]") == true) {
             Zombie().offhandSet(player)
+        } else if (player.location.add(0.0, -1.0, 0.0).block.type == Material.BEACON) {
+            Mission().blockClick(player, player.location.add(0.0, -1.0, 0.0).block, plugin)
         }
     }
     @EventHandler
