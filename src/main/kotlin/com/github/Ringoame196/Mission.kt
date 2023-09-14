@@ -18,7 +18,7 @@ import kotlin.random.Random
 class Mission {
     @Suppress("DEPRECATION")
     fun set(teamName: String, plugin: Plugin) {
-        val clickCount = Random.nextInt(1, 16)
+        val clickCount = Random.nextInt(3, 14)
         val bossbar = Bukkit.createBossBar("ミッション", BarColor.RED, BarStyle.SEGMENTED_10)
         Scoreboard().set(GET().getTeamScoreName(teamName), "ミッション", clickCount)
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
@@ -53,11 +53,13 @@ class Mission {
     fun check(teamName: String) {
         val clear = Scoreboard().getValue(GET().getTeamScoreName(teamName), "ミッション") == 0
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
-            if (GET().teamName(loopPlayer) != teamName) { continue }
+            val loopPlayerTeam = GET().teamName(loopPlayer) ?: continue
+            if (loopPlayerTeam != teamName) { continue }
             if (clear) {
                 loopPlayer.sendMessage("${ChatColor.YELLOW}クリア")
             } else {
                 loopPlayer.sendMessage("${ChatColor.RED}失敗")
+                Item().inventoryDrop(loopPlayer)
             }
         }
         Scoreboard().set(GET().getTeamScoreName(teamName), "ミッション", 0)

@@ -76,7 +76,7 @@ class Timer {
         if (time % 300 == 0) {
             Map().randomChest()
         }
-        if (time % 60 == 0) {
+        if (time % 90 == 0) {
             if (Scoreboard().getValue("gameData", "map") == 3) {
                 Mission().set("red", plugin)
             }

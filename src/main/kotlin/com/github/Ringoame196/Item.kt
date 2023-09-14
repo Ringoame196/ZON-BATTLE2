@@ -116,6 +116,7 @@ class Item {
                 Minion().summon(block?.location?.add(0.0, 1.0, 0.0) ?: player.location, team)
                 Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1)
             }
+            itemName == "アイテムドロップ" -> inventoryDrop(player)
             else -> return
         }
         removeitem(player)
@@ -132,5 +133,12 @@ class Item {
         val oneItem = itemInHand.clone()
         oneItem.amount = 1
         player.inventory.removeItem(oneItem)
+    }
+    fun inventoryDrop(player: Player) {
+        for (slot in 0 until 36) { // メインのインベントリスロットは0から35まで
+            val item = player.inventory.getItem(slot) ?: continue
+            player.inventory.removeItem(item)
+            player.location.world?.dropItemNaturally(player.location.add(0.0, 2.0, 0.0), item)
+        }
     }
 }
