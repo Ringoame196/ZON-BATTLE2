@@ -106,7 +106,7 @@ class Zombie {
         if (entity !is Player) { return }
         val item = entity.inventory.itemInMainHand.clone()
         entity.inventory.setItemInMainHand(ItemStack(Material.AIR))
-        owner.inventory?.addItem(item)
+        owner.inventory.addItem(item)
         entity.sendTitle("", "${ChatColor.RED}${zombie.customName}にアイテムを盗まれた")
         owner.sendTitle("", "${ChatColor.GREEN}${zombie.customName}がアイテムを盗んできてくれた")
         entity.playSound(entity, Sound.ITEM_TRIDENT_RETURN, 1f, 1f)

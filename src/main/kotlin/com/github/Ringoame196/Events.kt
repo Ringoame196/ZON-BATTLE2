@@ -79,6 +79,17 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.entity
         val damager = e.damager
         val damage = e.finalDamage.toInt()
+        if (damager is Player && entity.scoreboardTags.contains("targetZombie")) {
+            val item = damager.inventory.itemInMainHand
+            if (item.type == Material.SPAWNER) {
+                e.isCancelled = true
+                if (item.amount != 1) {
+                    Player().errormessage("捕獲ブロックを1つにしてください", damager)
+                } else {
+                    Item().capture(entity, damager)
+                }
+            }
+        }
         if (entity.scoreboardTags.contains("invincible")) {
             // 無敵タグ
             e.isCancelled = true
@@ -103,16 +114,6 @@ class Events(private val plugin: Plugin) : Listener {
             is org.bukkit.entity.Zombie -> Zombie().damage(entity)
             is Player -> Player().showdamage(damager, entity, damage)
             else -> {}
-        }
-        if (damager is Player && entity.scoreboardTags.contains("targetZombie")) {
-            val item = damager.inventory.itemInMainHand
-            if (item.type != Material.SPAWNER) { return }
-            e.isCancelled = true
-            if (item.amount != 1) {
-                Player().errormessage("捕獲ブロックを1つにしてください", damager)
-                return
-            }
-            Item().capture(entity, damager)
         }
     }
 
@@ -274,7 +275,7 @@ class Events(private val plugin: Plugin) : Listener {
         }
     }
     @EventHandler
-    fun ona(e: EntityDismountEvent) {
+    fun onEntityDismount(e: EntityDismountEvent) {
         val player = e.entity
         val entity = e.dismounted
         if (player !is Player) { return }

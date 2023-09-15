@@ -74,7 +74,6 @@ class Item {
                 itemName == "${ChatColor.RED}TNT" -> TNT().summon(player, plugin)
 
                 itemName == "アイテムドロップ" -> inventoryDrop(player)
-
                 else -> return
             }
         }
