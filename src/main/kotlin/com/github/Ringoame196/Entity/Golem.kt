@@ -41,28 +41,20 @@ class Golem {
         val location = player.location
         val golem = location.world?.spawn(location, IronGolem::class.java)
 
-        golem?.customName = name
-        golem?.isCustomNameVisible = true
         golem?.isPlayerCreated = true
 
         when (type) {
             Material.GOLD_BLOCK -> {
                 golem?.health = 5.0
-                golem?.customName = "${ChatColor.RED}ゴールデンゴーレム"
                 golem?.addPotionEffect(PotionEffect(PotionEffectType.WEAKNESS, Int.MAX_VALUE, 255))
                 golem?.let { Data.DataManager.gameData.goldenGolem.add(it) }
-            }
-            Material.DIAMOND_BLOCK -> {
-                golem?.maxHealth = 300.0
-                golem?.health = 300.0
-                golem?.damage(10.0)
             }
             Material.NETHERITE_BLOCK -> {
                 golem?.maxHealth = 600.0
                 golem?.health = 600.0
                 golem?.damage(15.0)
             }
-            else -> return null
+            else -> {}
         }
         player.sendMessage("${ChatColor.YELLOW}ゴーレム召喚")
         return golem

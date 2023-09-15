@@ -5,7 +5,6 @@ import com.github.Ringoame196.Give
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Allay
@@ -17,8 +16,6 @@ class Minion {
     fun summon(location: Location, team: String?): Entity {
         val minion: Allay? = location.world?.spawn(location, Allay::class.java)
         minion?.setAI(false)
-        minion?.customName = "${ChatColor.YELLOW}ミニオン"
-        minion?.isCustomNameVisible = true
         minion?.equipment?.setItemInMainHand(ItemStack(Material.IRON_PICKAXE))
         Data.DataManager.gameData.minion.add(minion!!)
         return minion

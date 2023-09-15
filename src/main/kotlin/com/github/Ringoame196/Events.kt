@@ -104,6 +104,16 @@ class Events(private val plugin: Plugin) : Listener {
             is Player -> Player().showdamage(damager, entity, damage)
             else -> {}
         }
+        if (damager is Player && entity.scoreboardTags.contains("targetZombie")) {
+            val item = damager.inventory.itemInMainHand
+            if (item.type != Material.SPAWNER) { return }
+            e.isCancelled = true
+            if (item.amount != 1) {
+                Player().errormessage("捕獲ブロックを1つにしてください", damager)
+                return
+            }
+            Item().capture(entity, damager)
+        }
     }
 
     @EventHandler

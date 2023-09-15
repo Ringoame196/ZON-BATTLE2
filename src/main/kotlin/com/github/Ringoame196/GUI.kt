@@ -310,20 +310,21 @@ class GUI {
             guiItem(gui, i * 9 + 1, Material.RED_STAINED_GLASS_PANE, "${ChatColor.RED}選択禁止", "", true)
         }
         guiItem(gui, 0, Material.IRON_INGOT, "ゴーレム", "", true)
-        guiItem(gui, 2, Material.IRON_BLOCK, "${ChatColor.YELLOW}アイアンゴーレム", "1000p", true)
-        guiItem(gui, 3, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p", true)
+        guiItem(gui, 2, Material.IRON_BLOCK, "${ChatColor.YELLOW}[ペット召喚]アイアンゴーレム", "1000p", true)
+        guiItem(gui, 3, Material.GOLD_BLOCK, "${ChatColor.RED}[ペット召喚]ゴールデンゴーレム", "1500p", true)
 
         guiItem(gui, 9, Material.IRON_PICKAXE, "${ChatColor.GREEN}お助け", "", true)
-        playerHead(gui, 11, "akamaru58", "${ChatColor.GREEN}ミニオン", "1000p")
-        guiItem(gui, 12, Material.BREWING_STAND, "${ChatColor.YELLOW}ポーション屋", "1200p", true)
+        playerHead(gui, 11, "akamaru58", "${ChatColor.GREEN}[ペット召喚]ミニオン", "1000p")
+        guiItem(gui, 12, Material.BREWING_STAND, "${ChatColor.GOLD}[ペット召喚]ポーション屋", "1200p", true)
 
         guiItem(gui, 18, Material.IRON_SWORD, "${ChatColor.YELLOW}近接攻撃", "", true)
         guiItem(gui, 20, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
-        guiItem(gui, 21, Material.STONE_AXE, "${ChatColor.YELLOW}ヴィンディケーター", "600p", true)
+        guiItem(gui, 21, Material.GRAY_DYE, "${ChatColor.YELLOW}[ペット召喚]シルバーフィッシュ", "150p", true)
+        guiItem(gui, 22, Material.STONE_AXE, "${ChatColor.YELLOW}[ペット召喚]ヴィンディケーター", "600p", true)
 
         guiItem(gui, 27, Material.BOW, "${ChatColor.YELLOW}遠距離攻撃", "", true)
-        guiItem(gui, 29, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)
-        guiItem(gui, 30, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", true)
+        guiItem(gui, 29, Material.BLAZE_ROD, "${ChatColor.RED}[ペット召喚]ブレイズ", "400p", true)
+        guiItem(gui, 30, Material.SHULKER_SHELL, "${ChatColor.YELLOW}[ペット召喚]シュルカー", "800p", true)
 
         guiItem(gui, 36, Material.NETHER_BRICK, "${ChatColor.RED}特殊", "", true)
 
@@ -338,6 +339,7 @@ class GUI {
         dividingLine(gui, 9)
         guiItem(gui, 18, Material.GOLDEN_APPLE, "金リンゴ", "300p", true)
         guiItem(gui, 19, Material.CHEST, "${ChatColor.GREEN}リモートショップ", "300p", true)
+        guiItem(gui, 20, Material.SPAWNER, "${ChatColor.AQUA}捕獲ブロック", "500p", true)
     }
     fun villagerlevelup(gui: Inventory, player: Player) {
         val teamName = GET().teamName(player) ?: return
