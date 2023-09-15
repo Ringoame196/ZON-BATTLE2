@@ -98,7 +98,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 3.0
             it.scoreboardTags.add("targetshop")
         }
     }
@@ -109,7 +109,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
         }
     }
@@ -120,7 +120,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 5.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
             it.equipment?.chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
@@ -135,7 +135,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.4
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.GOLDEN_HELMET)
             it.equipment?.boots = ItemStack(Material.GOLDEN_BOOTS)
@@ -148,7 +148,7 @@ class ZombieData {
             it.maxHealth = 50.0
             it.health = 50.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetPlayer")
             it.equipment?.helmet = ItemStack(Material.DIAMOND_HELMET)
             it.equipment?.chestplate = ItemStack(Material.DIAMOND_CHESTPLATE)
@@ -164,7 +164,7 @@ class ZombieData {
             it.maxHealth = 40.0
             it.health = 40.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.scoreboardTags.add("noChange")
             it.equipment?.helmet = ItemStack(Material.IRON_HELMET)
@@ -181,7 +181,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.IRON_HELMET)
             it.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
@@ -197,7 +197,7 @@ class ZombieData {
             it.maxHealth = 300.0
             it.health = 300.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.1
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.IRON_HELMET)
             it.equipment?.chestplate = ItemStack(Material.DIAMOND_CHESTPLATE)
@@ -210,7 +210,7 @@ class ZombieData {
             it.maxHealth = 10.0
             it.health = 10.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.boots = ItemStack(Material.CHAINMAIL_BOOTS)
             it.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))
@@ -223,7 +223,7 @@ class ZombieData {
             it.maxHealth = 50.0
             it.health = 50.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
-            it.damage(0.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 0.0
             it.scoreboardTags.add("targetPlayer")
             it.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, "GREEN")
             it.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, "GREEN")
@@ -238,7 +238,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.scoreboardTags.add("shaman")
             it.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, "GREEN")
@@ -254,7 +254,7 @@ class ZombieData {
             it.maxHealth = 40.0
             it.health = 40.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.15
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.scoreboardTags.add("Frostmage")
             it.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, "AQUA")
@@ -270,7 +270,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.0
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.SKELETON_SKULL)
             it.equipment?.chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
@@ -285,7 +285,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.0
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.SKELETON_SKULL)
             it.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
@@ -300,7 +300,7 @@ class ZombieData {
             it.maxHealth = 130.0
             it.health = 130.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(10.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 10.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.SKELETON_SKULL)
             it.equipment?.chestplate = ItemStack(Material.GOLDEN_CHESTPLATE)
@@ -315,7 +315,7 @@ class ZombieData {
             it.maxHealth = 20.0
             it.health = 20.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.1
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.equipment?.helmet = ItemStack(Material.NETHERITE_HELMET)
             it.equipment?.chestplate = ItemStack(Material.NETHERITE_CHESTPLATE)
@@ -334,7 +334,7 @@ class ZombieData {
             it.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, "BLACK")
             it.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, "BLACK")
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetPlayer")
         }
     }
@@ -349,7 +349,7 @@ class ZombieData {
             it.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, "BLACK")
             it.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, "GREEN")
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
-            it.damage(0.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 0.0
             it.scoreboardTags.add("targetPlayer")
         }
     }
@@ -360,7 +360,7 @@ class ZombieData {
             it.maxHealth = 44.0
             it.health = 44.0
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.2
-            it.damage(4.0)
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.scoreboardTags.add("invincible")
             it.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))

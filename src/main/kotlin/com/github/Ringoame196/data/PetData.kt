@@ -5,9 +5,11 @@ import com.github.Ringoame196.Entity.PotionShop
 import com.github.Ringoame196.Game.Scoreboard
 import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
+import org.bukkit.entity.Vindicator
 
 class PetData {
     fun switch(name: String, player: Player, block: org.bukkit.block.Block?): Entity? {
@@ -24,6 +26,7 @@ class PetData {
             "${ChatColor.YELLOW}ポーション屋" -> PotionShop().summon(player)
             "${ChatColor.RED}ブレイズ" -> blaze(player)
             "${ChatColor.YELLOW}シュルカー" -> shulker(player)
+            "${ChatColor.YELLOW}ヴィンディケーター" -> vindicator(player)
             else -> null
         }
         pet?.scoreboardTags?.add("targetZombie")
@@ -46,5 +49,12 @@ class PetData {
         val shulker: Shulker = player.world.spawn(player.location, Shulker::class.java)
         shulker.isAware = true
         return shulker
+    }
+    fun vindicator(player: Player): Entity {
+        val vindicator: Vindicator = player.world.spawn(player.location, Vindicator::class.java)
+        vindicator.isAware = true
+        vindicator.customName = "ヴィンディケーター"
+        vindicator.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 6.0
+        return vindicator
     }
 }

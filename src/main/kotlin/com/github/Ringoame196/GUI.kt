@@ -319,6 +319,7 @@ class GUI {
 
         guiItem(gui, 18, Material.IRON_SWORD, "${ChatColor.YELLOW}近接攻撃", "", true)
         guiItem(gui, 20, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
+        guiItem(gui, 21, Material.STONE_AXE, "${ChatColor.YELLOW}ヴィンディケーター", "600p", true)
 
         guiItem(gui, 27, Material.BOW, "${ChatColor.YELLOW}遠距離攻撃", "", true)
         guiItem(gui, 29, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)

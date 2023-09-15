@@ -81,7 +81,9 @@ class Item {
                 PetData().switch(itemName, player, block)
             }
             itemName == "アイテムドロップ" -> inventoryDrop(player)
-            itemName == "${ChatColor.GREEN}ヴィンディケーター" -> {
+            itemName == "${ChatColor.YELLOW}ヴィンディケーター" -> {
+                e.isCancelled = true
+                PetData().switch(itemName, player, block)
             }
             else -> return
         }
