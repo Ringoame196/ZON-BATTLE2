@@ -34,15 +34,33 @@ class GUI {
         guiItem(gui, 16, Material.ENDER_CHEST, "チームチェスト", "", true)
         player.openInventory(gui)
     }
-    fun guiItem(gui: Inventory, number: Int, setItem: Material, displayName: String, lore: String, unbreakable: Boolean) {
+
+    fun guiItem(
+        gui: Inventory,
+        number: Int,
+        setItem: Material,
+        displayName: String,
+        lore: String,
+        unbreakable: Boolean
+    ) {
         // GUIにアイテムを楽にセットする
         val item = lore(setItem, displayName, lore, null)
         val itemMeta: ItemMeta? = item.itemMeta
-        if (unbreakable) { itemMeta?.isUnbreakable = true } // 不破壊
+        if (unbreakable) {
+            itemMeta?.isUnbreakable = true
+        } // 不破壊
         item.setItemMeta(itemMeta)
         gui.setItem(number, item)
     }
-    fun zombieGUIitem(gui: Inventory, number: Int, setItem: Material, zombieName: String, price: String, explanation: String) {
+
+    fun zombieGUIitem(
+        gui: Inventory,
+        number: Int,
+        setItem: Material,
+        zombieName: String,
+        price: String,
+        explanation: String
+    ) {
         val displayName = "${ChatColor.YELLOW}[ゾンビ召喚]$zombieName"
         val item = lore(setItem, displayName, price, "${ChatColor.GREEN}$explanation")
         val itemMeta: ItemMeta? = item.itemMeta
@@ -50,6 +68,7 @@ class GUI {
         item.setItemMeta(itemMeta)
         gui.setItem(number, item)
     }
+
     @Suppress("DEPRECATION")
     fun playerHead(gui: Inventory, number: Int, name: String, displayName: String, lore: String) {
         // GUIにアイテムを楽にセットする
@@ -60,7 +79,16 @@ class GUI {
         item.setItemMeta(itemMeta)
         gui.setItem(number, item)
     }
-    fun potionGUIitem(gui: Inventory, number: Int, item: Material, lore: String, typePotion: PotionEffectType, level: Int, time: Int) {
+
+    fun potionGUIitem(
+        gui: Inventory,
+        number: Int,
+        item: Material,
+        lore: String,
+        typePotion: PotionEffectType,
+        level: Int,
+        time: Int
+    ) {
         // GUIにポーションを楽にセットする
         val itemStack = lore(item, "", lore, null)
         val potionMeta = itemStack.itemMeta as PotionMeta
@@ -71,6 +99,7 @@ class GUI {
         itemStack.setItemMeta(potionMeta)
         gui.setItem(number, itemStack)
     }
+
     fun enchantGUIitem(gui: Inventory, number: Int, lore: String, enchant: Enchantment, level: Int) {
         // GUIにエンチャント本を楽にセットする
         val item = ItemStack(Material.ENCHANTED_BOOK)
@@ -92,6 +121,7 @@ class GUI {
         itemStack.setItemMeta(potionMeta)
         gui.setItem(number, itemStack)
     }
+
     fun lore(material: Material, name: String, price: String, explanation: String?): ItemStack {
         val item = ItemStack(material)
         val meta = item.itemMeta
@@ -150,6 +180,7 @@ class GUI {
         enchantGUIitem(gui, 21, "500p", Enchantment.DIG_SPEED, 4)
         enchantGUIitem(gui, 22, "5000p", Enchantment.DIG_SPEED, 5)
     }
+
     fun weaponshop(gui: Inventory, player: Player) {
         dividingLine(gui, 9)
         guiItem(gui, 0, Material.WOODEN_SWORD, "[武器]木の剣", "1p", true)
@@ -185,6 +216,7 @@ class GUI {
         potionGUIitem(gui, 34, Material.SPLASH_POTION, "50p", PotionEffectType.HEAL, 1, 1)
         potionGUIitem(gui, 35, Material.LINGERING_POTION, "300p", PotionEffectType.HEAL, 0, 1)
     }
+
     fun equipmentshop(gui: Inventory) {
         dividingLine(gui, 18)
         guiItem(gui, 0, Material.GOLDEN_CHESTPLATE, "[装備]金のチェストプレート", "100p", true)
@@ -204,6 +236,7 @@ class GUI {
         enchantGUIitem(gui, 29, "150p", Enchantment.PROTECTION_ENVIRONMENTAL, 3)
         enchantGUIitem(gui, 30, "250p", Enchantment.PROTECTION_ENVIRONMENTAL, 4)
     }
+
     fun potionshop(gui: Inventory, player: Player) {
         dividingLine(gui, 9)
         guiItem(gui, 0, Material.RED_DYE, "${ChatColor.YELLOW}★チーム全員に攻撃力UP(3分)", "300p", true)
@@ -215,7 +248,14 @@ class GUI {
         player.openInventory(gui)
         val team = GET().teamName(player)
         if (Scoreboard().getValue(GET().getTeamScoreName(team), "ゾンビ通知") != 1) {
-            guiItem(gui, 18, Material.OAK_SIGN, "${ChatColor.YELLOW}★ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)", "500p", true)
+            guiItem(
+                gui,
+                18,
+                Material.OAK_SIGN,
+                "${ChatColor.YELLOW}★ゾンビ襲来警報(ゾンビが召喚時にゾンビの声が聞こえる)",
+                "500p",
+                true
+            )
         } else {
             guiItem(gui, 18, Material.BARRIER, "${ChatColor.RED}選択不可", "", true)
         }
@@ -223,6 +263,7 @@ class GUI {
         val fountain = Scoreboard().getValue(GET().getTeamSystemScoreName(teamName), "fountainpoint")
         guiItem(gui, 19, Material.GOLD_INGOT, "${ChatColor.YELLOW}★噴水ポイントUP", "${fountain * 15}p", true)
     }
+
     fun zombieshop(player: Player) {
         val gui: Inventory = Bukkit.createInventory(null, 54, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
         for (i in 0 until gui.size / 9) {
@@ -262,15 +303,31 @@ class GUI {
 
         player.openInventory(gui)
     }
-    fun petShop(gui: Inventory) {
-        guiItem(gui, 0, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
-        dividingLine(gui, 9)
-        guiItem(gui, 18, Material.IRON_BLOCK, "${ChatColor.YELLOW}アイアンゴーレム", "1000p", true)
-        guiItem(gui, 19, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p", true)
-        guiItem(gui, 20, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)
-        guiItem(gui, 21, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", true)
-        playerHead(gui, 22, "akamaru58", "${ChatColor.GREEN}ミニオン", "1000p")
-        guiItem(gui, 23, Material.BREWING_STAND, "${ChatColor.YELLOW}ポーション屋", "1200p", true)
+
+    fun petShop(player: Player) {
+        val gui: Inventory = Bukkit.createInventory(null, 54, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
+        for (i in 0 until gui.size / 9) {
+            guiItem(gui, i * 9 + 1, Material.RED_STAINED_GLASS_PANE, "${ChatColor.RED}選択禁止", "", true)
+        }
+        guiItem(gui, 0, Material.IRON_INGOT, "ゴーレム", "", true)
+        guiItem(gui, 2, Material.IRON_BLOCK, "${ChatColor.YELLOW}アイアンゴーレム", "1000p", true)
+        guiItem(gui, 3, Material.GOLD_BLOCK, "${ChatColor.YELLOW}ゴールデンゴーレム", "1500p", true)
+
+        guiItem(gui, 9, Material.IRON_PICKAXE, "${ChatColor.GREEN}お助け", "", true)
+        playerHead(gui, 11, "akamaru58", "${ChatColor.GREEN}ミニオン", "1000p")
+        guiItem(gui, 12, Material.BREWING_STAND, "${ChatColor.YELLOW}ポーション屋", "1200p", true)
+
+        guiItem(gui, 18, Material.IRON_SWORD, "${ChatColor.YELLOW}近接攻撃", "", true)
+        guiItem(gui, 20, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
+
+        guiItem(gui, 27, Material.BOW, "${ChatColor.YELLOW}遠距離攻撃", "", true)
+        guiItem(gui, 29, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", true)
+        guiItem(gui, 30, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", true)
+
+        guiItem(gui, 36, Material.NETHER_BRICK, "${ChatColor.RED}特殊", "", true)
+
+        guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
+        player.openInventory(gui)
     }
     fun generalMerchandiseshop(gui: Inventory, player: Player) {
         player.openInventory(gui)
@@ -454,7 +511,10 @@ class GUI {
                 GUI().zombieshop(player)
                 return
             }
-            "${ChatColor.YELLOW}ペット" -> GUI().petShop(shop)
+            "${ChatColor.YELLOW}ペット" -> {
+                GUI().petShop(player)
+                return
+            }
             else -> return
         }
         shop.getItem(0) ?: return

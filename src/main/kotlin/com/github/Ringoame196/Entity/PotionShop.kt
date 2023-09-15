@@ -5,6 +5,7 @@ import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
 import org.bukkit.inventory.ItemStack
@@ -13,14 +14,12 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 class PotionShop {
-    fun summon(player: Player) {
+    fun summon(player: Player): Entity {
         val potionShop: Villager = player.world.spawn(player.location, Villager::class.java)
         potionShop.customName = "${ChatColor.GOLD}ポーション屋"
         potionShop.isCustomNameVisible = true
         Data.DataManager.gameData.potionShop.add(potionShop)
-        potionShop.scoreboardTags.add("${GET().teamName(player)}")
-        potionShop.scoreboardTags.add("friend")
-        potionShop.scoreboardTags.add("${GET().teamName(player)}Pet")
+        return potionShop
     }
     fun potion(): ItemStack {
         val potion = ItemStack(Material.SPLASH_POTION)
