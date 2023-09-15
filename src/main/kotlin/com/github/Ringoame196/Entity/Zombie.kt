@@ -73,7 +73,6 @@ class Zombie {
     fun attack(zombie: Zombie, entity: Entity, e: EntityDamageByEntityEvent) {
         when (zombie.customName) {
             "泥棒" -> {
-                e.isCancelled = true
                 if (Random.nextInt(1, 3) == 1) {
                     takeAway(zombie, entity)
                 }
@@ -84,7 +83,6 @@ class Zombie {
                 entity.sendTitle("${ChatColor.GREEN}誘拐中", "${ChatColor.RED}身代金1000p")
             }
             "大泥棒" -> {
-                e.isCancelled = true
                 val item = Random.nextInt(1, 3) == 1
                 val point = Random.nextInt(1, 6) == 1
                 if (item) {
