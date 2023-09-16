@@ -27,7 +27,7 @@ class Anvil {
         val enchantitem = inv.getItem(3) ?: return
         val enchantbook = inv.getItem(5) ?: return
         if (enchantbook.type != Material.ENCHANTED_BOOK) {
-            Player().errormessage("${ChatColor.RED}エンチャント本をセットしてください(右)", player)
+            com.github.Ringoame196.Entity.Player().errormessage("${ChatColor.RED}エンチャント本をセットしてください(右)", player)
             return
         }
         val enchantitemName = enchantitem.type.toString()
@@ -35,7 +35,7 @@ class Anvil {
         val supportedItems = listOf("PICKAXE", "SWORD", "CHESTPLATE", "LEGGINGS", "BOOTS", "AXE")
         shouldExecute = supportedItems.any { enchantitemName.contains(it) }
         if (!shouldExecute) {
-            Player().errormessage("${ChatColor.RED}対応しているアイテムをセットしてください(左)", player)
+            com.github.Ringoame196.Entity.Player().errormessage("${ChatColor.RED}対応しているアイテムをセットしてください(左)", player)
             return
         }
 

@@ -1,6 +1,7 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.Entity
 
 import com.github.Ringoame196.Game.Point
+import com.github.Ringoame196.Team
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
 import org.bukkit.Sound

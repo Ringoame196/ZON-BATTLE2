@@ -52,7 +52,8 @@ class Point {
         val priceInt: Int = price.replace("p", "").toInt()
         val point = Scoreboard().getValue("point", player.name) ?: 0
         return if (priceInt > point) {
-            com.github.Ringoame196.Player().errormessage("${ChatColor.RED}" + (priceInt - point) + "ポイント足りません", player)
+            com.github.Ringoame196.Entity.Player()
+                .errormessage("${ChatColor.RED}" + (priceInt - point) + "ポイント足りません", player)
             false
         } else {
             player.playSound(player, Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f)

@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Player
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit

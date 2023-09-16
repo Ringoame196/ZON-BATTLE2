@@ -329,6 +329,7 @@ class GUI {
         guiItem(gui, 32, Material.SHULKER_SHELL, "${ChatColor.YELLOW}[ペット召喚]シュルカー", "800p", true)
 
         guiItem(gui, 36, Material.NETHER_BRICK, "${ChatColor.RED}特殊", "", true)
+        guiItem(gui, 38, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1500p", true)
 
         guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
         player.openInventory(gui)
@@ -348,7 +349,7 @@ class GUI {
         val level = 6 - GET().getTeamRevivalTime(GET().teamName(player)!!)
         val shop = GET().getTeamshop(teamName)
         if (shop == null) {
-            Player().errormessage("ショップが見つかりませんでした", player)
+            com.github.Ringoame196.Entity.Player().errormessage("ショップが見つかりませんでした", player)
             return
         }
         shop.let {

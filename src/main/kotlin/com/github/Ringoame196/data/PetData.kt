@@ -1,6 +1,7 @@
 package com.github.Ringoame196.data
 
 import com.github.Ringoame196.Entity.Blaze
+import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Minion
 import com.github.Ringoame196.Entity.PotionShop
 import com.github.Ringoame196.Game.Scoreboard
@@ -18,6 +19,9 @@ import org.bukkit.entity.Stray
 import org.bukkit.entity.Vindicator
 
 class PetData {
+    fun remove(entity: Entity) {
+        Scoreboard().remove(GET().getTeamSystemScoreName(GET().teamName(entity)), "petCount", 1)
+    }
     fun switch(name: String, player: Player, block: org.bukkit.block.Block?, hp: Double?): Entity? {
         val team = GET().teamName(player)
         val petC = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "petCount") < 5
@@ -26,8 +30,9 @@ class PetData {
             return null
         }
         val pet = when (name) {
-            "${ChatColor.YELLOW}アイアンゴーレム" -> com.github.Ringoame196.Entity.Golem().summon(player, Material.IRON_BLOCK, name)
-            "${ChatColor.RED}ゴールデンゴーレム" -> com.github.Ringoame196.Entity.Golem().summon(player, Material.GOLD_BLOCK, name)
+            "${ChatColor.YELLOW}アイアンゴーレム" -> Golem().summon(player, Material.IRON_BLOCK, name)
+            "${ChatColor.YELLOW}ネザライトゴーレム" -> Golem().summon(player, Material.NETHERITE_BLOCK, name)
+            "${ChatColor.RED}ゴールデンゴーレム" -> Golem().summon(player, Material.GOLD_BLOCK, name)
             "${ChatColor.GREEN}ミニオン" -> Minion().summon(block?.location?.add(0.0, 1.0, 0.0) ?: player.location, team)
             "${ChatColor.GOLD}ポーション屋" -> PotionShop().summon(player)
             "${ChatColor.RED}ブレイズ" -> Blaze().summon(player)
@@ -36,7 +41,7 @@ class PetData {
             "${ChatColor.YELLOW}シルバーフィッシュ" -> silverfish(player)
             "${ChatColor.YELLOW}スケルトン" -> skeleton(player)
             "${ChatColor.AQUA}ストレイ" -> stray(player)
-            "${ChatColor.DARK_PURPLE}エンダーマン" -> enderman(player)
+            "${ChatColor.DARK_PURPLE}エンダーマン" -> com.github.Ringoame196.Entity.Enderman().summon(player)
             else -> null
         }
         pet?.customName = name
@@ -76,11 +81,6 @@ class PetData {
     }
     fun stray(player: Player): Entity {
         val mob = player.world.spawn(player.location, Stray::class.java)
-        mob.isAware = true
-        return mob
-    }
-    fun enderman(player: Player): Entity {
-        val mob = player.world.spawn(player.location, Enderman::class.java)
         mob.isAware = true
         return mob
     }

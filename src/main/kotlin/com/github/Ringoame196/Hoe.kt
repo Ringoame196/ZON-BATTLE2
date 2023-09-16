@@ -18,11 +18,12 @@ class Hoe {
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             val offHandItem = player.inventory.itemInOffHand.itemMeta
             if (offHandItem == null || !offHandItem.displayName.contains("[ゾンビ召喚]")) {
-                Player().errormessage("オフハンドにゾンビを持ってください", player)
+                com.github.Ringoame196.Entity.Player().errormessage("オフハンドにゾンビを持ってください", player)
                 return
             }
             if (player.location.subtract(0.0, 1.0, 0.0).block.type != Material.GLASS && Scoreboard().getValue("gameData", "map") == 1) {
-                Player().errormessage("${ChatColor.RED}ガラスの上で実行してください(ガラスの上に行くには、自陣の後ろにあるボタンをクリック)", player)
+                com.github.Ringoame196.Entity.Player()
+                    .errormessage("${ChatColor.RED}ガラスの上で実行してください(ガラスの上に行くには、自陣の後ろにあるボタンをクリック)", player)
                 return
             }
             val zombie = player.inventory.itemInOffHand

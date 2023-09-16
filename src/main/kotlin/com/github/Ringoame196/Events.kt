@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Enderman
 import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.Entity.Zombie
 import com.github.Ringoame196.Game.GameSystem
@@ -7,12 +8,14 @@ import com.github.Ringoame196.Game.Point
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
+import com.github.Ringoame196.data.PetData
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Fireball
+import org.bukkit.entity.Mob
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
 import org.bukkit.entity.Villager
@@ -86,10 +89,13 @@ class Events(private val plugin: Plugin) : Listener {
             if (item.type == Material.SPAWNER) {
                 e.isCancelled = true
                 if (item.amount != 1) {
-                    Player().errormessage("捕獲ブロックを1つにしてください", damager)
+                    com.github.Ringoame196.Entity.Player().errormessage("捕獲ブロックを1つにしてください", damager)
                 } else {
                     Item().capture(entity, damager)
                 }
+            } else {
+                entity as Mob
+                entity.target = GET().getNearestEntityOfType(entity.location, EntityType.ZOMBIE, 100.0, null) as Mob
             }
         }
         if (entity.scoreboardTags.contains("invincible")) {
@@ -110,11 +116,15 @@ class Events(private val plugin: Plugin) : Listener {
                 e.isCancelled = true
                 return
             }
+        } else if (damager.customName == "${ChatColor.DARK_PURPLE}エンダーマン" && entity is org.bukkit.entity.Zombie) {
+            damager.remove()
+            PetData().remove(damager)
+            Enderman().zombieTP(entity)
         }
         when (entity) {
             is Villager -> Shop().attack(e, damager, entity)
             is org.bukkit.entity.Zombie -> Zombie().damage(entity)
-            is Player -> Player().showdamage(damager, entity, damage)
+            is Player -> com.github.Ringoame196.Entity.Player().showdamage(damager, entity, damage)
             else -> {}
         }
     }
@@ -255,7 +265,7 @@ class Events(private val plugin: Plugin) : Listener {
             return
         }
         if (e.damage > 0 && player.health <= e.damage) {
-            Player().death(e, player, plugin)
+            com.github.Ringoame196.Entity.Player().death(e, player, plugin)
         }
     }
 
@@ -267,6 +277,7 @@ class Events(private val plugin: Plugin) : Listener {
 
     @EventHandler
     fun onPlayerToggleSneak(e: PlayerToggleSneakEvent) {
+        // スニーク
         val isSneak = e.isSneaking
         val player = e.player
         val item = e.player.inventory.itemInMainHand
@@ -287,8 +298,10 @@ class Events(private val plugin: Plugin) : Listener {
     }
     @EventHandler
     fun onEntityTeleport(e: EntityTeleportEvent) {
+        // テレポート
+        if (!GET().status()) { return }
         val entity = e.entity
-        if (entity is Player || entity is Wolf) { return }
+        if (entity is Player || entity is Wolf || entity is org.bukkit.entity.Zombie) { return }
         e.isCancelled = true
     }
 }

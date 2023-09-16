@@ -59,7 +59,7 @@ class GameSystem {
             e.isCancelled = true
         } else if (item.type == Material.REDSTONE) {
             if (GET().status()) {
-                com.github.Ringoame196.Player().errormessage("ゲーム最中に変更はできません", player)
+                com.github.Ringoame196.Entity.Player().errormessage("ゲーム最中に変更はできません", player)
                 return
             }
             Scoreboard().add("gameData", "map", 1)
@@ -113,7 +113,7 @@ class GameSystem {
     fun start(plugin: Plugin, player: Player) {
         if (Scoreboard().getSize("participatingPlayer") == 0) { return }
         if (Scoreboard().getValue("gameData", "map") == 0) {
-            com.github.Ringoame196.Player().errormessage("マップ選択してください", player)
+            com.github.Ringoame196.Entity.Player().errormessage("マップ選択してください", player)
             return
         }
         if (GET().status()) {

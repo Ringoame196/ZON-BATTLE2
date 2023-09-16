@@ -76,8 +76,9 @@ class RandomChest {
         item.add(setItem(Material.ENCHANTED_GOLDEN_APPLE, ""))
         item.add(setItem(Material.FISHING_ROD, ""))
         item.add(setItem(Material.NETHERITE_INGOT, "${ChatColor.YELLOW}[ゾンビ召喚]ネザライトゾンビ"))
-        item.add(setItem(Material.NETHERITE_BLOCK, "ネザライトゴーレム"))
+        item.add(setItem(Material.NETHERITE_BLOCK, "${ChatColor.YELLOW}[ペット召喚]ネザライトゴーレム"))
         item.add(setPotionGUIitem(Material.SPLASH_POTION, PotionEffectType.HEAL, 2, 1))
+        item.add(setItem(Material.FIRE_CHARGE, "${ChatColor.GOLD}ファイヤーボール"))
         return item
     }
     fun setEnchantGUIitem(item: Material, enchant: Enchantment, level: Int): ItemStack {
