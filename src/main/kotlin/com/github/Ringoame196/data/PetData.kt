@@ -7,11 +7,14 @@ import com.github.Ringoame196.Game.Scoreboard
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.Enderman
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
 import org.bukkit.entity.Silverfish
+import org.bukkit.entity.Skeleton
+import org.bukkit.entity.Stray
 import org.bukkit.entity.Vindicator
 
 class PetData {
@@ -31,6 +34,9 @@ class PetData {
             "${ChatColor.YELLOW}シュルカー" -> shulker(player)
             "${ChatColor.YELLOW}ヴィンディケーター" -> vindicator(player)
             "${ChatColor.YELLOW}シルバーフィッシュ" -> silverfish(player)
+            "${ChatColor.YELLOW}スケルトン" -> skeleton(player)
+            "${ChatColor.AQUA}ストレイ" -> stray(player)
+            "${ChatColor.DARK_PURPLE}エンダーマン" -> enderman(player)
             else -> null
         }
         pet?.customName = name
@@ -48,21 +54,34 @@ class PetData {
         return pet
     }
     fun shulker(player: Player): Entity {
-        val shulker: Shulker = player.world.spawn(player.location, Shulker::class.java)
-        shulker.isAware = true
-        return shulker
+        val mob = player.world.spawn(player.location, Shulker::class.java)
+        mob.isAware = true
+        return mob
     }
     fun vindicator(player: Player): Entity {
-        val vindicator: Vindicator = player.world.spawn(player.location, Vindicator::class.java)
-        vindicator.isAware = true
-        vindicator.customName = "ヴィンディケーター"
-        vindicator.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 6.0
-        return vindicator
+        val mob = player.world.spawn(player.location, Vindicator::class.java)
+        mob.isAware = true
+        mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 6.0
+        return mob
     }
     fun silverfish(player: Player): Entity {
-        val silverfish: Silverfish = player.world.spawn(player.location, Silverfish::class.java)
-        silverfish.isAware = true
-        silverfish.customName = "シルバーフィッシュ"
-        return silverfish
+        val mob = player.world.spawn(player.location, Silverfish::class.java)
+        mob.isAware = true
+        return mob
+    }
+    fun skeleton(player: Player): Entity {
+        val mob = player.world.spawn(player.location, Skeleton::class.java)
+        mob.isAware = true
+        return mob
+    }
+    fun stray(player: Player): Entity {
+        val mob = player.world.spawn(player.location, Stray::class.java)
+        mob.isAware = true
+        return mob
+    }
+    fun enderman(player: Player): Entity {
+        val mob = player.world.spawn(player.location, Enderman::class.java)
+        mob.isAware = true
+        return mob
     }
 }

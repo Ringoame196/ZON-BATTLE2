@@ -16,6 +16,7 @@ import org.bukkit.entity.Fireball
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
 import org.bukkit.entity.Villager
+import org.bukkit.entity.Wolf
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -28,6 +29,7 @@ import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.entity.EntityTargetEvent
+import org.bukkit.event.entity.EntityTeleportEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
@@ -282,5 +284,11 @@ class Events(private val plugin: Plugin) : Listener {
         when (entity.customName) {
             "${ChatColor.DARK_RED}誘拐犯" -> Zombie().ransom(player, entity, e)
         }
+    }
+    @EventHandler
+    fun onEntityTeleport(e: EntityTeleportEvent) {
+        val entity = e.entity
+        if (entity is Player || entity is Wolf) { return }
+        e.isCancelled = true
     }
 }
