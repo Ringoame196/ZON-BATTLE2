@@ -342,7 +342,6 @@ class GUI {
         dividingLine(gui, 9)
         guiItem(gui, 18, Material.GOLDEN_APPLE, "金リンゴ", "300p", true)
         guiItem(gui, 19, Material.CHEST, "${ChatColor.GREEN}リモートショップ", "300p", true)
-        guiItem(gui, 20, Material.SPAWNER, "${ChatColor.AQUA}捕獲ブロック", "500p", true)
     }
     fun villagerlevelup(gui: Inventory, player: Player) {
         val teamName = GET().teamName(player) ?: return
@@ -372,6 +371,12 @@ class GUI {
         guiItem(gui, 0, Material.BLACK_CANDLE, "${ChatColor.YELLOW}★盲目(10秒)[妨害]", "300p", true)
         guiItem(gui, 1, Material.LIGHT_GRAY_CANDLE, "${ChatColor.YELLOW}★弱体化(10秒)[妨害]", "300p", true)
         guiItem(gui, 2, Material.BROWN_CANDLE, "${ChatColor.YELLOW}★採掘速度低下(10秒)[妨害]", "300p", true)
+    }
+
+    fun petSupplies(gui: Inventory) {
+        guiItem(gui, 0, Material.LEAD, "${ChatColor.YELLOW}リード", "100p", true)
+        guiItem(gui, 1, Material.SPAWNER, "${ChatColor.AQUA}捕獲ブロック", "500p", true)
+        dividingLine(gui, 9)
     }
 
     fun dividingLine(gui: Inventory, beginning: Int) {
@@ -508,18 +513,21 @@ class GUI {
         val itemName = item.itemMeta?.displayName ?: return
         val shop: Inventory = Bukkit.createInventory(null, 36, "${ChatColor.DARK_GREEN}ショップ[BATTLEGUI]")
         when (itemName) {
-            "${ChatColor.YELLOW}ツール" -> GUI().pickaxeshop(shop, player)
-            "${ChatColor.YELLOW}武器" -> GUI().weaponshop(shop, player)
-            "${ChatColor.YELLOW}防具" -> GUI().equipmentshop(shop)
-            "${ChatColor.YELLOW}その他" -> GUI().generalMerchandiseshop(shop, player)
-            "${ChatColor.YELLOW}お邪魔アイテム" -> GUI().disturbshop(shop)
+            "${ChatColor.YELLOW}ツール" -> pickaxeshop(shop, player)
+            "${ChatColor.YELLOW}武器" -> weaponshop(shop, player)
+            "${ChatColor.YELLOW}防具" -> equipmentshop(shop)
+            "${ChatColor.YELLOW}その他" -> generalMerchandiseshop(shop, player)
+            "${ChatColor.YELLOW}お邪魔アイテム" -> disturbshop(shop)
             "${ChatColor.YELLOW}ゾンビ" -> {
-                GUI().zombieshop(player)
+                zombieshop(player)
                 return
             }
             "${ChatColor.YELLOW}ペット" -> {
-                GUI().petShop(player)
+                petShop(player)
                 return
+            }
+            "${ChatColor.YELLOW}ペット用品" -> {
+                petSupplies(shop)
             }
             else -> return
         }

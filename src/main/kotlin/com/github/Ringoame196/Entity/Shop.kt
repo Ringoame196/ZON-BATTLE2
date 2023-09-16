@@ -97,8 +97,8 @@ class Shop {
             GUI().guiItem(gui, 10, Material.BARRIER, "${ChatColor.RED}選択禁止", "", true)
         }
         GUI().guiItem(gui, 12, Material.WOLF_SPAWN_EGG, "${ChatColor.YELLOW}ペット", "", true)
-        GUI().guiItem(gui, 14, Material.BEACON, "${ChatColor.YELLOW}その他", "", true)
-        GUI().noSet(gui, 16)
+        GUI().guiItem(gui, 14, Material.LEAD, "${ChatColor.YELLOW}ペット用品", "", true)
+        GUI().guiItem(gui, 16, Material.BEACON, "${ChatColor.YELLOW}その他", "", true)
         GUI().noSet(gui, 19)
         GUI().noSet(gui, 21)
         GUI().noSet(gui, 23)
