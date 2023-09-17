@@ -55,7 +55,7 @@ class GET {
         return (Scoreboard().getValue("gameData", "status")) == 1
     }
 
-    fun locationTitle(location: org.bukkit.Location?): String {
+    fun locationTitle(location: Location?): String {
         if (location == null) {
             return "null"
         }
@@ -87,13 +87,17 @@ class GET {
     fun shop(entity: Entity): Boolean {
         return entity.scoreboardTags.contains("shop")
     }
-    fun getNearestEntityOfType(location: Location, target: EntityType?, radius: Double, tag: String?): Entity? {
+    fun getNearestEntityOfType(mob: Entity?, location: Location, target: EntityType?, target2: EntityType?, tag: String?, radius: Double, teamtag: String?): Entity? {
         var nearestEntity: Entity? = null
         var nearestDistanceSquared = Double.MAX_VALUE
 
         for (entity in location.world!!.getNearbyEntities(location, radius, radius, radius)) {
-            if (entity.type == target) {
-                if (tag != null && !entity.scoreboardTags.contains(tag)) { continue }
+            if (target == EntityType.PLAYER && entity is Player) {
+                val team = GET().teamName(entity)
+                if (mob?.scoreboardTags?.contains("red") == true && team == "red") { continue } else if (mob?.scoreboardTags?.contains("blue") == true && team == "blue") { continue }
+            }
+            if (entity.type == target || entity.type == target2 || entity.scoreboardTags.contains(tag)) {
+                if (teamtag != null && !entity.scoreboardTags.contains(teamtag)) { continue }
                 if (entity is Player && entity.gameMode != GameMode.SURVIVAL) { continue }
                 if (entity is Villager && !GET().shop(entity)) { continue }
                 val distanceSquared = entity.location.distanceSquared(location)
@@ -108,7 +112,7 @@ class GET {
         return nearestEntity
     }
     fun getTeamRevivalTime(teamName: String): Int {
-        return Scoreboard().getValue(GET().getTeamSystemScoreName(teamName), "revivalTime") ?: 5
+        return Scoreboard().getValue(GET().getTeamSystemScoreName(teamName), "revivalTime")
     }
     fun getTeamScoreName(teamName: String?): String {
         when (teamName) {
@@ -141,7 +145,7 @@ class GET {
             }
             else -> return null
         }
-        val shop = getNearestEntityOfType(location!!, EntityType.VILLAGER, 3.0, null)
+        val shop = getNearestEntityOfType(null, location!!, EntityType.VILLAGER, null, null, 3.0, null)
         return if (shop is Villager) {
             shop
         } else {

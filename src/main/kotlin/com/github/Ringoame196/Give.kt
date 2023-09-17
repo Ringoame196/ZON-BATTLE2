@@ -1,11 +1,13 @@
 package com.github.Ringoame196
 
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
+import org.bukkit.inventory.meta.SkullMeta
 
 class Give {
     fun gameSetting(): ItemStack {
@@ -83,6 +85,14 @@ class Give {
         val meta = item.itemMeta
         meta?.lore = null
         item.setItemMeta(meta)
+        return item
+    }
+    fun playerHead(name: String): ItemStack {
+        val item = ItemStack(Material.PLAYER_HEAD)
+        val itemMeta = item.itemMeta as SkullMeta
+        itemMeta.owningPlayer = Bukkit.getOfflinePlayer(name) // プレイヤー名で設定
+        itemMeta.isUnbreakable = true // 不破壊
+        item.setItemMeta(itemMeta)
         return item
     }
 }

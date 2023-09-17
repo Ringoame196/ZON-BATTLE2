@@ -5,9 +5,11 @@ import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Minion
 import com.github.Ringoame196.Entity.PotionShop
 import com.github.Ringoame196.Game.Scoreboard
+import com.github.Ringoame196.Give
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.Bee
 import org.bukkit.entity.Enderman
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
@@ -17,6 +19,7 @@ import org.bukkit.entity.Silverfish
 import org.bukkit.entity.Skeleton
 import org.bukkit.entity.Stray
 import org.bukkit.entity.Vindicator
+import org.bukkit.inventory.ItemStack
 
 class PetData {
     fun remove(entity: Entity) {
@@ -42,6 +45,8 @@ class PetData {
             "${ChatColor.YELLOW}スケルトン" -> skeleton(player)
             "${ChatColor.AQUA}ストレイ" -> stray(player)
             "${ChatColor.DARK_PURPLE}エンダーマン" -> com.github.Ringoame196.Entity.Enderman().summon(player)
+            "${ChatColor.GOLD}ハチ" -> com.github.Ringoame196.Entity.Bee().summon(player)
+            "${ChatColor.RED}分身" -> player(player)
             else -> null
         }
         pet?.customName = name
@@ -82,6 +87,19 @@ class PetData {
     fun stray(player: Player): Entity {
         val mob = player.world.spawn(player.location, Stray::class.java)
         mob.isAware = true
+        return mob
+    }
+    fun player(player: Player): Entity {
+        val mob = player.world.spawn(player.location, Skeleton::class.java)
+        mob.isAware = true
+        mob.isSilent = true
+        mob.equipment?.helmet = Give().playerHead(player.name)
+        mob.equipment?.chestplate = player.inventory.chestplate
+        mob.equipment?.leggings = player.inventory.leggings
+        mob.equipment?.boots = player.inventory.boots
+        mob.equipment?.setItemInOffHand(ItemStack(Material.SHIELD))
+        mob.equipment?.setItemInMainHand(com.github.Ringoame196.Entity.Player().bestSword(player))
+        mob.scoreboardTags.add("bodyguard")
         return mob
     }
 }

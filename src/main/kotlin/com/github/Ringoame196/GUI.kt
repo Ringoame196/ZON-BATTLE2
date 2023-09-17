@@ -319,8 +319,9 @@ class GUI {
 
         guiItem(gui, 18, Material.IRON_SWORD, "${ChatColor.YELLOW}近接攻撃", "", true)
         guiItem(gui, 20, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
-        guiItem(gui, 21, Material.GRAY_DYE, "${ChatColor.YELLOW}[ペット召喚]シルバーフィッシュ", "300p", true)
-        guiItem(gui, 22, Material.STONE_AXE, "${ChatColor.YELLOW}[ペット召喚]ヴィンディケーター", "600p", true)
+        guiItem(gui, 21, Material.GRAY_DYE, "${ChatColor.YELLOW}[ペット召喚]シルバーフィッシュ", "200p", true)
+        guiItem(gui, 22, Material.HONEYCOMB, "${ChatColor.GOLD}[ペット召喚]ハチ", "450p", true)
+        guiItem(gui, 23, Material.STONE_AXE, "${ChatColor.YELLOW}[ペット召喚]ヴィンディケーター", "650p", true)
 
         guiItem(gui, 27, Material.BOW, "${ChatColor.YELLOW}遠距離攻撃", "", true)
         guiItem(gui, 29, Material.BOW, "${ChatColor.YELLOW}[ペット召喚]スケルトン", "250p", true)
@@ -332,6 +333,7 @@ class GUI {
         guiItem(gui, 38, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1500p", true)
 
         guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
+        guiItem(gui, 47, Material.PLAYER_HEAD, "${ChatColor.RED}[ペット召喚]分身", "3000p", true)
         player.openInventory(gui)
     }
     fun generalMerchandiseshop(gui: Inventory, player: Player) {

@@ -1,5 +1,6 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Entity.Bee
 import com.github.Ringoame196.Entity.Enderman
 import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.Entity.Zombie
@@ -95,7 +96,7 @@ class Events(private val plugin: Plugin) : Listener {
                 }
             } else {
                 entity as Mob
-                entity.target = GET().getNearestEntityOfType(entity.location, EntityType.ZOMBIE, 100.0, null) as Mob
+                entity.target = GET().getNearestEntityOfType(entity, entity.location, EntityType.ZOMBIE, null, null, 100.0, null) as Mob
             }
         }
         if (entity.scoreboardTags.contains("invincible")) {
@@ -120,6 +121,8 @@ class Events(private val plugin: Plugin) : Listener {
             damager.remove()
             PetData().remove(damager)
             Enderman().zombieTP(entity)
+        } else if (damager.customName == "${ChatColor.GOLD}ハチ" && damager is org.bukkit.entity.Bee && entity is org.bukkit.entity.Zombie) {
+            Bee().attack(damager, entity, plugin)
         }
         when (entity) {
             is Villager -> Shop().attack(e, damager, entity)
@@ -207,17 +210,23 @@ class Events(private val plugin: Plugin) : Listener {
         val entity = e.entity
         var radius = 0.0
         val target: EntityType?
-        var tag: String? = null
+        var target2: EntityType? = null
+        var teamtag: String? = null
         val team = when {
             entity.scoreboardTags.contains("red") -> "red"
             entity.scoreboardTags.contains("blue") -> "blue"
             else -> ""
         }
         when {
+            entity.scoreboardTags.contains("bodyguard") -> {
+                target = EntityType.PLAYER
+                target2 = EntityType.ZOMBIE
+                radius = 150.0
+            }
             entity.scoreboardTags.contains("targetshop") -> {
                 target = EntityType.VILLAGER
                 radius = 150.0
-                tag = GET().opposingTeamname(team)
+                teamtag = GET().opposingTeamname(team)
             }
 
             entity.scoreboardTags.contains("targetPlayer") -> {
@@ -238,7 +247,7 @@ class Events(private val plugin: Plugin) : Listener {
                 return
             }
         }
-        e.target = GET().getNearestEntityOfType(entity.location, target, radius, tag)
+        e.target = GET().getNearestEntityOfType(entity, entity.location, target, target2, null, radius, teamtag)
     }
 
     @EventHandler
