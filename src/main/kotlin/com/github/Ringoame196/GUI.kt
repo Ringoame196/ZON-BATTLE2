@@ -298,8 +298,9 @@ class GUI {
         zombieGUIitem(gui, 40, Material.GREEN_SHULKER_BOX, "ランダム", "750p", "ランダム")
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
-        zombieGUIitem(gui, 47, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "2777p", "泥棒の上位互換")
-        zombieGUIitem(gui, 48, Material.NETHERITE_SCRAP, "デスクイーン", "3000p", "敵味方関係なく殺し回る")
+        zombieGUIitem(gui, 47, Material.CHAIN, "アンペット", "850p", "ペットだけを攻撃")
+        zombieGUIitem(gui, 48, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "2777p", "泥棒の上位互換")
+        zombieGUIitem(gui, 49, Material.NETHERITE_SCRAP, "デスクイーン", "3000p", "敵味方関係なく殺し回る")
 
         player.openInventory(gui)
     }

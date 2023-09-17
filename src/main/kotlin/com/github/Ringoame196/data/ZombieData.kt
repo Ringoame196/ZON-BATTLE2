@@ -89,6 +89,7 @@ class ZombieData {
             "誘拐犯" -> kidnapping(zombie)
             "大泥棒" -> bigThief(zombie)
             "ゴースト" -> ghost(zombie)
+            "アンペット" -> unpet(zombie)
         }
     }
     fun normal(zombie: Zombie?) {
@@ -364,6 +365,19 @@ class ZombieData {
             it.scoreboardTags.add("targetshop")
             it.scoreboardTags.add("invincible")
             it.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Int.MAX_VALUE, 0, false, false))
+        }
+    }
+    fun unpet(zombie: Zombie?) {
+        zombie?.let {
+            it.isBaby = false
+            it.customName = "${ChatColor.RED}アンペット"
+            it.maxHealth = 40.0
+            it.health = 40.0
+            it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
+            it.scoreboardTags.add("targetPet")
+            it.equipment?.setItemInMainHand(ItemStack(Material.DIAMOND_AXE))
+            it.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
         }
     }
 }

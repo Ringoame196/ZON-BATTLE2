@@ -137,6 +137,7 @@ class Item {
         player.removePotionEffect(PotionEffectType.WEAKNESS)
         player.removePotionEffect(PotionEffectType.SLOW)
         player.removePotionEffect(PotionEffectType.SLOW_DIGGING)
+        player.removePotionEffect(PotionEffectType.BAD_OMEN)
     }
     fun stey(player: Player) {
         player.sendMessage("${ChatColor.AQUA}ほんのちょっとだけいい効果を得た")
