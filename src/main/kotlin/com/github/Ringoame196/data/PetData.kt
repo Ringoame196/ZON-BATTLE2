@@ -14,6 +14,7 @@ import org.bukkit.entity.Cow
 import org.bukkit.entity.Enderman
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.MushroomCow
 import org.bukkit.entity.Player
 import org.bukkit.entity.Shulker
 import org.bukkit.entity.Silverfish
@@ -49,6 +50,7 @@ class PetData {
             "${ChatColor.GOLD}ハチ" -> com.github.Ringoame196.Entity.Bee().summon(player)
             "${ChatColor.RED}分身" -> player(player)
             "${ChatColor.YELLOW}牛" -> cow(player)
+            "${ChatColor.RED}マッシュルーム" -> mushroomCow(player)
             else -> null
         }
         pet?.customName = name
@@ -106,6 +108,11 @@ class PetData {
     }
     fun cow(player: Player): Entity {
         val mob = player.world.spawn(player.location, Cow::class.java)
+        mob.isAware = true
+        return mob
+    }
+    fun mushroomCow(player: Player): Entity {
+        val mob = player.world.spawn(player.location, MushroomCow::class.java)
         mob.isAware = true
         return mob
     }

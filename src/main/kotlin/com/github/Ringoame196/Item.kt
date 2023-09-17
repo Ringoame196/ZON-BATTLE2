@@ -18,7 +18,9 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
+import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import kotlin.random.Random
 
 class Item {
     fun clickSystem(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
@@ -77,6 +79,7 @@ class Item {
 
                 itemName == "アイテムドロップ" -> inventoryDrop(player)
                 itemType == Material.MILK_BUCKET -> milk(player)
+                itemType == Material.MUSHROOM_STEW -> stey(player)
                 else -> return
             }
         }
@@ -124,7 +127,7 @@ class Item {
         entity.remove()
     }
     fun milk(player: Player) {
-        player.inventory.setItemInMainHand(ItemStack(Material.AIR))
+        player.sendMessage("${ChatColor.AQUA}悪い効果だけ除去しました")
         player.playSound(player, Sound.ENTITY_GENERIC_DRINK, 1f, 1f)
         player.removePotionEffect(PotionEffectType.POISON)
         player.removePotionEffect(PotionEffectType.WITHER)
@@ -134,5 +137,17 @@ class Item {
         player.removePotionEffect(PotionEffectType.WEAKNESS)
         player.removePotionEffect(PotionEffectType.SLOW)
         player.removePotionEffect(PotionEffectType.SLOW_DIGGING)
+    }
+    fun stey(player: Player) {
+        player.sendMessage("${ChatColor.AQUA}ほんのちょっとだけいい効果を得た")
+        val effect = mutableListOf<PotionEffectType>(
+            PotionEffectType.SPEED,
+            PotionEffectType.REGENERATION,
+            PotionEffectType.INCREASE_DAMAGE,
+            PotionEffectType.FAST_DIGGING,
+            PotionEffectType.HEAL
+        )
+        val r = Random.nextInt(0, effect.size)
+        player.addPotionEffect(PotionEffect(effect[r], 1, 5 * 20))
     }
 }
