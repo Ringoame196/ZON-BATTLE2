@@ -148,6 +148,6 @@ class Item {
             PotionEffectType.HEAL
         )
         val r = Random.nextInt(0, effect.size)
-        player.addPotionEffect(PotionEffect(effect[r], 1, 5 * 20))
+        player.addPotionEffect(PotionEffect(effect[r], 5 * 20, 0))
     }
 }

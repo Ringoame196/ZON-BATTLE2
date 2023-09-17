@@ -208,9 +208,10 @@ class Events(private val plugin: Plugin) : Listener {
         // 敵対化
         val entity = e.entity
         var radius = 0.0
-        val target: EntityType?
+        var target: EntityType? = null
         var target2: EntityType? = null
         var teamtag: String? = null
+        var tag: String? = null
         val team = when {
             entity.scoreboardTags.contains("red") -> "red"
             entity.scoreboardTags.contains("blue") -> "blue"
@@ -241,12 +242,16 @@ class Events(private val plugin: Plugin) : Listener {
             entity.scoreboardTags.contains("friendship") -> {
                 target = null
             }
+            entity.scoreboardTags.contains("targetPet") -> {
+                tag = "targetZombie"
+                radius = 100.0
+            }
 
             else -> {
                 return
             }
         }
-        e.target = GET().getNearestEntityOfType(entity, entity.location, target, target2, null, radius, teamtag)
+        e.target = GET().getNearestEntityOfType(entity, entity.location, target, target2, tag, radius, teamtag)
     }
 
     @EventHandler
