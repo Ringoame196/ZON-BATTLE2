@@ -1,6 +1,6 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.Game
 
-import com.github.Ringoame196.Game.Scoreboard
+import com.github.Ringoame196.Item
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -51,17 +51,18 @@ class Mission {
         }.runTaskTimer(plugin, 0L, 20L)
     }
     fun check(teamName: String) {
-        val clear = Scoreboard().getValue(GET().getTeamScoreName(teamName), "ミッション") == 0
+        val clear = Scoreboard().getValue(GET().getTeamScoreName(teamName), "ミッション")
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             val loopPlayerTeam = GET().teamName(loopPlayer) ?: continue
             if (loopPlayerTeam != teamName) { continue }
-            if (clear) {
+            if (clear == 0) {
                 loopPlayer.sendMessage("${ChatColor.YELLOW}クリア")
             } else {
                 loopPlayer.sendMessage("${ChatColor.RED}失敗")
                 Item().inventoryDrop(loopPlayer)
             }
         }
+        GET().getTeamshop(teamName)?.damage((clear * 5).toDouble())
         Scoreboard().set(GET().getTeamScoreName(teamName), "ミッション", 0)
     }
     fun blockClick(player: Player, block: Block?, plugin: Plugin) {
@@ -73,6 +74,6 @@ class Mission {
         }
         Scoreboard().remove(GET().getTeamScoreName(team), "ミッション", 1)
         player.sendMessage("${ChatColor.GREEN}-1")
-        Block().revival(plugin, block.location, 15, Material.BEACON, block.blockData)
+        com.github.Ringoame196.Block().revival(plugin, block.location, 15, Material.BEACON, block.blockData)
     }
 }

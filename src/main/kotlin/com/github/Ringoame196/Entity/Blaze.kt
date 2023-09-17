@@ -22,7 +22,7 @@ class Blaze {
                 Data.DataManager.gameData.blaze.remove(blaze)
                 continue
             }
-            val target = GET().getNearestEntityOfType(blaze, blaze.location, EntityType.ZOMBIE, null, 100.0, null)
+            val target = GET().getNearestEntityOfType(blaze, blaze.location, EntityType.ZOMBIE, null, null, 100.0, null)
 
             if (target != null) {
                 val fireball = blaze.launchProjectile(Fireball::class.java)

@@ -6,7 +6,6 @@ import com.github.Ringoame196.Entity.Golem
 import com.github.Ringoame196.Entity.Minion
 import com.github.Ringoame196.Entity.PotionShop
 import com.github.Ringoame196.Entity.Zombie
-import com.github.Ringoame196.Mission
 import com.github.Ringoame196.ParticipatingPlayer
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
