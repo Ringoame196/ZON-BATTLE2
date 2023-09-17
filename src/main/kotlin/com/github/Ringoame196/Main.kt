@@ -4,6 +4,7 @@ import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -18,10 +19,15 @@ class Main : JavaPlugin() {
         dataFolder.mkdirs()
 
         val locationFilePath = "$dataFolder/location_data.yml"
-        val file = File(locationFilePath)
-        if (file.exists()) {
+        val locationfile = File(locationFilePath)
+        if (locationfile.exists()) {
             Data.DataManager.LocationData.loadLocationDataFromYaml(locationFilePath)
         }
+        val configPath = "$dataFolder/config.yml"
+        val config = YamlConfiguration.loadConfiguration(File(configPath))
+        // Discord WebhookのURLを取得
+        Data.DataManager.webhook = config.getString("Discord.webhook")
+
         Bukkit.broadcastMessage("${ChatColor.YELLOW}[攻防戦]プラグインが再読込されました")
         Scoreboard().set("gameData", "reload", 1)
     }
