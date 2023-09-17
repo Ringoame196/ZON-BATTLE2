@@ -330,7 +330,8 @@ class GUI {
         guiItem(gui, 32, Material.SHULKER_SHELL, "${ChatColor.YELLOW}[ペット召喚]シュルカー", "800p", true)
 
         guiItem(gui, 36, Material.NETHER_BRICK, "${ChatColor.RED}特殊", "", true)
-        guiItem(gui, 38, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1500p", true)
+        guiItem(gui, 38, Material.MILK_BUCKET, "${ChatColor.YELLOW}[ペット召喚]牛", "300p", true)
+        guiItem(gui, 39, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1500p", true)
 
         guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
         guiItem(gui, 47, Material.PLAYER_HEAD, "${ChatColor.RED}[ペット召喚]分身", "3000p", true)
@@ -377,7 +378,8 @@ class GUI {
 
     fun petSupplies(gui: Inventory) {
         guiItem(gui, 0, Material.LEAD, "${ChatColor.YELLOW}リード", "100p", true)
-        guiItem(gui, 1, Material.SPAWNER, "${ChatColor.AQUA}捕獲ブロック", "500p", true)
+        guiItem(gui, 1, Material.BUCKET, "${ChatColor.YELLOW}バケツ", "150p", true)
+        guiItem(gui, 2, Material.SPAWNER, "${ChatColor.AQUA}捕獲ブロック", "500p", true)
         dividingLine(gui, 9)
     }
 

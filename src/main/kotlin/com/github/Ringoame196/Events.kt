@@ -19,7 +19,6 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.Fireball
 import org.bukkit.entity.Mob
 import org.bukkit.entity.Player
-import org.bukkit.entity.Shulker
 import org.bukkit.entity.Villager
 import org.bukkit.entity.Wolf
 import org.bukkit.event.EventHandler
@@ -45,7 +44,6 @@ import org.bukkit.plugin.Plugin
 import org.spigotmc.event.entity.EntityDismountEvent
 
 class Events(private val plugin: Plugin) : Listener {
-
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEntityEvent) {
         // ショップGUIを開く
@@ -106,8 +104,8 @@ class Events(private val plugin: Plugin) : Listener {
         } else if (damager is org.bukkit.entity.Zombie) {
             // ゾンビの特殊能力
             Zombie().attack(damager, entity, e)
-        } else if (damager is Shulker && entity !is org.bukkit.entity.Zombie) {
-            // シュルカー 仲間にダメージを与えない
+        } else if (damager.scoreboardTags.contains("targetZombie") && entity !is org.bukkit.entity.Zombie) {
+            // ペット 仲間にダメージを与えない
             e.isCancelled = true
         } else if (damager is Fireball && entity !is org.bukkit.entity.Zombie) {
             // ファイヤーボール ゾンビ以外にダメージを与えない

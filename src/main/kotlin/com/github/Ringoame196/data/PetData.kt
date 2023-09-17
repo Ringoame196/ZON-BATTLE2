@@ -10,6 +10,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Bee
+import org.bukkit.entity.Cow
 import org.bukkit.entity.Enderman
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
@@ -47,6 +48,7 @@ class PetData {
             "${ChatColor.DARK_PURPLE}エンダーマン" -> com.github.Ringoame196.Entity.Enderman().summon(player)
             "${ChatColor.GOLD}ハチ" -> com.github.Ringoame196.Entity.Bee().summon(player)
             "${ChatColor.RED}分身" -> player(player)
+            "${ChatColor.YELLOW}牛" -> cow(player)
             else -> null
         }
         pet?.customName = name
@@ -100,6 +102,11 @@ class PetData {
         mob.equipment?.setItemInOffHand(ItemStack(Material.SHIELD))
         mob.equipment?.setItemInMainHand(com.github.Ringoame196.Entity.Player().bestSword(player))
         mob.scoreboardTags.add("bodyguard")
+        return mob
+    }
+    fun cow(player: Player): Entity {
+        val mob = player.world.spawn(player.location, Cow::class.java)
+        mob.isAware = true
         return mob
     }
 }

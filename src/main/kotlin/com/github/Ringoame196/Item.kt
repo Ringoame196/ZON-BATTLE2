@@ -9,6 +9,7 @@ import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Fireball
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
+import org.bukkit.potion.PotionEffectType
 
 class Item {
     fun clickSystem(player: Player, item: ItemStack?, block: Block?, e: PlayerInteractEvent, plugin: Plugin) {
@@ -74,6 +76,7 @@ class Item {
                 itemName == "${ChatColor.RED}TNT" -> TNT().summon(player, plugin)
 
                 itemName == "アイテムドロップ" -> inventoryDrop(player)
+                itemType == Material.MILK_BUCKET -> milk(player)
                 else -> return
             }
         }
@@ -119,5 +122,17 @@ class Item {
         player.inventory.setItemInMainHand(item)
 
         entity.remove()
+    }
+    fun milk(player: Player) {
+        player.inventory.setItemInMainHand(ItemStack(Material.AIR))
+        player.playSound(player, Sound.ENTITY_GENERIC_DRINK, 1f, 1f)
+        player.removePotionEffect(PotionEffectType.POISON)
+        player.removePotionEffect(PotionEffectType.WITHER)
+        player.removePotionEffect(PotionEffectType.LEVITATION)
+        player.removePotionEffect(PotionEffectType.HUNGER)
+        player.removePotionEffect(PotionEffectType.BLINDNESS)
+        player.removePotionEffect(PotionEffectType.WEAKNESS)
+        player.removePotionEffect(PotionEffectType.SLOW)
+        player.removePotionEffect(PotionEffectType.SLOW_DIGGING)
     }
 }
