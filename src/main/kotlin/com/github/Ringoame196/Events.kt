@@ -104,7 +104,7 @@ class Events(private val plugin: Plugin) : Listener {
         } else if (damager is org.bukkit.entity.Zombie) {
             // ゾンビの特殊能力
             Zombie().attack(damager, entity, e)
-        } else if (damager.scoreboardTags.contains("targetZombie") && entity !is org.bukkit.entity.Zombie) {
+        } else if (damager.scoreboardTags.contains("friend") && entity !is org.bukkit.entity.Zombie) {
             // ペット 仲間にダメージを与えない
             e.isCancelled = true
         } else if (damager is Fireball && entity !is org.bukkit.entity.Zombie) {

@@ -57,7 +57,9 @@ class PetData {
         pet?.isCustomNameVisible = true
         pet?.scoreboardTags?.add("targetZombie")
         pet?.scoreboardTags?.add("${GET().teamName(player)}Pet")
-        pet?.scoreboardTags?.add("friend")
+        if (pet?.customName != "${ChatColor.RED}分身") {
+            pet?.scoreboardTags?.add("friend")
+        }
         pet?.scoreboardTags?.add(GET().teamName(player))
         if (pet is LivingEntity && hp != null && hp != 0.0) {
             pet.health = hp
@@ -75,7 +77,7 @@ class PetData {
     fun vindicator(player: Player): Entity {
         val mob = player.world.spawn(player.location, Vindicator::class.java)
         mob.isAware = true
-        mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 6.0
+        mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 0.0
         return mob
     }
     fun silverfish(player: Player): Entity {

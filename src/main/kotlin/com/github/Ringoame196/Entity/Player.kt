@@ -35,7 +35,7 @@ class Player {
             if (item?.itemMeta?.displayName != "${ChatColor.GREEN}ゾンビのお守り") { continue }
             player.inventory.removeItem(Give().zombieAmulet())
             val zombie = player.world.spawn(player.location, Zombie::class.java)
-            zombie.customName = player.name
+            zombie.customName = "${ChatColor.AQUA}${player.name}"
             zombie.isCustomNameVisible = true
             zombie.equipment?.helmet = Give().playerHead(player.name)
             zombie.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)

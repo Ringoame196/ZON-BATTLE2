@@ -1,6 +1,6 @@
 package com.github.Ringoame196.Game
 
-import com.github.Ringoame196.Item
+import com.github.Ringoame196.Give
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -11,6 +11,7 @@ import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.random.Random
@@ -59,7 +60,6 @@ class Mission {
                 loopPlayer.sendMessage("${ChatColor.YELLOW}クリア")
             } else {
                 loopPlayer.sendMessage("${ChatColor.RED}失敗")
-                Item().inventoryDrop(loopPlayer)
             }
         }
         GET().getTeamshop(teamName)?.damage((clear * 5).toDouble())
@@ -74,6 +74,8 @@ class Mission {
         }
         Scoreboard().remove(GET().getTeamScoreName(team), "ミッション", 1)
         player.sendMessage("${ChatColor.GREEN}-1")
+        player.inventory.addItem(Give().point(150))
+        player.inventory.addItem(ItemStack(Material.STICK, 5))
         com.github.Ringoame196.Block().revival(plugin, block.location, 15, Material.BEACON, block.blockData)
     }
 }

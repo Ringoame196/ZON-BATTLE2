@@ -299,7 +299,7 @@ class GUI {
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
         zombieGUIitem(gui, 47, Material.CHAIN, "アンペット", "850p", "ペットだけを攻撃")
-        zombieGUIitem(gui, 48, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "2777p", "泥棒の上位互換")
+        zombieGUIitem(gui, 48, Material.GREEN_GLAZED_TERRACOTTA, "大泥棒", "3777p", "泥棒の上位互換")
         zombieGUIitem(gui, 49, Material.NETHERITE_SCRAP, "デスクイーン", "3000p", "敵味方関係なく殺し回る")
 
         player.openInventory(gui)
@@ -322,7 +322,7 @@ class GUI {
         guiItem(gui, 20, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
         guiItem(gui, 21, Material.GRAY_DYE, "${ChatColor.YELLOW}[ペット召喚]シルバーフィッシュ", "200p", true)
         guiItem(gui, 22, Material.HONEYCOMB, "${ChatColor.GOLD}[ペット召喚]ハチ", "450p", true)
-        guiItem(gui, 23, Material.STONE_AXE, "${ChatColor.YELLOW}[ペット召喚]ヴィンディケーター", "650p", true)
+        guiItem(gui, 23, Material.STONE_AXE, "${ChatColor.YELLOW}[ペット召喚]ヴィンディケーター", "850p", true)
 
         guiItem(gui, 27, Material.BOW, "${ChatColor.YELLOW}遠距離攻撃", "", true)
         guiItem(gui, 29, Material.BOW, "${ChatColor.YELLOW}[ペット召喚]スケルトン", "250p", true)

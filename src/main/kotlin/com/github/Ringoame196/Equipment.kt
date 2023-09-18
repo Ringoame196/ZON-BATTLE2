@@ -18,7 +18,7 @@ class Equipment {
         player.inventory.boots = unbreakable(ItemStack(Material.LEATHER_BOOTS))
         player.inventory.addItem(unbreakable(ItemStack(Material.WOODEN_SWORD)))
         if (Scoreboard().getValue("gameData", "map") == 3 && GET().teamName(player) == "blue") {
-            player.inventory.addItem(unbreakable(ItemStack(Material.IRON_PICKAXE)))
+            player.inventory.addItem(unbreakable(ItemStack(Material.STONE_PICKAXE)))
         } else {
             val pickaxe = unbreakable(ItemStack(Material.WOODEN_PICKAXE))
             pickaxe.addEnchantment(Enchantment.DIG_SPEED, 1)

@@ -65,7 +65,7 @@ class Item {
                     return
                 }
 
-                itemName == "${ChatColor.GOLD}ファイヤボール" -> {
+                itemName == "${ChatColor.GOLD}ファイヤーボール" -> {
                     val playerLocation: Location = player.location.add(0.0, 0.5, 0.0)
                     val direction: org.bukkit.util.Vector = playerLocation.direction
                     val spawnLocation: Location = playerLocation.add(direction.multiply(2.0))
