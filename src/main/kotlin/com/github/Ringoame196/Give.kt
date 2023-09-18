@@ -95,4 +95,11 @@ class Give {
         item.setItemMeta(itemMeta)
         return item
     }
+    fun zombieAmulet(): ItemStack {
+        val item = ItemStack(Material.MOSSY_COBBLESTONE_WALL)
+        val meta = item.itemMeta
+        meta?.setDisplayName("${ChatColor.GREEN}ゾンビのお守り")
+        item.setItemMeta(meta)
+        return item
+    }
 }

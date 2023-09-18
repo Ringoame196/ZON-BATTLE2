@@ -2,7 +2,6 @@ package com.github.Ringoame196
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
-import javax.xml.crypto.Data
 
 class Discord {
     fun sendDiscordWebhookMessage(message: String) {

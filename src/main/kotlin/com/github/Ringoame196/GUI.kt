@@ -347,6 +347,7 @@ class GUI {
         dividingLine(gui, 9)
         guiItem(gui, 18, Material.GOLDEN_APPLE, "金リンゴ", "300p", true)
         guiItem(gui, 19, Material.CHEST, "${ChatColor.GREEN}リモートショップ", "300p", true)
+        guiItem(gui, 20, Material.MOSSY_COBBLESTONE_WALL, "${ChatColor.GREEN}ゾンビのお守り", "600p", false)
     }
     fun villagerlevelup(gui: Inventory, player: Player) {
         val teamName = GET().teamName(player) ?: return

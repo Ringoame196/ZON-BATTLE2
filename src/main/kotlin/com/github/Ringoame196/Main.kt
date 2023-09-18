@@ -23,6 +23,7 @@ class Main : JavaPlugin() {
         if (locationfile.exists()) {
             Data.DataManager.LocationData.loadLocationDataFromYaml(locationFilePath)
         }
+
         val configPath = "$dataFolder/config.yml"
         val config = YamlConfiguration.loadConfiguration(File(configPath))
         // Discord WebhookのURLを取得

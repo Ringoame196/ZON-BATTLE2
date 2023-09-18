@@ -1,6 +1,7 @@
 package com.github.Ringoame196.Entity
 
 import com.github.Ringoame196.Game.Point
+import com.github.Ringoame196.Give
 import com.github.Ringoame196.Team
 import com.github.Ringoame196.data.GET
 import org.bukkit.ChatColor
@@ -9,6 +10,7 @@ import org.bukkit.Sound
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
+import org.bukkit.entity.Zombie
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.inventory.ItemStack
@@ -27,6 +29,20 @@ class Player {
     fun death(e: EntityDamageEvent, player: Player, plugin: Plugin) {
         if (!GET().joinTeam(player)) { return }
         e.isCancelled = true
+
+        for (i in 0..8) {
+            val item = player.inventory.getItem(i)
+            if (item?.itemMeta?.displayName != "${ChatColor.GREEN}ゾンビのお守り") { continue }
+            player.inventory.removeItem(Give().zombieAmulet())
+            val zombie = player.world.spawn(player.location, Zombie::class.java)
+            zombie.customName = player.name
+            zombie.isCustomNameVisible = true
+            zombie.equipment?.helmet = Give().playerHead(player.name)
+            zombie.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
+            zombie.equipment?.leggings = ItemStack(Material.LEATHER_LEGGINGS)
+            zombie.equipment?.boots = ItemStack(Material.LEATHER_BOOTS)
+            zombie.equipment?.setItemInMainHand(ItemStack(Material.IRON_SWORD))
+        }
 
         // ダメージを与えたエンティティがプレイヤーであればキル処理
         if (e !is EntityDamageByEntityEvent) {
