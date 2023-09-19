@@ -274,9 +274,10 @@ class GUI {
         zombieGUIitem(gui, 2, Material.SLIME_BALL, "ノーマルゾンビ", "30p", "普通")
         zombieGUIitem(gui, 3, Material.IRON_NUGGET, "チビゾンビ", "40p", "チビ")
         zombieGUIitem(gui, 4, Material.RAW_COPPER, "ゾンビソルジャー", "40p", "武器持ち")
-        zombieGUIitem(gui, 5, Material.FEATHER, "ダッシュマン", "250p", "速い")
-        zombieGUIitem(gui, 6, Material.BLAZE_POWDER, "バトルロード", "850p", "プレイヤーだけ狙う")
-        zombieGUIitem(gui, 7, Material.BONE_MEAL, "カスタムロード", "1000p", "ショップだけ狙う")
+        zombieGUIitem(gui, 5, Material.CONDUIT, "親子", "85p", "親子ゾンビ")
+        zombieGUIitem(gui, 6, Material.FEATHER, "ダッシュマン", "250p", "速い")
+        zombieGUIitem(gui, 7, Material.BLAZE_POWDER, "バトルロード", "850p", "プレイヤーだけ狙う")
+        zombieGUIitem(gui, 8, Material.BONE_MEAL, "カスタムロード", "1000p", "ショップだけ狙う")
 
         guiItem(gui, 9, Material.IRON_CHESTPLATE, "耐久", "", true)
         zombieGUIitem(gui, 11, Material.RAW_IRON, "シールドゾンビ", "40p", "硬い")
@@ -295,7 +296,7 @@ class GUI {
         guiItem(gui, 36, Material.HORN_CORAL, "召喚", "", true)
         zombieGUIitem(gui, 38, Material.BOOK, "ネクロマンサー", "400p", "子分生成")
         zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p", "強い子分生成")
-        zombieGUIitem(gui, 40, Material.GREEN_SHULKER_BOX, "ランダム", "750p", "ランダム")
+        zombieGUIitem(gui, 40, Material.HEART_OF_THE_SEA, "ランダム", "750p", "ランダム")
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
         zombieGUIitem(gui, 47, Material.CHAIN, "アンペット", "850p", "ペットだけを攻撃")
@@ -332,8 +333,8 @@ class GUI {
 
         guiItem(gui, 36, Material.NETHER_BRICK, "${ChatColor.RED}特殊", "", true)
         guiItem(gui, 38, Material.MILK_BUCKET, "${ChatColor.YELLOW}[ペット召喚]牛", "250p", true)
-        guiItem(gui, 39, Material.RED_MUSHROOM, "${ChatColor.RED}[ペット召喚]マッシュルーム", "500p", true)
-        guiItem(gui, 40, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1500p", true)
+        guiItem(gui, 39, Material.RED_MUSHROOM, "${ChatColor.RED}[ペット召喚]マッシュルーム", "300p", true)
+        guiItem(gui, 40, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1000p", true)
 
         guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
         guiItem(gui, 47, Material.PLAYER_HEAD, "${ChatColor.RED}[ペット召喚]分身", "3000p", true)

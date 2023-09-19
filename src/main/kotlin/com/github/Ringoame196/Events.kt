@@ -124,7 +124,7 @@ class Events(private val plugin: Plugin) : Listener {
             Bee().attack(damager, entity, plugin)
         }
         when (entity) {
-            is Villager -> Shop().attack(e, damager, entity)
+            is Villager -> Shop().attack(e.damage, damager, entity)
             is org.bukkit.entity.Zombie -> Zombie().damage(entity)
             is Player -> com.github.Ringoame196.Entity.Player().showdamage(damager, entity, damage)
             else -> {}

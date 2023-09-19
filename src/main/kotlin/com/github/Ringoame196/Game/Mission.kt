@@ -1,5 +1,6 @@
 package com.github.Ringoame196.Game
 
+import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.Give
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
@@ -60,10 +61,10 @@ class Mission {
                 loopPlayer.sendMessage("${ChatColor.YELLOW}クリア")
             } else {
                 loopPlayer.sendMessage("${ChatColor.RED}失敗")
+                GET().getTeamshop(teamName)?.let { Shop().attack((clear * 5).toDouble(), null, it) }
+                Scoreboard().set(GET().getTeamScoreName(teamName), "ミッション", 0)
             }
         }
-        GET().getTeamshop(teamName)?.damage((clear * 5).toDouble())
-        Scoreboard().set(GET().getTeamScoreName(teamName), "ミッション", 0)
     }
     fun blockClick(player: Player, block: Block?, plugin: Plugin) {
         if (block == null) { return }

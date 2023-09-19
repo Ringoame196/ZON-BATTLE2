@@ -58,7 +58,9 @@ class ZombieData {
             "デスクイーン",
             "誘拐犯",
             "大泥棒",
-            "ゴースト"
+            "ゴースト",
+            "アンペット",
+            "親子"
         )
         val random = Random.nextInt(0, zombieList.size)
         val zombie = zombieList.get(random)
@@ -90,6 +92,7 @@ class ZombieData {
             "大泥棒" -> bigThief(zombie)
             "ゴースト" -> ghost(zombie)
             "アンペット" -> unpet(zombie)
+            "親子" -> parentAndChild(zombie)
         }
     }
     fun normal(zombie: Zombie?) {
@@ -343,8 +346,8 @@ class ZombieData {
         zombie?.let {
             it.isBaby = false
             it.customName = "大泥棒"
-            it.maxHealth = 200.0
-            it.health = 200.0
+            it.maxHealth = 150.0
+            it.health = 150.0
             it.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, "BLACK")
             it.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, "GREEN")
             it.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, "BLACK")
@@ -378,6 +381,22 @@ class ZombieData {
             it.scoreboardTags.add("targetPet")
             it.equipment?.setItemInMainHand(ItemStack(Material.DIAMOND_AXE))
             it.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
+        }
+    }
+
+    fun parentAndChild(zombie: Zombie?) {
+        zombie?.let {
+            it.isBaby = false
+            it.customName = "親子"
+            it.maxHealth = 20.0
+            it.health = 20.0
+            it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
+            it.scoreboardTags.add("targetshop")
+
+            val childZombie = it.world.spawn(it.location, Zombie::class.java)
+            chibi(childZombie)
+            zombie.addPassenger(childZombie)
         }
     }
 }

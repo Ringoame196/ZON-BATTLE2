@@ -19,7 +19,6 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Mob
 import org.bukkit.entity.Player
 import org.bukkit.entity.Villager
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
@@ -131,10 +130,10 @@ class Shop {
             }
         }
     }
-    fun attack(e: EntityDamageByEntityEvent, damager: Entity, shop: Villager) {
+    fun attack(damage: Double, damager: Entity?, shop: Villager) {
         if (!GET().shop(shop)) { return }
         // ダメージを受けたときにメッセージを出す
-        val health = String.format("%.1f", shop.health - e.damage).toDouble()
+        val health = String.format("%.1f", shop.health - damage).toDouble()
         if (health <= 0) {
             return
         }
