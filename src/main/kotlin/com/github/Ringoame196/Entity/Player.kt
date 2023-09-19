@@ -33,15 +33,18 @@ class Player {
         for (i in 0..8) {
             val item = player.inventory.getItem(i)
             if (item?.itemMeta?.displayName != "${ChatColor.GREEN}ゾンビのお守り") { continue }
-            player.inventory.removeItem(Give().zombieAmulet())
-            val zombie = player.world.spawn(player.location, Zombie::class.java)
-            zombie.customName = "${ChatColor.AQUA}${player.name}"
-            zombie.isCustomNameVisible = true
-            zombie.equipment?.helmet = Give().playerHead(player.name)
-            zombie.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
-            zombie.equipment?.leggings = ItemStack(Material.LEATHER_LEGGINGS)
-            zombie.equipment?.boots = ItemStack(Material.LEATHER_BOOTS)
-            zombie.equipment?.setItemInMainHand(ItemStack(Material.IRON_SWORD))
+            player.inventory.removeItem(item)
+            for (i in 0..item.amount) {
+                val zombie = player.world.spawn(player.location, Zombie::class.java)
+                zombie.customName = "${ChatColor.AQUA}${player.name}"
+                zombie.isCustomNameVisible = true
+                zombie.equipment?.helmet = Give().playerHead(player.name)
+                zombie.equipment?.chestplate = ItemStack(Material.IRON_CHESTPLATE)
+                zombie.equipment?.leggings = ItemStack(Material.LEATHER_LEGGINGS)
+                zombie.equipment?.boots = ItemStack(Material.LEATHER_BOOTS)
+                zombie.equipment?.setItemInMainHand(ItemStack(Material.IRON_SWORD))
+            }
+            return
         }
 
         // ダメージを与えたエンティティがプレイヤーであればキル処理

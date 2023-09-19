@@ -58,7 +58,7 @@ class Golem {
             Material.CHEST -> {
                 golem?.maxHealth = 500.0
                 golem?.health = 500.0
-                golem?.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 1.0
+                golem?.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 0.0
             }
             else -> {}
         }
