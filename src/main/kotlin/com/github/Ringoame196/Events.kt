@@ -40,8 +40,10 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.spigotmc.event.entity.EntityDismountEvent
+import kotlin.random.Random
 
 class Events(private val plugin: Plugin) : Listener {
     @EventHandler
@@ -187,6 +189,12 @@ class Events(private val plugin: Plugin) : Listener {
             Scoreboard().remove("BlueTeamSystem", "petCount", 1)
         } else if (GET().shop(mob)) {
             Shop().kill(mob as Villager)
+        }
+        if (mob.customName == "${ChatColor.YELLOW}ギフトゴーレム") {
+            val items: MutableList<ItemStack> = RandomChest().setList()
+            val random = Random.nextInt(0, items.size)
+            val item = items[random]
+            mob.location.world?.dropItemNaturally(mob.location.add(0.0, 2.0, 0.0), item)
         }
     }
 

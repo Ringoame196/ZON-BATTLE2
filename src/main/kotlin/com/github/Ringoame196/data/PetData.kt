@@ -35,9 +35,10 @@ class PetData {
             return null
         }
         val pet = when (name) {
-            "${ChatColor.YELLOW}アイアンゴーレム" -> Golem().summon(player, Material.IRON_BLOCK, name)
-            "${ChatColor.YELLOW}ネザライトゴーレム" -> Golem().summon(player, Material.NETHERITE_BLOCK, name)
-            "${ChatColor.RED}ゴールデンゴーレム" -> Golem().summon(player, Material.GOLD_BLOCK, name)
+            "${ChatColor.YELLOW}アイアンゴーレム" -> Golem().summon(player, Material.IRON_BLOCK)
+            "${ChatColor.YELLOW}ネザライトゴーレム" -> Golem().summon(player, Material.NETHERITE_BLOCK)
+            "${ChatColor.YELLOW}ギフトゴーレム" -> Golem().summon(player, Material.CHEST)
+            "${ChatColor.RED}ゴールデンゴーレム" -> Golem().summon(player, Material.GOLD_BLOCK)
             "${ChatColor.GREEN}ミニオン" -> Minion().summon(block?.location?.add(0.0, 1.0, 0.0) ?: player.location, team)
             "${ChatColor.GOLD}ポーション屋" -> PotionShop().summon(player)
             "${ChatColor.RED}ブレイズ" -> Blaze().summon(player)
@@ -57,7 +58,7 @@ class PetData {
         pet?.isCustomNameVisible = true
         pet?.scoreboardTags?.add("targetZombie")
         pet?.scoreboardTags?.add("${GET().teamName(player)}Pet")
-        if (pet?.customName != "${ChatColor.RED}分身") {
+        if (pet?.customName != "${ChatColor.RED}分身" || pet.customName != "${ChatColor.YELLOW}ギフトゴーレム") {
             pet?.scoreboardTags?.add("friend")
         }
         pet?.scoreboardTags?.add(GET().teamName(player))

@@ -6,6 +6,7 @@ import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Entity
 import org.bukkit.entity.IronGolem
 import org.bukkit.entity.Player
@@ -37,7 +38,7 @@ class Golem {
             }
         }
     }
-    fun summon(player: Player, type: Material?, name: String): Entity? {
+    fun summon(player: Player, type: Material?): Entity? {
         val location = player.location
         val golem = location.world?.spawn(location, IronGolem::class.java)
 
@@ -52,7 +53,12 @@ class Golem {
             Material.NETHERITE_BLOCK -> {
                 golem?.maxHealth = 600.0
                 golem?.health = 600.0
-                golem?.damage(15.0)
+                golem?.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 15.0
+            }
+            Material.CHEST -> {
+                golem?.maxHealth = 500.0
+                golem?.health = 500.0
+                golem?.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 1.0
             }
             else -> {}
         }

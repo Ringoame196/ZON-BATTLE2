@@ -313,7 +313,8 @@ class GUI {
         }
         guiItem(gui, 0, Material.IRON_INGOT, "ゴーレム", "", true)
         guiItem(gui, 2, Material.IRON_BLOCK, "${ChatColor.YELLOW}[ペット召喚]アイアンゴーレム", "1000p", true)
-        guiItem(gui, 3, Material.GOLD_BLOCK, "${ChatColor.RED}[ペット召喚]ゴールデンゴーレム", "1500p", true)
+        guiItem(gui, 3, Material.CHEST, "${ChatColor.YELLOW}[ペット召喚]ギフトゴーレム", "777p", true)
+        guiItem(gui, 4, Material.GOLD_BLOCK, "${ChatColor.RED}[ペット召喚]ゴールデンゴーレム", "1500p", true)
 
         guiItem(gui, 9, Material.IRON_PICKAXE, "${ChatColor.GREEN}お助け", "", true)
         playerHead(gui, 11, "akamaru58", "${ChatColor.GREEN}[ペット召喚]ミニオン", "1000p")
@@ -337,7 +338,7 @@ class GUI {
         guiItem(gui, 40, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1000p", true)
 
         guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
-        guiItem(gui, 47, Material.PLAYER_HEAD, "${ChatColor.RED}[ペット召喚]分身", "3000p", true)
+        guiItem(gui, 47, Material.PLAYER_HEAD, "${ChatColor.RED}[ペット召喚]分身", "2500p", true)
         player.openInventory(gui)
     }
     fun generalMerchandiseshop(gui: Inventory, player: Player) {

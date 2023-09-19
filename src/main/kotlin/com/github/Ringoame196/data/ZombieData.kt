@@ -393,6 +393,7 @@ class ZombieData {
             it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.3
             it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
+            it.equipment?.chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
 
             val childZombie = it.world.spawn(it.location, Zombie::class.java)
             chibi(childZombie)
