@@ -7,7 +7,7 @@ import org.bukkit.entity.ArmorStand
 class ArmorStand {
     fun summon(location: Location, name: String): ArmorStand {
         val world = location.world
-        val armorStand: ArmorStand = world!!.spawn(location, org.bukkit.entity.ArmorStand::class.java)
+        val armorStand: ArmorStand = world!!.spawn(location.add(0.0, 1.0, 0.0), org.bukkit.entity.ArmorStand::class.java)
 
         // アーマースタンドの設定
         armorStand.isVisible = false // 可視化するかどうか
@@ -16,6 +16,7 @@ class ArmorStand {
         armorStand.customName = name
         armorStand.isCustomNameVisible = true
         armorStand.setGravity(false)
+        armorStand.isMarker = true
         Data.DataManager.gameData.title.add(armorStand)
         return armorStand
     }

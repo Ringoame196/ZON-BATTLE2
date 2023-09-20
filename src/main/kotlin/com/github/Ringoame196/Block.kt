@@ -34,6 +34,9 @@ class Block {
                 if (cooltime >= 0) {
                     armorStand.customName = "${ChatColor.GREEN}${GET().minutes(cooltime)}"
                     cooltime--
+                    if (cooltime > 10 && armorStand.scoreboardTags.contains("shortening")) {
+                        cooltime = 10
+                    }
                 } else {
                     location.block.setType(type)
                     location.block.setBlockData(blockData)
@@ -47,7 +50,7 @@ class Block {
         val entitys = Bukkit.getWorld("BATTLE")?.entities ?: return
         for (armorStand in entitys) {
             if (armorStand !is org.bukkit.entity.ArmorStand) { continue }
-            val location = armorStand.location.clone().add(-0.5, 1.0, -0.5)
+            val location = armorStand.location.clone().add(-0.5, 0.0, -0.5)
             val blockType = when {
                 armorStand.scoreboardTags.contains("DIAMOND_ORE") -> Material.DIAMOND_ORE
                 armorStand.scoreboardTags.contains("GOLD_ORE") -> Material.GOLD_ORE

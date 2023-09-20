@@ -316,6 +316,7 @@ class GUI {
         guiItem(gui, 2, Material.IRON_BLOCK, "${ChatColor.YELLOW}[ペット召喚]アイアンゴーレム", "1000p", true)
         guiItem(gui, 3, Material.CHEST, "${ChatColor.YELLOW}[ペット召喚]ギフトゴーレム", "777p", true)
         guiItem(gui, 4, Material.GOLD_BLOCK, "${ChatColor.RED}[ペット召喚]ゴールデンゴーレム", "1500p", true)
+        guiItem(gui, 5, Material.DIAMOND_BLOCK, "${ChatColor.YELLOW}[ペット召喚]ダイヤモンドゴーレム", "3000p", true)
 
         guiItem(gui, 9, Material.IRON_PICKAXE, "${ChatColor.GREEN}お助け", "", true)
         playerHead(gui, 11, "akamaru58", "${ChatColor.GREEN}[ペット召喚]ミニオン", "1000p")

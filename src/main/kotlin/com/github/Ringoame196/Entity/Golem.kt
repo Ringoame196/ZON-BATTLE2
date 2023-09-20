@@ -58,7 +58,14 @@ class Golem {
             Material.CHEST -> {
                 golem?.maxHealth = 500.0
                 golem?.health = 500.0
+                golem?.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 1.0
+            }
+            Material.DIAMOND_BLOCK -> {
+                golem?.maxHealth = 50.0
+                golem?.health = 50.0
                 golem?.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 0.0
+                golem?.scoreboardTags?.add("diamondGolem")
+                golem?.scoreboardTags?.add("bodyguard")
             }
             else -> {}
         }

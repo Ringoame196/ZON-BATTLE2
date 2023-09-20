@@ -39,6 +39,7 @@ class PetData {
             "${ChatColor.YELLOW}アイアンゴーレム" -> Golem().summon(player, Material.IRON_BLOCK)
             "${ChatColor.YELLOW}ネザライトゴーレム" -> Golem().summon(player, Material.NETHERITE_BLOCK)
             "${ChatColor.YELLOW}ギフトゴーレム" -> Golem().summon(player, Material.CHEST)
+            "${ChatColor.YELLOW}ダイヤモンドゴーレム" -> Golem().summon(player, Material.DIAMOND_BLOCK)
             "${ChatColor.RED}ゴールデンゴーレム" -> Golem().summon(player, Material.GOLD_BLOCK)
             "${ChatColor.GREEN}ミニオン" -> Minion().summon(block?.location?.add(0.0, 1.0, 0.0) ?: player.location, team)
             "${ChatColor.GOLD}ポーション屋" -> PotionShop().summon(player)
@@ -59,7 +60,7 @@ class PetData {
         pet?.isCustomNameVisible = true
         pet?.scoreboardTags?.add("targetZombie")
         pet?.scoreboardTags?.add("${GET().teamName(player)}Pet")
-        if (pet?.customName != "${ChatColor.RED}分身" || pet.customName != "${ChatColor.YELLOW}ギフトゴーレム") {
+        if (pet?.customName != "${ChatColor.RED}分身" || pet.customName != "${ChatColor.YELLOW}ギフトゴーレム" || pet.customName != "${ChatColor.YELLOW}ダイヤモンドゴーレム") {
             pet?.scoreboardTags?.add("friend")
         }
         pet?.scoreboardTags?.add(GET().teamName(player))
