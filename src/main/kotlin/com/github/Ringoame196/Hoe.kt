@@ -10,9 +10,10 @@ import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.plugin.Plugin
 
 class Hoe {
-    fun clickEvent(player: Player, e: PlayerInteractEvent) {
+    fun clickEvent(player: Player, e: PlayerInteractEvent, plugin: Plugin) {
         val action = e.action
         e.isCancelled = true
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
@@ -27,7 +28,7 @@ class Hoe {
                 return
             }
             val zombie = player.inventory.itemInOffHand
-            Zombie().summonSorting(player, zombie)
+            Zombie().summonSorting(player, zombie, plugin)
             val teamName = GET().opposingTeamname(GET().teamName(player).toString())
             if (Scoreboard().getValue(GET().getTeamScoreName(teamName), "${ChatColor.GOLD}ゾンビ通知") == -1) {
                 Team().sound(Sound.ENTITY_ZOMBIE_AMBIENT, teamName!!)

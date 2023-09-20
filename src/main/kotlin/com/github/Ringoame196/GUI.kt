@@ -297,6 +297,7 @@ class GUI {
         zombieGUIitem(gui, 38, Material.BOOK, "ネクロマンサー", "400p", "子分生成")
         zombieGUIitem(gui, 39, Material.HONEYCOMB, "エンペラー", "400p", "強い子分生成")
         zombieGUIitem(gui, 40, Material.HEART_OF_THE_SEA, "ランダム", "750p", "ランダム")
+        zombieGUIitem(gui, 41, Material.DRAGON_BREATH, "生贄の魔女", "3000p", "30秒後にネザライトゾンビ召喚")
 
         guiItem(gui, 45, Material.WITHER_SKELETON_SKULL, "破壊", "", true)
         zombieGUIitem(gui, 47, Material.CHAIN, "アンペット", "850p", "ペットだけを攻撃")

@@ -80,7 +80,7 @@ class Timer {
                 Mission().set("red", plugin)
             }
         }
-        if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "シールドゾンビ", "ゾンビソルジャー") }
+        if (time % 17 == 0) { Zombie().summonner("§5エンペラー", "シールドゾンビ", "ゾンビソルジャー", plugin) }
         if (time % 5 == 0) {
             Golem().golden()
         }
@@ -91,11 +91,11 @@ class Timer {
             PotionShop().give()
             Minion().loopMinion(plugin)
         }
-        if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "ノーマルゾンビ", "ノーマルゾンビ") }
+        if (time % 7 == 0) { Zombie().summonner("§5ネクロマンサー", "ノーマルゾンビ", "ノーマルゾンビ", plugin) }
         if (time == Scoreboard().getValue("gameData", "feverTime")) { Timer().feverActivation(plugin) }
     }
     fun feverSet() {
-        val feverSetTime: MutableList<Int> = mutableListOf(420, 600, 780)
+        val feverSetTime: MutableList<Int> = mutableListOf(250, 300, 420, 600, 780)
         val r = Random.nextInt(0, feverSetTime.size)
         Scoreboard().set("gameData", "feverTime", feverSetTime.get(r))
     }

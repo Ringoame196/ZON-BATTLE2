@@ -11,6 +11,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.plugin.Plugin
 
 class Map {
     private val mapNumber = Scoreboard().getValue("gameData", "map")
@@ -81,11 +82,11 @@ class Map {
             }
         }
     }
-    fun summonSorting(function: String, player: org.bukkit.entity.Player) {
+    fun summonSorting(function: String, player: org.bukkit.entity.Player, plugin: Plugin) {
         when (mapNumber) {
-            1 -> Zombie().glassSummon(player, function)
-            2 -> Zombie().randomSummon(player, function)
-            3 -> Zombie().randomSummon(player, function)
+            1 -> Zombie().glassSummon(player, function, plugin)
+            2 -> Zombie().randomSummon(player, function, plugin)
+            3 -> Zombie().randomSummon(player, function, plugin)
         }
     }
     fun randomChest() {

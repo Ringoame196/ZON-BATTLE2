@@ -26,6 +26,7 @@ class Player {
             shooter.sendMessage("${ChatColor.RED}HP: $hp / $maxHp")
         }
     }
+    @Suppress("NAME_SHADOWING")
     fun death(e: EntityDamageEvent, player: Player, plugin: Plugin) {
         if (!GET().joinTeam(player)) { return }
         e.isCancelled = true

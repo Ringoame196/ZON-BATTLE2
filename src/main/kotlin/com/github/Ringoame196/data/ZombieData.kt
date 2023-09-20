@@ -1,12 +1,14 @@
 package com.github.Ringoame196.data
 
 import com.github.Ringoame196.Give
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
 import org.bukkit.inventory.ItemStack
+import org.bukkit.plugin.Plugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import kotlin.random.Random
@@ -60,18 +62,19 @@ class ZombieData {
             "大泥棒",
             "ゴースト",
             "アンペット",
-            "親子"
+            "親子",
+            "生贄の魔女"
         )
         val random = Random.nextInt(0, zombieList.size)
         val zombie = zombieList.get(random)
         player.sendMessage("${ChatColor.AQUA}${zombie}を召喚しました")
         return zombie
     }
-    fun switching(zombieName: String, player: Player, zombie: Zombie?) {
+    fun switching(zombieName: String, player: Player, zombie: Zombie?, plugin: Plugin) {
         zombie?.scoreboardTags?.add("owner:${player.name}")
         zombie?.scoreboardTags?.add(GET().teamName(player))
         when (zombieName) {
-            "ランダム" -> switching(random(player), player, zombie)
+            "ランダム" -> switching(random(player), player, zombie, plugin)
             "ノーマルゾンビ" -> normal(zombie)
             "チビゾンビ" -> chibi(zombie)
             "ゾンビソルジャー" -> solder(zombie)
@@ -93,6 +96,7 @@ class ZombieData {
             "ゴースト" -> ghost(zombie)
             "アンペット" -> unpet(zombie)
             "親子" -> parentAndChild(zombie)
+            "生贄の魔女" -> sacrificialWitch(zombie, plugin)
         }
     }
     fun normal(zombie: Zombie?) {
@@ -398,6 +402,35 @@ class ZombieData {
             val childZombie = it.world.spawn(it.location, Zombie::class.java)
             chibi(childZombie)
             zombie.addPassenger(childZombie)
+        }
+    }
+    fun sacrificialWitch(zombie: Zombie?, plugin: Plugin) {
+        zombie?.let {
+            it.isBaby = false
+            it.customName = "生贄の魔女"
+            it.maxHealth = 100.0
+            it.health = 100.0
+            it.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.0
+            it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 0.0
+            it.scoreboardTags.add("targetshop")
+
+            it.equipment?.helmet = ItemStack(Material.WITHER_SKELETON_SKULL)
+            it.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, "PURPLE")
+            it.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, "PURPLE")
+            it.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, "PURPLE")
+
+            Bukkit.getScheduler().runTaskLater(
+                plugin,
+                Runnable {
+                    if (!it.world.entities.contains(it)) { return@Runnable }
+                    it.remove()
+                    val owner = GET().owner(it) ?: return@Runnable
+                    for (i in 1..3) {
+                        com.github.Ringoame196.Entity.Zombie().summon(it.location, "ネザライトゾンビ", owner, plugin)
+                    }
+                },
+                20L * 30
+            )
         }
     }
 }

@@ -15,24 +15,25 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.plugin.Plugin
 import org.spigotmc.event.entity.EntityDismountEvent
 import kotlin.random.Random
 
 class Zombie {
-    fun summonSorting(player: Player, item: ItemStack) {
+    fun summonSorting(player: Player, item: ItemStack, plugin: Plugin) {
         val zombieName = item.itemMeta?.displayName?.replace("${ChatColor.YELLOW}", "")?.replace("[ゾンビ召喚]", "") ?: return
-        Map().summonSorting(zombieName, player)
+        Map().summonSorting(zombieName, player, plugin)
     }
 
-    fun glassSummon(player: Player, function: String) {
+    fun glassSummon(player: Player, function: String, plugin: Plugin) {
         val location = player.getLocation()
         location.add(0.0, -3.5, 0.0)
-        summon(location, function, player)
+        summon(location, function, player, plugin)
     }
 
-    fun randomSummon(player: Player, function: String) {
+    fun randomSummon(player: Player, function: String, plugin: Plugin) {
         val location = randomSummonLocation(player) ?: return
-        summon(location, function, player)
+        summon(location, function, player, plugin)
         player.sendMessage("${ChatColor.GOLD}ゾンビ召喚完了")
     }
 
@@ -41,10 +42,10 @@ class Zombie {
         val random = Random.nextInt(0, summonLocationList?.size ?: 0)
         return summonLocationList?.get(random)!!
     }
-    fun summon(location: Location, zombieName: String, player: Player) {
+    fun summon(location: Location, zombieName: String, player: Player, plugin: Plugin) {
         val world = location.world
         val zombie: Zombie? = world?.spawn(location, Zombie::class.java)
-        ZombieData().switching(zombieName, player, zombie)
+        ZombieData().switching(zombieName, player, zombie, plugin)
 
         zombie?.let { Data.DataManager.gameData.zombie.add(it) }
     }
@@ -55,7 +56,7 @@ class Zombie {
             zombie.scoreboardTags.remove("targetshop")
         }
     }
-    fun summonner(zombieName: String, function1: String, function2: String) {
+    fun summonner(zombieName: String, function1: String, function2: String, plugin: Plugin) {
         val selectZombie = mutableListOf<Zombie>()
         for (zombie in Data.DataManager.gameData.zombie) {
             if (zombie.customName == zombieName) {
@@ -66,8 +67,8 @@ class Zombie {
             val location = zombie.location
             val owner = GET().owner(zombie)
             location.add(0.0, 1.0, 0.0)
-            summon(location, function1, owner!!)
-            summon(location, function2, owner)
+            summon(location, function1, owner!!, plugin)
+            summon(location, function2, owner, plugin)
         }
     }
     fun attack(zombie: Zombie, entity: Entity, e: EntityDamageByEntityEvent) {
