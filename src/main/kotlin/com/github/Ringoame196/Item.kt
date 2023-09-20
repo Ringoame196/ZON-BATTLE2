@@ -29,13 +29,15 @@ class Item {
         if (itemName.contains("[ペット召喚]")) {
             e.isCancelled = true
             PetData().switch(itemName.replace("[ペット召喚]", ""), player, block, null)
+            return
         } else if (itemName.contains("[捕獲]")) {
             e.isCancelled = true
             PetData().switch(itemName.replace("[捕獲]", ""), player, block, item?.itemMeta?.lore?.get(0)?.toDouble())
         } else {
             when {
                 itemType == Material.EMERALD -> {
-                    money(player, itemName)
+                    if (!itemName.contains("p")) { return }
+                    money(player, item)
                     return
                 }
 
@@ -85,11 +87,13 @@ class Item {
         }
         removeitem(player)
     }
-    fun money(player: Player, itemName: String) {
-        val pointString = itemName.replace("${ChatColor.GREEN}", "").replace("p", "")
-        val point = pointString.toIntOrNull() ?: return
-        Point().add(player, point, false)
-        removeitem(player)
+    fun money(player: Player, item: ItemStack) {
+        val itemName = item.itemMeta?.displayName
+        val amount = item.amount
+        val pointString = itemName?.replace("${ChatColor.GREEN}", "")?.replace("p", "")
+        val point = pointString?.toIntOrNull() ?: return
+        Point().add(player, point * amount, false)
+        player.inventory.setItemInMainHand(ItemStack(Material.AIR))
     }
     fun removeitem(player: org.bukkit.entity.Player) {
         if (player.gameMode == GameMode.CREATIVE) { return }

@@ -6,6 +6,7 @@ import com.github.Ringoame196.Entity.Minion
 import com.github.Ringoame196.Entity.PotionShop
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.Give
+import com.github.Ringoame196.Item
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
@@ -27,12 +28,12 @@ class PetData {
     fun remove(entity: Entity) {
         Scoreboard().remove(GET().getTeamSystemScoreName(GET().teamName(entity)), "petCount", 1)
     }
-    fun switch(name: String, player: Player, block: org.bukkit.block.Block?, hp: Double?): Entity? {
+    fun switch(name: String, player: Player, block: org.bukkit.block.Block?, hp: Double?) {
         val team = GET().teamName(player)
         val petC = Scoreboard().getValue(GET().getTeamSystemScoreName(team), "petCount") < 5
         if (!petC) {
             player.sendMessage("${ChatColor.RED}5体以上召喚はできません")
-            return null
+            return
         }
         val pet = when (name) {
             "${ChatColor.YELLOW}アイアンゴーレム" -> Golem().summon(player, Material.IRON_BLOCK)
@@ -68,7 +69,7 @@ class PetData {
 
         if (pet != null) { Scoreboard().add(GET().getTeamSystemScoreName(team), "petCount", 1) }
 
-        return pet
+        Item().removeitem(player)
     }
     fun shulker(player: Player): Entity {
         val mob = player.world.spawn(player.location, Shulker::class.java)
