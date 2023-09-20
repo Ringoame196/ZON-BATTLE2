@@ -12,6 +12,8 @@ import org.bukkit.plugin.Plugin
 class Point {
     fun set(player: Player, setpoint: Int) {
         Scoreboard().set("point", player.name, setpoint)
+        player.level = setpoint
+        player.exp = 1.0f
     }
     fun add(player: Player, add: Int, change: Boolean) {
         var addpoint = add
@@ -27,14 +29,14 @@ class Point {
         player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f)
         val point = Scoreboard().getValue("point", player.name) ?: 0
         val newPoint = point + addpoint
-        player.sendMessage("${ChatColor.GREEN}+$addpoint (${newPoint}ポイント)")
+        com.github.Ringoame196.Entity.Player().sendActionBar(player, "${ChatColor.GREEN}+$addpoint")
         set(player, newPoint)
     }
     fun remove(player: Player, removepoint: Int) {
         player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f)
         val point = Scoreboard().getValue("point", player.name)
         val newPoint = point - removepoint
-        player.sendMessage("${ChatColor.RED}-$removepoint (${newPoint}ポイント)")
+        com.github.Ringoame196.Entity.Player().sendActionBar(player, "${ChatColor.RED}-$removepoint")
         set(player, newPoint)
     }
     fun ore(e: org.bukkit.event.Event, player: Player, block: Block, plugin: Plugin) {

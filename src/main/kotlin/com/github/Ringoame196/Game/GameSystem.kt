@@ -134,17 +134,17 @@ class GameSystem {
         Timer().feverSet()
         settingScoreboard()
 
+        val countList = mutableListOf<String>("${ChatColor.AQUA}---ゲーム開始---", "${ChatColor.RED}1", "${ChatColor.YELLOW}2", "${ChatColor.YELLOW}3", "${ChatColor.GREEN}4", "${ChatColor.GREEN}5")
         var c = 5
         object : BukkitRunnable() {
             override fun run() {
+                ParticipatingPlayer().title(countList[c], "")
                 if (c > 0) {
-                    ParticipatingPlayer().message("${ChatColor.GREEN}[カウントダウン]開始まで$c")
                     ParticipatingPlayer().sound(Sound.BLOCK_DISPENSER_FAIL)
                     c--
                 } else {
                     Team().division()
                     Sign().numberdisplay("ゲーム進行中")
-                    Bukkit.broadcastMessage("${ChatColor.GREEN}攻防戦ゲームスタート！！")
                     ParticipatingPlayer().sound(Sound.ENTITY_ENDER_DRAGON_AMBIENT)
                     Timer().GameTimer(plugin)
                     this.cancel()

@@ -61,7 +61,7 @@ class Mission {
                 loopPlayer.sendMessage("${ChatColor.YELLOW}クリア")
             } else {
                 loopPlayer.sendMessage("${ChatColor.RED}失敗")
-                GET().getTeamshop(teamName)?.let { Shop().attack((clear * 5).toDouble(), null, it) }
+                GET().getTeamshop(teamName)?.let { Shop().attack((clear * 10).toDouble(), null, it) }
                 Scoreboard().set(GET().getTeamScoreName(teamName), "ミッション", 0)
             }
         }
@@ -74,7 +74,7 @@ class Mission {
             return
         }
         Scoreboard().remove(GET().getTeamScoreName(team), "ミッション", 1)
-        player.sendMessage("${ChatColor.GREEN}-1")
+        com.github.Ringoame196.Entity.Player().sendActionBar(player, "${ChatColor.YELLOW}残り:${Scoreboard().getValue(GET().getTeamScoreName(team),"ミッション")}個")
         player.inventory.addItem(Give().point(150))
         player.inventory.addItem(ItemStack(Material.STICK, 5))
         com.github.Ringoame196.Block().revival(plugin, block.location, 15, Material.BEACON, block.blockData)

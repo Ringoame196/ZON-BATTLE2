@@ -17,6 +17,14 @@ class ParticipatingPlayer {
             }
         }
     }
+    fun title(title: String?, subTitle: String?) {
+        for (loopPlayer in Bukkit.getOnlinePlayers()) {
+            val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
+            if (join != 0) {
+                loopPlayer.sendTitle(title, subTitle)
+            }
+        }
+    }
     fun sound(sound: Sound) {
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             val join: Int = Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0
