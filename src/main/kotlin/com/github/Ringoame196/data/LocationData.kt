@@ -29,16 +29,19 @@ data class LocationData(
     var blueZombieSpawnLocation3: Location? = null,
 ) {
     fun save(plugin: Plugin, key: String, location: Location) {
-        val filePath = "${plugin.dataFolder}/location.yml"
-        val yamlConfiguration = YamlConfiguration()
+        val filePath = File(plugin.dataFolder, "location.yml")
+        val yamlConfiguration = YamlConfiguration.loadConfiguration(filePath)
+
+        // 既存のデータを上書き
         yamlConfiguration.set(key, createSectionFromLocation(location))
 
         try {
-            yamlConfiguration.save(File(filePath))
+            yamlConfiguration.save(filePath)
         } catch (e: IOException) {
             println("Error while saving data: ${e.message}")
         }
     }
+
     fun loadParticipationSignSection(plugin: Plugin) {
         val filePath = "${plugin.dataFolder}/location.yml"
         val yaml = YamlConfiguration.loadConfiguration(File(filePath))
