@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.plugin.Plugin
 import java.io.File
 import java.io.IOException
 
@@ -12,9 +13,20 @@ data class LocationData(
 
     var redshop: Location? = null,
     var blueshop: Location? = null,
+
     var redspawn: Location? = null,
     var bluespawn: Location? = null,
-    var randomChest: Location? = null,
+
+    var randomChest1: Location? = null,
+    var randomChest2: Location? = null,
+
+    var redZombieSpawnLocation1:Location? = null,
+    var redZombieSpawnLocation2:Location? = null,
+    var redZombieSpawnLocation3:Location? = null,
+
+    var blueZombieSpawnLocation1:Location? = null,
+    var blueZombieSpawnLocation2:Location? = null,
+    var blueZombieSpawnLocation3:Location? = null,
 
     var mredshop: Location? = null,
     var mblueshop: Location? = null,
@@ -37,192 +49,93 @@ data class LocationData(
     var tmZombiespawn3: Location? = null,
 
 ) {
-    fun saveToFile(filePath: String) {
+    fun save(plugin: Plugin,key:String,location: Location){
+        val filePath = "${plugin.dataFolder}/location.yml"
         val yamlConfiguration = YamlConfiguration()
+        yamlConfiguration.set(key, createSectionFromLocation(location))
 
-        fun createSectionFromLocation(location: Location?): ConfigurationSection? {
-            if (location == null) {
-                return null
-            }
-
-            val section = yamlConfiguration.createSection("location")
-            section.set("world", location.world?.name)
-            section.set("x", location.x)
-            section.set("y", location.y)
-            section.set("z", location.z)
-            section.set("yaw", location.yaw.toDouble())
-            section.set("pitch", location.pitch.toDouble())
-            return section
-        }
-        yamlConfiguration.set("participationSign", createSectionFromLocation(participationSign))
-        yamlConfiguration.set("redshop", createSectionFromLocation(redshop))
-        yamlConfiguration.set("blueshop", createSectionFromLocation(blueshop))
-        yamlConfiguration.set("redspawn", createSectionFromLocation(redspawn))
-        yamlConfiguration.set("bluespawn", createSectionFromLocation(bluespawn))
-        yamlConfiguration.set("randomChest", createSectionFromLocation(randomChest))
-
-        yamlConfiguration.set("mredshop", createSectionFromLocation(mredshop))
-        yamlConfiguration.set("mblueshop", createSectionFromLocation(mblueshop))
-        yamlConfiguration.set("mredspawn", createSectionFromLocation(mredspawn))
-        yamlConfiguration.set("mbluespawn", createSectionFromLocation(mbluespawn))
-        yamlConfiguration.set("mrandomChest1", createSectionFromLocation(mrandomChest1))
-        yamlConfiguration.set("mrandomChest2", createSectionFromLocation(mrandomChest2))
-        yamlConfiguration.set("mredZombiespawn1", createSectionFromLocation(mredZombiespawn1))
-        yamlConfiguration.set("mredZombiespawn2", createSectionFromLocation(mredZombiespawn2))
-        yamlConfiguration.set("mblueZombiespawn1", createSectionFromLocation(mblueZombiespawn1))
-        yamlConfiguration.set("mblueZombiespawn2", createSectionFromLocation(mblueZombiespawn2))
-
-        yamlConfiguration.set("tmredshop", createSectionFromLocation(tmredshop))
-        yamlConfiguration.set("tmblueshop", createSectionFromLocation(tmblueshop))
-        yamlConfiguration.set("tmredspawn", createSectionFromLocation(tmredspawn))
-        yamlConfiguration.set("tmbluespawn", createSectionFromLocation(tmbluespawn))
-        yamlConfiguration.set("tmrandomChest", createSectionFromLocation(tmrandomChest))
-        yamlConfiguration.set("tmZombiespawn1", createSectionFromLocation(tmZombiespawn1))
-        yamlConfiguration.set("tmZombiespawn2", createSectionFromLocation(tmZombiespawn2))
-        yamlConfiguration.set("tmZombiespawn3", createSectionFromLocation(tmZombiespawn3))
         try {
             yamlConfiguration.save(File(filePath))
         } catch (e: IOException) {
             println("Error while saving data: ${e.message}")
         }
     }
-
-    fun loadLocationDataFromYaml(filePath: String) {
+    fun loadParticipationSignSection(plugin:Plugin){
+        val filePath = "${plugin.dataFolder}/location.yml"
         val yaml = YamlConfiguration.loadConfiguration(File(filePath))
         val locationData = Data.DataManager.LocationData
-
-        fun getLocationFromSection(section: ConfigurationSection): Location? {
-            val worldName = section.getString("world") ?: return null
-            val world = Bukkit.getWorld(worldName) ?: return null
-
-            val x = section.getDouble("x")
-            val y = section.getDouble("y")
-            val z = section.getDouble("z")
-            val yaw = section.getDouble("yaw").toFloat()
-            val pitch = section.getDouble("pitch").toFloat()
-
-            return Location(world, x, y, z, yaw, pitch)
-        }
         val participationSignSection = yaml.getConfigurationSection("participationSign")
         if (participationSignSection != null) {
             locationData.participationSign = getLocationFromSection(participationSignSection)
         }
+    }
+    fun load(plugin: Plugin,mapName:String){
+        val filePath = "${plugin.dataFolder}/location.yml"
+        val yaml = YamlConfiguration.loadConfiguration(File(filePath))
+        val locationData = Data.DataManager.LocationData
 
-        val redshopSection = yaml.getConfigurationSection("redshop")
-        if (redshopSection != null) {
-            locationData.redshop = getLocationFromSection(redshopSection)
+        val sectionsToLoad = listOf(
+            "redshop",
+            "blueshop",
+            "redspawn",
+            "bluespawn",
+            "randomChest1",
+            "randomChest2",
+            "redZombieSpawn1",
+            "redZombieSpawn2",
+            "redZombieSpawn3",
+            "blueZombieSpawn1",
+            "blueZombieSpawn2",
+            "blueZombieSpawn3"
+        )
+
+        sectionsToLoad.forEach { sectionName ->
+            yaml.getConfigurationSection("$mapName.$sectionName")?.let { section ->
+                locationData.getLocationFromSection(section)?.let { location ->
+                    when (sectionName) {
+                        "redshop" -> locationData.redshop = location
+                        "blueshop" -> locationData.blueshop = location
+                        "redspawn" -> locationData.redspawn = location
+                        "bluespawn" -> locationData.bluespawn = location
+                        "randomChest1" -> locationData.randomChest1 = location
+                        "randomChest2" -> locationData.randomChest2 = location
+                        "redZombieSpawn1" -> locationData.redZombieSpawnLocation1 = location
+                        "redZombieSpawn2" -> locationData.redZombieSpawnLocation2 = location
+                        "redZombieSpawn3" -> locationData.redZombieSpawnLocation3 = location
+                        "blueZombieSpawn1" -> locationData.blueZombieSpawnLocation1 = location
+                        "blueZombieSpawn2" -> locationData.blueZombieSpawnLocation2 = location
+                        "blueZombieSpawn3" -> locationData.blueZombieSpawnLocation3 = location
+                    }
+                }
+            }
+        }
+    }
+    private fun createSectionFromLocation(location: Location?): ConfigurationSection? {
+        val yamlConfiguration = YamlConfiguration()
+        if (location == null) {
+            return null
         }
 
-        val blueshopSection = yaml.getConfigurationSection("blueshop")
-        if (blueshopSection != null) {
-            locationData.blueshop = getLocationFromSection(blueshopSection)
-        }
+        val section = yamlConfiguration.createSection("location")
+        section.set("world", location.world?.name)
+        section.set("x", location.x)
+        section.set("y", location.y)
+        section.set("z", location.z)
+        section.set("yaw", location.yaw.toDouble())
+        section.set("pitch", location.pitch.toDouble())
+        return section
+    }
 
-        val redspawnSection = yaml.getConfigurationSection("redspawn")
-        if (redspawnSection != null) {
-            locationData.redspawn = getLocationFromSection(redspawnSection)
-        }
+    private fun getLocationFromSection(section: ConfigurationSection): Location? {
+        val worldName = section.getString("world") ?: return null
+        val world = Bukkit.getWorld(worldName) ?: return null
 
-        val bluespawnSection = yaml.getConfigurationSection("bluespawn")
-        if (bluespawnSection != null) {
-            locationData.bluespawn = getLocationFromSection(bluespawnSection)
-        }
+        val x = section.getDouble("x")
+        val y = section.getDouble("y")
+        val z = section.getDouble("z")
+        val yaw = section.getDouble("yaw").toFloat()
+        val pitch = section.getDouble("pitch").toFloat()
 
-        val randomChestSection = yaml.getConfigurationSection("randomChest")
-        if (randomChestSection != null) {
-            locationData.randomChest = getLocationFromSection(randomChestSection)
-        }
-
-        // 第二マップ
-        val mredshopSection = yaml.getConfigurationSection("mredshop")
-        if (mredshopSection != null) {
-            locationData.mredshop = getLocationFromSection(mredshopSection)
-        }
-
-        val mblueshopSection = yaml.getConfigurationSection("mblueshop")
-        if (mblueshopSection != null) {
-            locationData.mblueshop = getLocationFromSection(mblueshopSection)
-        }
-
-        val mredspawnSection = yaml.getConfigurationSection("mredspawn")
-        if (mredspawnSection != null) {
-            locationData.mredspawn = getLocationFromSection(mredspawnSection)
-        }
-
-        val mbluespawnSection = yaml.getConfigurationSection("mbluespawn")
-        if (mbluespawnSection != null) {
-            locationData.mbluespawn = getLocationFromSection(mbluespawnSection)
-        }
-
-        val mrandomChestSection1 = yaml.getConfigurationSection("mrandomChest1")
-        if (mrandomChestSection1 != null) {
-            locationData.mrandomChest1 = getLocationFromSection(mrandomChestSection1)
-        }
-
-        val mrandomChestSection2 = yaml.getConfigurationSection("mrandomChest2")
-        if (mrandomChestSection2 != null) {
-            locationData.mrandomChest2 = getLocationFromSection(mrandomChestSection2)
-        }
-
-        val mredZombiespawnSetction1 = yaml.getConfigurationSection("mredZombiespawn1")
-        if (mredZombiespawnSetction1 != null) {
-            locationData.mredZombiespawn1 = getLocationFromSection(mredZombiespawnSetction1)
-        }
-
-        val mredZombiespawnSetction2 = yaml.getConfigurationSection("mredZombiespawn2")
-        if (mredZombiespawnSetction2 != null) {
-            locationData.mredZombiespawn2 = getLocationFromSection(mredZombiespawnSetction2)
-        }
-
-        val mblueZombiespawnSetction1 = yaml.getConfigurationSection("mblueZombiespawn1")
-        if (mblueZombiespawnSetction1 != null) {
-            locationData.mblueZombiespawn1 = getLocationFromSection(mblueZombiespawnSetction1)
-        }
-
-        val mblueZombiespawnSetction2 = yaml.getConfigurationSection("mblueZombiespawn2")
-        if (mblueZombiespawnSetction2 != null) {
-            locationData.mblueZombiespawn2 = getLocationFromSection(mblueZombiespawnSetction2)
-        }
-
-        // 第三マップ
-        val tmredshopSection = yaml.getConfigurationSection("tmredshop")
-        if (tmredshopSection != null) {
-            locationData.tmredshop = getLocationFromSection(tmredshopSection)
-        }
-
-        val tmblueshopSection = yaml.getConfigurationSection("tmblueshop")
-        if (tmblueshopSection != null) {
-            locationData.tmblueshop = getLocationFromSection(tmblueshopSection)
-        }
-
-        val tmredspawnSection = yaml.getConfigurationSection("tmredspawn")
-        if (tmredspawnSection != null) {
-            locationData.tmredspawn = getLocationFromSection(tmredspawnSection)
-        }
-
-        val tmbluespawnSection = yaml.getConfigurationSection("tmbluespawn")
-        if (tmbluespawnSection != null) {
-            locationData.tmbluespawn = getLocationFromSection(tmbluespawnSection)
-        }
-
-        val tmrandomChestSection = yaml.getConfigurationSection("tmrandomChest")
-        if (tmrandomChestSection != null) {
-            locationData.tmrandomChest = getLocationFromSection(tmrandomChestSection)
-        }
-
-        val tmZombiespawn1Section = yaml.getConfigurationSection("tmZombiespawn1")
-        if (tmZombiespawn1Section != null) {
-            locationData.tmZombiespawn1 = getLocationFromSection(tmZombiespawn1Section)
-        }
-
-        val tmZombiespawn2Section = yaml.getConfigurationSection("tmZombiespawn2")
-        if (tmZombiespawn2Section != null) {
-            locationData.tmZombiespawn2 = getLocationFromSection(tmZombiespawn2Section)
-        }
-
-        val tmZombiespawn3Section = yaml.getConfigurationSection("tmZombiespawn3")
-        if (tmZombiespawn3Section != null) {
-            locationData.tmZombiespawn3 = getLocationFromSection(tmZombiespawn3Section)
-        }
+        return Location(world, x, y, z, yaw, pitch)
     }
 }

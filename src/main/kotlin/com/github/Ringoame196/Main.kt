@@ -21,7 +21,7 @@ class Main : JavaPlugin() {
         val locationFilePath = "$dataFolder/location_data.yml"
         val locationfile = File(locationFilePath)
         if (locationfile.exists()) {
-            Data.DataManager.LocationData.loadLocationDataFromYaml(locationFilePath)
+            Data.DataManager.LocationData.loadParticipationSignSection(this)
         }
 
         val configPath = "$dataFolder/config.yml"
