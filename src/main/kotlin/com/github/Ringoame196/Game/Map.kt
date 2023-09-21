@@ -17,9 +17,9 @@ class Map {
     private val mapNumber = Scoreboard().getValue("gameData", "map")
     fun selectworld(player: org.bukkit.entity.Player) {
         val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
-        GUI().guiItem(gui, 0, Material.CHEST, "チュートリアルマップ", "", true)
-        GUI().guiItem(gui, 1, Material.CHEST, "もちもちマップ", "", true)
-        GUI().guiItem(gui, 2, Material.CHEST, "タイマンマップ", "", true)
+        GUI().guiItem(gui, 0, Material.CHEST, "tutorialmap", "", true)
+        GUI().guiItem(gui, 1, Material.CHEST, "motimotimap", "", true)
+        GUI().guiItem(gui, 2, Material.CHEST, "timanmap", "", true)
         player.openInventory(gui)
     }
     fun getMapName(): String {

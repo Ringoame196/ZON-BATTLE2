@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable
 class GameSystem {
     fun gameSettingGUIClick(plugin: Plugin, player: Player, item: ItemStack, e: InventoryClickEvent) {
         e.isCancelled = true
+        player.sendMessage(item.itemMeta?.displayName)
         player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f)
         val displayName = item.itemMeta?.displayName
         when (displayName) {
@@ -52,10 +53,6 @@ class GameSystem {
                 reproduction(plugin)
             }
         }
-        if (item.type == Material.CHEST && displayName?.contains("map") == true) {
-            GUI().locationSettingGUI(player, displayName)
-            return
-        }
         if (item.type == Material.ENDER_EYE && e.isShiftClick) {
             setlocation(item, player)
             e.isCancelled = true
@@ -70,6 +67,10 @@ class GameSystem {
             player.sendMessage("${ChatColor.AQUA}${playMap}を選択しました")
             e.isCancelled = true
             GUI().gamesettingGUI(player)
+            return
+        }
+        if (item.type == Material.CHEST && displayName?.contains("map") == true) {
+            GUI().locationSettingGUI(player, displayName, plugin)
             return
         }
         player.closeInventory()

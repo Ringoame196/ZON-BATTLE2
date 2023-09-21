@@ -435,24 +435,24 @@ class GUI {
         guiItem(gui, 10, Material.MAP, "${ChatColor.GREEN}座標設定", "", true)
         player.openInventory(gui)
     }
-    fun locationSettingGUI(player: Player, mapName: String) {
-        val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}座標設定[BATTLEGUI]@$mapName")
-        LocationData().load(Main(), mapName)
+    fun locationSettingGUI(player: Player, mapName: String, plugin: Plugin) {
+        val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]@$mapName")
+        LocationData().load(plugin, mapName)
         val location = Data.DataManager.LocationData
 
         guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.YELLOW}redshop", GET().locationTitle(location.redshop), true)
-        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.YELLOW}redshop", GET().locationTitle(location.blueshop), true)
+        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.YELLOW}blueshop", GET().locationTitle(location.blueshop), true)
         guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.YELLOW}redspawn", GET().locationTitle(location.redspawn), true)
-        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.YELLOW}redspawn", GET().locationTitle(location.bluespawn), true)
+        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.YELLOW}bluespawn", GET().locationTitle(location.bluespawn), true)
         guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest1", GET().locationTitle(location.randomChest1), true)
         guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest2", GET().locationTitle(location.randomChest2), true)
 
-        guiItem(gui, 8, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn1", GET().locationTitle(location.redZombieSpawnLocation1), true)
-        guiItem(gui, 9, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn2", GET().locationTitle(location.redZombieSpawnLocation2), true)
-        guiItem(gui, 10, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn3", GET().locationTitle(location.redZombieSpawnLocation3), true)
-        guiItem(gui, 11, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn1", GET().locationTitle(location.blueZombieSpawnLocation1), true)
-        guiItem(gui, 12, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn2", GET().locationTitle(location.blueZombieSpawnLocation2), true)
-        guiItem(gui, 13, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn3", GET().locationTitle(location.blueZombieSpawnLocation3), true)
+        guiItem(gui, 9, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn1", GET().locationTitle(location.redZombieSpawnLocation1), true)
+        guiItem(gui, 10, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn2", GET().locationTitle(location.redZombieSpawnLocation2), true)
+        guiItem(gui, 11, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn3", GET().locationTitle(location.redZombieSpawnLocation3), true)
+        guiItem(gui, 12, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn1", GET().locationTitle(location.blueZombieSpawnLocation1), true)
+        guiItem(gui, 13, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn2", GET().locationTitle(location.blueZombieSpawnLocation2), true)
+        guiItem(gui, 14, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn3", GET().locationTitle(location.blueZombieSpawnLocation3), true)
         player.openInventory(gui)
     }
     fun joinPlayers(player: Player) {
