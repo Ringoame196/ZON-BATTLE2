@@ -68,11 +68,26 @@ class GUI {
         item.setItemMeta(itemMeta)
         gui.setItem(number, item)
     }
+    fun petGUIitem(
+        gui: Inventory,
+        number: Int,
+        setItem: Material,
+        petName: String,
+        price: String,
+        explanation: String
+    ) {
+        val displayName = "[ペット召喚]$petName"
+        val item = lore(setItem, displayName, price, "${ChatColor.GREEN}$explanation")
+        val itemMeta: ItemMeta? = item.itemMeta
+        itemMeta?.isUnbreakable = true
+        item.setItemMeta(itemMeta)
+        gui.setItem(number, item)
+    }
 
     @Suppress("DEPRECATION")
-    fun playerHead(gui: Inventory, number: Int, name: String, displayName: String, lore: String) {
+    fun playerHead(gui: Inventory, number: Int, name: String, displayName: String, lore: String, explanation: String?) {
         // GUIにアイテムを楽にセットする
-        val item = lore(Material.PLAYER_HEAD, displayName, lore, null)
+        val item = lore(Material.PLAYER_HEAD, displayName, lore, "${ChatColor.GREEN}$explanation")
         val itemMeta = item.itemMeta as SkullMeta
         itemMeta.owningPlayer = Bukkit.getOfflinePlayer(name) // プレイヤー名で設定
         itemMeta.isUnbreakable = true // 不破壊
@@ -313,34 +328,34 @@ class GUI {
             guiItem(gui, i * 9 + 1, Material.RED_STAINED_GLASS_PANE, "${ChatColor.RED}選択禁止", "", true)
         }
         guiItem(gui, 0, Material.IRON_INGOT, "ゴーレム", "", true)
-        guiItem(gui, 2, Material.IRON_BLOCK, "${ChatColor.YELLOW}[ペット召喚]アイアンゴーレム", "1000p", true)
-        guiItem(gui, 3, Material.CHEST, "${ChatColor.YELLOW}[ペット召喚]ギフトゴーレム", "777p", true)
-        guiItem(gui, 4, Material.GOLD_BLOCK, "${ChatColor.RED}[ペット召喚]ゴールデンゴーレム", "1500p", true)
-        guiItem(gui, 5, Material.DIAMOND_BLOCK, "${ChatColor.YELLOW}[ペット召喚]ダイヤモンドゴーレム", "3000p", true)
+        petGUIitem(gui, 2, Material.IRON_BLOCK, "${ChatColor.YELLOW}アイアンゴーレム", "1000p", "普通のゴーレム")
+        petGUIitem(gui, 3, Material.CHEST, "${ChatColor.YELLOW}ギフトゴーレム", "777p", "死んだときにアイテムGET")
+        petGUIitem(gui, 4, Material.GOLD_BLOCK, "${ChatColor.RED}ゴールデンゴーレム", "1500p", "定期的にお金GET")
+        petGUIitem(gui, 5, Material.DIAMOND_BLOCK, "${ChatColor.YELLOW}ダイヤモンドゴーレム", "3000p", "半径4mのダイヤモンド鉱石の時間短縮")
 
         guiItem(gui, 9, Material.IRON_PICKAXE, "${ChatColor.GREEN}お助け", "", true)
-        playerHead(gui, 11, "akamaru58", "${ChatColor.GREEN}[ペット召喚]ミニオン", "1000p")
-        guiItem(gui, 12, Material.BREWING_STAND, "${ChatColor.GOLD}[ペット召喚]ポーション屋", "1200p", true)
+        playerHead(gui, 11, "akamaru58", "[ペット召喚]${ChatColor.GREEN}ミニオン", "1000p", "鉱石を掘ってくれる")
+        petGUIitem(gui, 12, Material.BREWING_STAND, "${ChatColor.GOLD}ポーション屋", "1200p", "回復のポーションプレゼント")
 
         guiItem(gui, 18, Material.IRON_SWORD, "${ChatColor.YELLOW}近接攻撃", "", true)
         guiItem(gui, 20, Material.BONE, "${ChatColor.YELLOW}★狼召喚", "100p", true)
-        guiItem(gui, 21, Material.GRAY_DYE, "${ChatColor.YELLOW}[ペット召喚]シルバーフィッシュ", "200p", true)
-        guiItem(gui, 22, Material.HONEYCOMB, "${ChatColor.GOLD}[ペット召喚]ハチ", "450p", true)
-        guiItem(gui, 23, Material.STONE_AXE, "${ChatColor.YELLOW}[ペット召喚]ヴィンディケーター", "850p", true)
+        petGUIitem(gui, 21, Material.GRAY_DYE, "${ChatColor.YELLOW}シルバーフィッシュ", "200p", "普通のシルバーフィッシュ")
+        petGUIitem(gui, 22, Material.HONEYCOMB, "${ChatColor.GOLD}ハチ", "450p", "※殴ると攻撃開始")
+        petGUIitem(gui, 23, Material.STONE_AXE, "${ChatColor.YELLOW}ヴィンディケーター", "850p", "普通のヴィンディケーター")
 
         guiItem(gui, 27, Material.BOW, "${ChatColor.YELLOW}遠距離攻撃", "", true)
-        guiItem(gui, 29, Material.BOW, "${ChatColor.YELLOW}[ペット召喚]スケルトン", "250p", true)
-        guiItem(gui, 30, Material.ICE, "${ChatColor.AQUA}[ペット召喚]ストレイ", "300p", true)
-        guiItem(gui, 31, Material.BLAZE_ROD, "${ChatColor.RED}[ペット召喚]ブレイズ", "400p", true)
-        guiItem(gui, 32, Material.SHULKER_SHELL, "${ChatColor.YELLOW}[ペット召喚]シュルカー", "800p", true)
+        petGUIitem(gui, 29, Material.BOW, "${ChatColor.YELLOW}スケルトン", "250p", "普通のスケルトン")
+        petGUIitem(gui, 30, Material.ICE, "${ChatColor.AQUA}ストレイ", "300p", "普通のストレイ")
+        petGUIitem(gui, 31, Material.BLAZE_ROD, "${ChatColor.RED}ブレイズ", "400p", "定期的にファイヤーボールを撃つ")
+        petGUIitem(gui, 32, Material.SHULKER_SHELL, "${ChatColor.YELLOW}シュルカー", "800p", "普通のシュルカー")
 
         guiItem(gui, 36, Material.NETHER_BRICK, "${ChatColor.RED}特殊", "", true)
-        guiItem(gui, 38, Material.MILK_BUCKET, "${ChatColor.YELLOW}[ペット召喚]牛", "250p", true)
-        guiItem(gui, 39, Material.RED_MUSHROOM, "${ChatColor.RED}[ペット召喚]マッシュルーム", "300p", true)
-        guiItem(gui, 40, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}[ペット召喚]エンダーマン", "1000p", true)
+        petGUIitem(gui, 38, Material.MILK_BUCKET, "${ChatColor.YELLOW}牛", "250p", "牛乳が取れる")
+        petGUIitem(gui, 39, Material.RED_MUSHROOM, "${ChatColor.RED}マッシュルーム", "300p", "シチューが取れる")
+        petGUIitem(gui, 40, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}エンダーマン", "1000p", "ゾンビを返品 ※殴るって攻撃開始")
 
         guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
-        guiItem(gui, 47, Material.PLAYER_HEAD, "${ChatColor.RED}[ペット召喚]分身", "2500p", true)
+        playerHead(gui, 47, player.name, "[ペット召喚]${ChatColor.RED}分身", "2500p", "召喚者の分身を作る※敵プレイヤーにも攻撃")
         player.openInventory(gui)
     }
     fun generalMerchandiseshop(gui: Inventory, player: Player) {
@@ -464,10 +479,10 @@ class GUI {
         var i = 0
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
             when (Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0) {
-                0 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.DARK_RED}未参加")
-                1 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み(ランダム)")
-                2 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.RED}参加済み(赤チーム)")
-                3 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.BLUE}参加済み(青チーム)")
+                0 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.DARK_RED}未参加", null)
+                1 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み(ランダム)", null)
+                2 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.RED}参加済み(赤チーム)", null)
+                3 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.BLUE}参加済み(青チーム)", null)
             }
             i++
             if (i == 18) { return }
