@@ -352,7 +352,7 @@ class GUI {
         guiItem(gui, 36, Material.NETHER_BRICK, "${ChatColor.RED}特殊", "", true)
         petGUIitem(gui, 38, Material.MILK_BUCKET, "${ChatColor.YELLOW}牛", "250p", "牛乳が取れる")
         petGUIitem(gui, 39, Material.RED_MUSHROOM, "${ChatColor.RED}マッシュルーム", "300p", "シチューが取れる")
-        petGUIitem(gui, 40, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}エンダーマン", "1000p", "ゾンビを返品 ※殴るって攻撃開始")
+        petGUIitem(gui, 40, Material.ENDER_EYE, "${ChatColor.DARK_PURPLE}エンダーマン", "1000p", "ゾンビを敵陣に送る ※殴るって攻撃開始")
 
         guiItem(gui, 45, Material.NETHER_STAR, "特別", "", true)
         playerHead(gui, 47, player.name, "[ペット召喚]${ChatColor.RED}分身", "2500p", "召喚者の分身を作る※敵プレイヤーにも攻撃")
