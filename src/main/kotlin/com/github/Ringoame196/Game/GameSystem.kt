@@ -4,7 +4,6 @@ import com.github.Ringoame196.Block
 import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.GUI
 import com.github.Ringoame196.Give
-import com.github.Ringoame196.Main
 import com.github.Ringoame196.ParticipatingPlayer
 import com.github.Ringoame196.RandomChest
 import com.github.Ringoame196.Sign
@@ -54,7 +53,7 @@ class GameSystem {
             }
         }
         if (item.type == Material.ENDER_EYE && e.isShiftClick) {
-            setlocation(item, player)
+            setlocation(item, player, plugin)
             e.isCancelled = true
         } else if (item.type == Material.REDSTONE) {
             if (GET().status()) {
@@ -75,10 +74,11 @@ class GameSystem {
         }
         player.closeInventory()
     }
-    fun setlocation(item: ItemStack, player: Player) {
-        val mapName = player.openInventory.topInventory.viewers.toString().replace("\"${ChatColor.DARK_GREEN}座標設定[BATTLEGUI]@", "")
+    fun setlocation(item: ItemStack, player: Player, plugin: Plugin) {
+        val gui = player.openInventory.topInventory
+        val mapName = gui.getItem(0)?.itemMeta?.displayName
         val itemName = item.itemMeta?.displayName.toString().replace("${ChatColor.YELLOW}", "")
-        LocationData().save(Main(), "$mapName.$itemName", player.location)
+        LocationData().save(plugin, "$mapName.$itemName", player.location)
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
     }
     fun settingScoreboard() {

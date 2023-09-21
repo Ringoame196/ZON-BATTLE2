@@ -436,16 +436,17 @@ class GUI {
         player.openInventory(gui)
     }
     fun locationSettingGUI(player: Player, mapName: String, plugin: Plugin) {
-        val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]@$mapName")
+        val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
         LocationData().load(plugin, mapName)
         val location = Data.DataManager.LocationData
 
-        guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.YELLOW}redshop", GET().locationTitle(location.redshop), true)
-        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.YELLOW}blueshop", GET().locationTitle(location.blueshop), true)
-        guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.YELLOW}redspawn", GET().locationTitle(location.redspawn), true)
-        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.YELLOW}bluespawn", GET().locationTitle(location.bluespawn), true)
-        guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest1", GET().locationTitle(location.randomChest1), true)
-        guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest2", GET().locationTitle(location.randomChest2), true)
+        guiItem(gui, 0, Material.PAPER, mapName, "", true)
+        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.YELLOW}redshop", GET().locationTitle(location.redshop), true)
+        guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.YELLOW}blueshop", GET().locationTitle(location.blueshop), true)
+        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.YELLOW}redspawn", GET().locationTitle(location.redspawn), true)
+        guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}bluespawn", GET().locationTitle(location.bluespawn), true)
+        guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest1", GET().locationTitle(location.randomChest1), true)
+        guiItem(gui, 6, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest2", GET().locationTitle(location.randomChest2), true)
 
         guiItem(gui, 9, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn1", GET().locationTitle(location.redZombieSpawnLocation1), true)
         guiItem(gui, 10, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn2", GET().locationTitle(location.redZombieSpawnLocation2), true)
