@@ -4,6 +4,7 @@ import com.github.Ringoame196.Block
 import com.github.Ringoame196.Entity.Shop
 import com.github.Ringoame196.GUI
 import com.github.Ringoame196.Give
+import com.github.Ringoame196.Main
 import com.github.Ringoame196.ParticipatingPlayer
 import com.github.Ringoame196.RandomChest
 import com.github.Ringoame196.Sign
@@ -11,6 +12,7 @@ import com.github.Ringoame196.Team
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
 import com.github.Ringoame196.data.Gamedata
+import com.github.Ringoame196.data.LocationData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -50,8 +52,8 @@ class GameSystem {
                 reproduction(plugin)
             }
         }
-        if (item.type == Material.CHEST && displayName?.contains("マップ") == true) {
-            Map().settingOpenGUI(displayName, player)
+        if (item.type == Material.CHEST && displayName?.contains("map") == true) {
+            GUI().locationSettingGUI(player, displayName)
             return
         }
         if (item.type == Material.ENDER_EYE && e.isShiftClick) {
@@ -73,37 +75,10 @@ class GameSystem {
         player.closeInventory()
     }
     fun setlocation(item: ItemStack, player: Player) {
-        when (item.itemMeta?.displayName) {
-            "${ChatColor.RED}shop" -> Data.DataManager.LocationData.redshop = player.location
-            "${ChatColor.BLUE}shop" -> Data.DataManager.LocationData.blueshop = player.location
-            "${ChatColor.RED}spawn" -> Data.DataManager.LocationData.redspawn = player.location
-            "${ChatColor.BLUE}spawn" -> Data.DataManager.LocationData.bluespawn = player.location
-            "${ChatColor.YELLOW}ランダムチェスト" -> Data.DataManager.LocationData.randomChest = player.location.block.location
-
-            "${ChatColor.RED}mshop" -> Data.DataManager.LocationData.mredshop = player.location
-            "${ChatColor.BLUE}mshop" -> Data.DataManager.LocationData.mblueshop = player.location
-            "${ChatColor.RED}mspawn" -> Data.DataManager.LocationData.mredspawn = player.location
-            "${ChatColor.BLUE}mspawn" -> Data.DataManager.LocationData.mbluespawn = player.location
-            "${ChatColor.YELLOW}mランダムチェスト1" -> Data.DataManager.LocationData.mrandomChest1 = player.location.block.location
-            "${ChatColor.YELLOW}mランダムチェスト2" -> Data.DataManager.LocationData.mrandomChest2 = player.location.block.location
-            "${ChatColor.RED}mspawnZombie1" -> Data.DataManager.LocationData.mredZombiespawn1 = player.location
-            "${ChatColor.RED}mspawnZombie2" -> Data.DataManager.LocationData.mredZombiespawn2 = player.location
-            "${ChatColor.BLUE}mspawnZombie1" -> Data.DataManager.LocationData.mblueZombiespawn1 = player.location
-            "${ChatColor.BLUE}mspawnZombie2" -> Data.DataManager.LocationData.mblueZombiespawn2 = player.location
-
-            "${ChatColor.RED}tmshop" -> Data.DataManager.LocationData.tmredshop = player.location
-            "${ChatColor.BLUE}tmshop" -> Data.DataManager.LocationData.tmblueshop = player.location
-            "${ChatColor.RED}tmspawn" -> Data.DataManager.LocationData.tmredspawn = player.location
-            "${ChatColor.BLUE}tmspawn" -> Data.DataManager.LocationData.tmbluespawn = player.location
-            "${ChatColor.YELLOW}tmランダムチェスト" -> Data.DataManager.LocationData.tmrandomChest = player.location.block.location
-            "${ChatColor.YELLOW}tmZombie1" -> Data.DataManager.LocationData.tmZombiespawn1 = player.location.block.location
-            "${ChatColor.YELLOW}tmZombie2" -> Data.DataManager.LocationData.tmZombiespawn2 = player.location
-            "${ChatColor.YELLOW}tmZombie3" -> Data.DataManager.LocationData.tmZombiespawn3 = player.location
-        }
+        val mapName = player.openInventory.topInventory.viewers.toString().replace("\"${ChatColor.DARK_GREEN}座標設定[BATTLEGUI]@", "")
+        val itemName = item.itemMeta?.displayName.toString().replace("${ChatColor.YELLOW}", "")
+        LocationData().save(Main(), "$mapName.$itemName", player.location)
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
-
-        val filePath = "plugins/ZON-BATTLE2/location_data.yml"
-        Data.DataManager.LocationData.saveToFile(filePath)
     }
     fun settingScoreboard() {
         Scoreboard().make("point", "Point")

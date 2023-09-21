@@ -6,8 +6,6 @@ import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
-import org.bukkit.configuration.ConfigurationSection
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -131,20 +129,9 @@ class GET {
         return null.toString()
     }
     fun getTeamshop(teamName: String): Villager? {
-        val map = Scoreboard().getValue("gameData", "map")
         val location: Location? = when (teamName) {
-            "red" -> when (map) {
-                1 -> Data.DataManager.LocationData.redshop
-                2 -> Data.DataManager.LocationData.mredshop
-                3 -> Data.DataManager.LocationData.tmredshop
-                else -> return null
-            }
-            "blue" -> when (map) {
-                1 -> Data.DataManager.LocationData.blueshop
-                2 -> Data.DataManager.LocationData.mblueshop
-                3 -> Data.DataManager.LocationData.tmblueshop
-                else -> return null
-            }
+            "red" -> Data.DataManager.LocationData.redshop
+            "blue" -> Data.DataManager.LocationData.blueshop
             else -> return null
         }
         val shop = getNearestEntityOfType(null, location!!, EntityType.VILLAGER, null, null, 3.0, null)

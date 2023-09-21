@@ -20,36 +20,15 @@ data class LocationData(
     var randomChest1: Location? = null,
     var randomChest2: Location? = null,
 
-    var redZombieSpawnLocation1:Location? = null,
-    var redZombieSpawnLocation2:Location? = null,
-    var redZombieSpawnLocation3:Location? = null,
+    var redZombieSpawnLocation1: Location? = null,
+    var redZombieSpawnLocation2: Location? = null,
+    var redZombieSpawnLocation3: Location? = null,
 
-    var blueZombieSpawnLocation1:Location? = null,
-    var blueZombieSpawnLocation2:Location? = null,
-    var blueZombieSpawnLocation3:Location? = null,
-
-    var mredshop: Location? = null,
-    var mblueshop: Location? = null,
-    var mredspawn: Location? = null,
-    var mbluespawn: Location? = null,
-    var mrandomChest1: Location? = null,
-    var mrandomChest2: Location? = null,
-    var mredZombiespawn1: Location? = null,
-    var mredZombiespawn2: Location? = null,
-    var mblueZombiespawn1: Location? = null,
-    var mblueZombiespawn2: Location? = null,
-
-    var tmredshop: Location? = null,
-    var tmblueshop: Location? = null,
-    var tmredspawn: Location? = null,
-    var tmbluespawn: Location? = null,
-    var tmrandomChest: Location? = null,
-    var tmZombiespawn1: Location? = null,
-    var tmZombiespawn2: Location? = null,
-    var tmZombiespawn3: Location? = null,
-
+    var blueZombieSpawnLocation1: Location? = null,
+    var blueZombieSpawnLocation2: Location? = null,
+    var blueZombieSpawnLocation3: Location? = null,
 ) {
-    fun save(plugin: Plugin,key:String,location: Location){
+    fun save(plugin: Plugin, key: String, location: Location) {
         val filePath = "${plugin.dataFolder}/location.yml"
         val yamlConfiguration = YamlConfiguration()
         yamlConfiguration.set(key, createSectionFromLocation(location))
@@ -60,7 +39,7 @@ data class LocationData(
             println("Error while saving data: ${e.message}")
         }
     }
-    fun loadParticipationSignSection(plugin:Plugin){
+    fun loadParticipationSignSection(plugin: Plugin) {
         val filePath = "${plugin.dataFolder}/location.yml"
         val yaml = YamlConfiguration.loadConfiguration(File(filePath))
         val locationData = Data.DataManager.LocationData
@@ -69,7 +48,7 @@ data class LocationData(
             locationData.participationSign = getLocationFromSection(participationSignSection)
         }
     }
-    fun load(plugin: Plugin,mapName:String){
+    fun load(plugin: Plugin, mapName: String) {
         val filePath = "${plugin.dataFolder}/location.yml"
         val yaml = YamlConfiguration.loadConfiguration(File(filePath))
         val locationData = Data.DataManager.LocationData

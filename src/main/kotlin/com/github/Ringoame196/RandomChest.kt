@@ -35,10 +35,8 @@ class RandomChest {
     @Suppress("NAME_SHADOWING")
     fun reset() {
         val randomChest: MutableList<Location> = mutableListOf()
-        Data.DataManager.LocationData.randomChest?.let { randomChest.add(it) }
-        Data.DataManager.LocationData.mrandomChest1?.let { randomChest.add(it) }
-        Data.DataManager.LocationData.mrandomChest2?.let { randomChest.add(it) }
-        Data.DataManager.LocationData.tmrandomChest?.let { randomChest.add(it) }
+        Data.DataManager.LocationData.randomChest1?.let { randomChest.add(it) }
+        Data.DataManager.LocationData.randomChest2?.let { randomChest.add(it) }
         for (chest in randomChest) {
             if (chest.block.type == Material.CHEST) {
                 val chest = chest.block.state as Chest

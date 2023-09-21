@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import com.github.Ringoame196.data.Data
+import com.github.Ringoame196.data.LocationData
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
@@ -19,8 +20,7 @@ class Sign {
             e.setLine(0, "${ChatColor.AQUA}[BATTLE]")
             e.setLine(2, "${ChatColor.YELLOW}クリックで参加")
             Data.DataManager.LocationData.participationSign = e.block.location
-            val filePath = "plugins/ZON-BATTLE2/location_data.yml"
-            Data.DataManager.LocationData.saveToFile(filePath)
+            LocationData().save(Main(), "participationSign", e.block.location)
         }
     }
     fun click(player: Player, block: Block, plugin: Plugin) {

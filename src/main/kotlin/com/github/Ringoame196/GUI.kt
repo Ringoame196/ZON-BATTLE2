@@ -7,6 +7,7 @@ import com.github.Ringoame196.Game.Map
 import com.github.Ringoame196.Game.Scoreboard
 import com.github.Ringoame196.data.Data
 import com.github.Ringoame196.data.GET
+import com.github.Ringoame196.data.LocationData
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -434,44 +435,24 @@ class GUI {
         guiItem(gui, 10, Material.MAP, "${ChatColor.GREEN}座標設定", "", true)
         player.openInventory(gui)
     }
-    fun locationtutorialMap(player: Player) {
-        val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
+    fun locationSettingGUI(player: Player, mapName: String) {
+        val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}座標設定[BATTLEGUI]@$mapName")
+        LocationData().load(Main(), mapName)
         val location = Data.DataManager.LocationData
-        guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.RED}shop", GET().locationTitle(location.redshop), true)
-        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.BLUE}shop", GET().locationTitle(location.blueshop), true)
-        guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.RED}spawn", GET().locationTitle(location.redspawn), true)
-        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.BLUE}spawn", GET().locationTitle(location.bluespawn), true)
-        guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}ランダムチェスト", GET().locationTitle(location.randomChest), true)
-        player.openInventory(gui)
-    }
-    fun locationMotimotiMap(player: Player) {
-        val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
-        val location = Data.DataManager.LocationData
-        guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.RED}mshop", GET().locationTitle(location.mredshop), true)
-        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.BLUE}mshop", GET().locationTitle(location.mblueshop), true)
-        guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.RED}mspawn", GET().locationTitle(location.mredspawn), true)
-        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.BLUE}mspawn", GET().locationTitle(location.mbluespawn), true)
-        guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}mランダムチェスト1", GET().locationTitle(location.mrandomChest1), true)
-        guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}mランダムチェスト2", GET().locationTitle(location.mrandomChest2), true)
-        guiItem(gui, 9, Material.ENDER_EYE, "${ChatColor.RED}mspawnZombie1", GET().locationTitle(location.mredZombiespawn1), true)
-        guiItem(gui, 10, Material.ENDER_EYE, "${ChatColor.RED}mspawnZombie2", GET().locationTitle(location.mredZombiespawn2), true)
-        guiItem(gui, 11, Material.ENDER_EYE, "${ChatColor.BLUE}mspawnZombie1", GET().locationTitle(location.mblueZombiespawn1), true)
-        guiItem(gui, 12, Material.ENDER_EYE, "${ChatColor.BLUE}mspawnZombie2", GET().locationTitle(location.mblueZombiespawn2), true)
 
-        player.openInventory(gui)
-    }
-    fun locationTimanMap(player: Player) {
-        val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
-        val location = Data.DataManager.LocationData
-        guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.RED}tmshop", GET().locationTitle(location.tmredshop), true)
-        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.BLUE}tmshop", GET().locationTitle(location.tmblueshop), true)
-        guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.RED}tmspawn", GET().locationTitle(location.tmredspawn), true)
-        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.BLUE}tmspawn", GET().locationTitle(location.tmbluespawn), true)
-        guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}tmランダムチェスト", GET().locationTitle(location.tmrandomChest), true)
-        guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}tmZombie1", GET().locationTitle(location.tmZombiespawn1), true)
-        guiItem(gui, 6, Material.ENDER_EYE, "${ChatColor.YELLOW}tmZombie2", GET().locationTitle(location.tmZombiespawn2), true)
-        guiItem(gui, 7, Material.ENDER_EYE, "${ChatColor.YELLOW}tmZombie3", GET().locationTitle(location.tmZombiespawn3), true)
+        guiItem(gui, 0, Material.ENDER_EYE, "${ChatColor.YELLOW}redshop", GET().locationTitle(location.redshop), true)
+        guiItem(gui, 1, Material.ENDER_EYE, "${ChatColor.YELLOW}redshop", GET().locationTitle(location.blueshop), true)
+        guiItem(gui, 2, Material.ENDER_EYE, "${ChatColor.YELLOW}redspawn", GET().locationTitle(location.redspawn), true)
+        guiItem(gui, 3, Material.ENDER_EYE, "${ChatColor.YELLOW}redspawn", GET().locationTitle(location.bluespawn), true)
+        guiItem(gui, 4, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest1", GET().locationTitle(location.randomChest1), true)
+        guiItem(gui, 5, Material.ENDER_EYE, "${ChatColor.YELLOW}randomChest2", GET().locationTitle(location.randomChest2), true)
 
+        guiItem(gui, 8, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn1", GET().locationTitle(location.redZombieSpawnLocation1), true)
+        guiItem(gui, 9, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn2", GET().locationTitle(location.redZombieSpawnLocation2), true)
+        guiItem(gui, 10, Material.ENDER_EYE, "${ChatColor.YELLOW}redZombieSpawn3", GET().locationTitle(location.redZombieSpawnLocation3), true)
+        guiItem(gui, 11, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn1", GET().locationTitle(location.blueZombieSpawnLocation1), true)
+        guiItem(gui, 12, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn2", GET().locationTitle(location.blueZombieSpawnLocation2), true)
+        guiItem(gui, 13, Material.ENDER_EYE, "${ChatColor.YELLOW}blueZombieSpawn3", GET().locationTitle(location.blueZombieSpawnLocation3), true)
         player.openInventory(gui)
     }
     fun joinPlayers(player: Player) {
