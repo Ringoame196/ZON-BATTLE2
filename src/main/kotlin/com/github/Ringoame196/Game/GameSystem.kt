@@ -77,7 +77,8 @@ class GameSystem {
         val gui = player.openInventory.topInventory
         val mapName = gui.getItem(0)?.itemMeta?.displayName
         val itemName = item.itemMeta?.displayName.toString().replace("${ChatColor.YELLOW}", "")
-        LocationData().save(plugin, "$mapName.$itemName", player.location)
+        val location = player.location.block.location.add(0.5, 0.0, 0.5)
+        LocationData().save(plugin, "$mapName.$itemName", location)
         player.sendMessage("${ChatColor.AQUA}座標設定完了")
     }
     fun settingScoreboard() {
@@ -99,8 +100,9 @@ class GameSystem {
         reset()
         LocationData().load(plugin, Map().getMapName()[Map().mapNamber()])
         Data.DataManager.LocationData.let {
-            if (it.redshop == null || it.blueshop == null || it.redspawn == null || it.bluespawn == null) {
+            if (it.redshop == null || it.blueshop == null || it.redspawn == null || it.bluespawn == null || it.randomChest1 == null) {
                 NotSet(player)
+                gameend("null")
                 return
             }
         }

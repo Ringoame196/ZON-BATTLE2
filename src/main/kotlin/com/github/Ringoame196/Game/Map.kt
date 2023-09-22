@@ -45,12 +45,10 @@ class Map {
         val location1 = locationData.randomChest1?.clone()
         val location2 = locationData.randomChest2?.clone()
         RandomChest().replenishment(location1!!, location2)
-        location1.add(0.5, 0.0, 0.5)
         val armorStand1 = location1.let { ArmorStand().summon(it, "") }
         Data.DataManager.gameData.randomChestTitle.add(armorStand1)
 
         if (location2 != null) {
-            location2.add(0.5, 0.0, 0.5)
             val armorStand2 = location2.let { it.let { it1 -> ArmorStand().summon(it1, "") } }
             Data.DataManager.gameData.randomChestTitle.add(armorStand2)
         }
