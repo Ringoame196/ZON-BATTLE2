@@ -14,99 +14,77 @@ import org.bukkit.Material
 import org.bukkit.plugin.Plugin
 
 class Map {
-    private val mapNumber = Scoreboard().getValue("gameData", "map")
+    fun mapNamber(): Int {
+        return Scoreboard().getValue("gameData", "map")
+    }
     fun selectworld(player: org.bukkit.entity.Player) {
         val gui = Bukkit.createInventory(null, 9, "${ChatColor.DARK_GREEN}設定画面[BATTLEGUI]")
-        GUI().guiItem(gui, 0, Material.CHEST, "tutorialmap", "", true)
-        GUI().guiItem(gui, 1, Material.CHEST, "motimotimap", "", true)
-        GUI().guiItem(gui, 2, Material.CHEST, "timanmap", "", true)
+        for (i in 1 until getMapName().size) {
+            GUI().guiItem(gui, i - 1, Material.CHEST, getMapName()[i], "", true)
+        }
         player.openInventory(gui)
     }
-    fun getMapName(): String {
-        return when (mapNumber) {
-            1 -> "チュートリアルマップ"
-            2 -> "もちもちマップ"
-            3 -> "タイマン"
-            else -> "未設定"
-        }
+    fun getMapName(): MutableList<String> {
+        return mutableListOf<String>(
+            "null",
+            "tutorialmap",
+            "motimotimap",
+            "timanmap",
+        )
     }
     fun resetMapName() {
-        if (mapNumber > 3) {
+        if (mapNamber() > 3) {
             Scoreboard().set("gameData", "map", 0)
         }
     }
     fun mapSetting() {
-        when (mapNumber) {
-            1 -> {
-                Shop().summon(Data.DataManager.LocationData.redshop, "red")
-                Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
+        val locationData = Data.DataManager.LocationData
+        Shop().summon(locationData.redshop, "red")
+        Shop().summon(locationData.redshop, "blue")
 
-                val location = Data.DataManager.LocationData.randomChest1?.clone()
-                RandomChest().replenishment(location!!, null)
-                location.add(0.5, 0.0, 0.5)
-                val armorStand = location.let { ArmorStand().summon(it, "") }
-                Data.DataManager.gameData.randomChestTitle.add(armorStand)
-            }
-            2 -> {
-                Shop().summon(Data.DataManager.LocationData.redshop, "red")
-                Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
+        val location1 = locationData.randomChest1?.clone()
+        val location2 = locationData.randomChest2?.clone()
+        RandomChest().replenishment(location1!!, location2)
+        location1.add(0.5, 0.0, 0.5)
+        val armorStand1 = location1.let { ArmorStand().summon(it, "") }
+        Data.DataManager.gameData.randomChestTitle.add(armorStand1)
 
-                val location1 = Data.DataManager.LocationData.randomChest1?.clone()
-                val location2 = Data.DataManager.LocationData.randomChest2?.clone()
-                RandomChest().replenishment(location1!!, location2)
-                location1.add(0.5, 0.0, 0.5)
-                var armorStand = location1.let { ArmorStand().summon(it, "") }
-                Data.DataManager.gameData.randomChestTitle.add(armorStand)
+        if (location2 != null) {
+            location2.add(0.5, 0.0, 0.5)
+            val armorStand2 = location2.let { it.let { it1 -> ArmorStand().summon(it1, "") } }
+            Data.DataManager.gameData.randomChestTitle.add(armorStand2)
+        }
 
-                location2?.add(0.5, 0.0, 0.5)
-                armorStand = location2.let { ArmorStand().summon(it!!, "") }
-                Data.DataManager.gameData.randomChestTitle.add(armorStand)
-            }
-            3 -> {
-                Shop().summon(Data.DataManager.LocationData.redshop, "red")
-                Shop().summon(Data.DataManager.LocationData.blueshop, "blue")
-
-                val location = Data.DataManager.LocationData.randomChest1?.clone()
-                RandomChest().replenishment(location!!, null)
-                location.add(0.5, 0.0, 0.5)
-                val armorStand = location.let { ArmorStand().summon(it, "") }
-                Data.DataManager.gameData.randomChestTitle.add(armorStand)
-                Scoreboard().set("gameData", "timeLimit", 15 * 60)
-            }
+        if (mapNamber() == 3) {
+            Scoreboard().set("gameData", "timeLimit", 15 * 60)
         }
     }
     fun summonSorting(function: String, player: org.bukkit.entity.Player, plugin: Plugin) {
-        when (mapNumber) {
+        when (mapNamber()) {
             1 -> Zombie().glassSummon(player, function, plugin)
             2 -> Zombie().randomSummon(player, function, plugin)
             3 -> Zombie().randomSummon(player, function, plugin)
         }
     }
     fun randomChest() {
-        when (mapNumber) {
-            1 -> RandomChest().replenishment(Data.DataManager.LocationData.randomChest1!!, null)
-            2 -> RandomChest().replenishment(Data.DataManager.LocationData.randomChest1!!, Data.DataManager.LocationData.randomChest2!!)
-            3 -> RandomChest().replenishment(Data.DataManager.LocationData.randomChest1!!, null)
-        }
+        RandomChest().replenishment(Data.DataManager.LocationData.randomChest1!!, Data.DataManager.LocationData.randomChest2!!)
     }
     fun randomSummonLocationList(player: org.bukkit.entity.Player): MutableList<Location> {
         val team = GET().teamName(player)
+        val locationData = Data.DataManager.LocationData
         val locationList: MutableList<Location> = mutableListOf()
-        when (Scoreboard().getValue("gameData", "map")) {
-            2 -> {
-                if (team == "red") {
-                    locationList.add(Data.DataManager.LocationData.blueZombieSpawnLocation1!!)
-                    locationList.add(Data.DataManager.LocationData.blueZombieSpawnLocation2!!)
-                } else if (team == "blue") {
-                    locationList.add(Data.DataManager.LocationData.redZombieSpawnLocation1!!)
-                    locationList.add(Data.DataManager.LocationData.redZombieSpawnLocation2!!)
-                }
-            }
-            3 -> {
-                locationList.add(Data.DataManager.LocationData.blueZombieSpawnLocation1!!)
-                locationList.add(Data.DataManager.LocationData.blueZombieSpawnLocation2!!)
-                locationList.add(Data.DataManager.LocationData.blueZombieSpawnLocation3!!)
-            }
+        if (team == "red") {
+            locationList.add(locationData.blueZombieSpawnLocation1!!)
+            locationList.add(locationData.blueZombieSpawnLocation2!!)
+        } else if (team == "blue") {
+            locationList.add(locationData.redZombieSpawnLocation1!!)
+            locationList.add(locationData.redZombieSpawnLocation2!!)
+        }
+        if (Data.DataManager.LocationData.redZombieSpawnLocation3 != null) {
+            locationList.add(Data.DataManager.LocationData.redZombieSpawnLocation3!!)
+        }
+        if (Data.DataManager.LocationData.blueZombieSpawnLocation3 != null) {
+            locationList.add(Data.DataManager.LocationData.blueZombieSpawnLocation3!!)
         }
         return locationList
     }

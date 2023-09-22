@@ -61,7 +61,7 @@ class GameSystem {
             }
             Scoreboard().add("gameData", "map", 1)
             Map().resetMapName()
-            val playMap = Map().getMapName()
+            val playMap = Map().getMapName()[Map().mapNamber()]
             player.sendMessage("${ChatColor.AQUA}${playMap}を選択しました")
             e.isCancelled = true
             GUI().gamesettingGUI(player)
@@ -97,6 +97,7 @@ class GameSystem {
         }
         Scoreboard().set("gameData", "status", 1)
         reset()
+        LocationData().load(plugin, Map().getMapName()[Map().mapNamber()])
         Data.DataManager.LocationData.let {
             if (it.redshop == null || it.blueshop == null || it.redspawn == null || it.bluespawn == null) {
                 NotSet(player)
@@ -109,7 +110,7 @@ class GameSystem {
         Timer().feverSet()
         settingScoreboard()
 
-        val countList = mutableListOf<String>("${ChatColor.AQUA}---ゲーム開始---", "${ChatColor.RED}1", "${ChatColor.YELLOW}2", "${ChatColor.YELLOW}3", "${ChatColor.GREEN}4", "${ChatColor.GREEN}5")
+        val countList = mutableListOf<String>("${ChatColor.AQUA}-----ゲーム開始-----", "${ChatColor.RED}1", "${ChatColor.YELLOW}2", "${ChatColor.YELLOW}3", "${ChatColor.GREEN}4", "${ChatColor.GREEN}5")
         var c = 5
         object : BukkitRunnable() {
             override fun run() {
