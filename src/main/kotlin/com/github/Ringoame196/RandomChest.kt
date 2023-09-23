@@ -20,7 +20,11 @@ class RandomChest {
     fun replenishment(location1: Location, location2: Location?) {
         val items: MutableList<ItemStack> = setList()
         val random = Random
-        val chestList: MutableList<Location?> = mutableListOf(location1, location2)
+        val chestList: MutableList<Location?> = mutableListOf()
+        chestList.add(location1)
+        if (location2 != null) {
+            chestList.add(location2)
+        }
         ParticipatingPlayer().message("${ChatColor.YELLOW}チェストを補充しました")
         ParticipatingPlayer().sound(Sound.BLOCK_CHEST_OPEN)
         for (chest in chestList) {

@@ -460,11 +460,11 @@ class GUI {
         val gui = Bukkit.createInventory(null, 18, "${ChatColor.DARK_GREEN}参加プレイヤー[BATTLEGUI]")
         var i = 0
         for (loopPlayer in Bukkit.getOnlinePlayers()) {
-            when (Scoreboard().getValue("participatingPlayer", loopPlayer.name) ?: 0) {
-                0 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.DARK_RED}未参加", null)
-                1 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み(ランダム)", null)
-                2 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.RED}参加済み(赤チーム)", null)
-                3 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.BLUE}参加済み(青チーム)", null)
+            when (Scoreboard().getValue("participatingPlayer", loopPlayer.name)) {
+                0 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.DARK_RED}未参加", "プレイヤー")
+                1 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.GREEN}参加済み(ランダム)", "プレイヤー")
+                2 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.RED}参加済み(赤チーム)", "プレイヤー")
+                3 -> playerHead(gui, i, loopPlayer.name, loopPlayer.name, "${ChatColor.BLUE}参加済み(青チーム)", "プレイヤー")
             }
             i++
             if (i == 18) { return }

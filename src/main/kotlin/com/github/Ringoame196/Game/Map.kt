@@ -40,7 +40,7 @@ class Map {
     fun mapSetting() {
         val locationData = Data.DataManager.LocationData
         Shop().summon(locationData.redshop, "red")
-        Shop().summon(locationData.redshop, "blue")
+        Shop().summon(locationData.blueshop, "blue")
 
         val location1 = locationData.randomChest1?.clone()
         val location2 = locationData.randomChest2?.clone()
@@ -65,7 +65,7 @@ class Map {
         }
     }
     fun randomChest() {
-        RandomChest().replenishment(Data.DataManager.LocationData.randomChest1!!, Data.DataManager.LocationData.randomChest2!!)
+        (Data.DataManager.LocationData.randomChest1)?.let { RandomChest().replenishment(it, Data.DataManager.LocationData.randomChest2) }
     }
     fun randomSummonLocationList(player: org.bukkit.entity.Player): MutableList<Location> {
         val team = GET().teamName(player)
