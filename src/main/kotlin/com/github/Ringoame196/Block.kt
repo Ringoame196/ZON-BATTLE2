@@ -19,6 +19,11 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class Block {
     fun revival(plugin: Plugin, location: Location, cool: Int, type: Material, blockData: BlockData) {
+        if (cool == -1) {
+            location.block.setType(type)
+            location.block.setBlockData(blockData)
+            return
+        }
         var cooltime = cool
         val setLocation = location.clone()
         setLocation.block.type = Material.LIGHT_BLUE_STAINED_GLASS
@@ -36,6 +41,7 @@ class Block {
                     cooltime--
                     if (cooltime > 10 && armorStand.scoreboardTags.contains("shortening")) {
                         cooltime = 10
+                        armorStand.scoreboardTags.remove("shortening")
                     }
                 } else {
                     location.block.setType(type)

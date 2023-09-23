@@ -60,7 +60,7 @@ class PetData {
         pet?.isCustomNameVisible = true
         pet?.scoreboardTags?.add("targetZombie")
         pet?.scoreboardTags?.add("${GET().teamName(player)}Pet")
-        if (pet?.customName != "${ChatColor.RED}分身" || pet.customName != "${ChatColor.YELLOW}ギフトゴーレム" || pet.customName != "${ChatColor.YELLOW}ダイヤモンドゴーレム") {
+        if (pet?.customName != "${ChatColor.RED}分身" && pet?.customName != "${ChatColor.YELLOW}ギフトゴーレム" && pet?.customName != "${ChatColor.YELLOW}ダイヤモンドゴーレム") {
             pet?.scoreboardTags?.add("friend")
         }
         pet?.scoreboardTags?.add(GET().teamName(player))
