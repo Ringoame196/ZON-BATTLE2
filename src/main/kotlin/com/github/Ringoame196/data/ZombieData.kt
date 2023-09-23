@@ -134,6 +134,7 @@ class ZombieData {
             it.equipment?.chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
             it.equipment?.leggings = ItemStack(Material.LEATHER_LEGGINGS)
             it.equipment?.boots = ItemStack(Material.LEATHER_BOOTS)
+            it.equipment?.setItemInMainHand(Give().knockbackSword())
         }
     }
     fun dashman(zombie: Zombie?) {
@@ -249,10 +250,10 @@ class ZombieData {
             it.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = 4.0
             it.scoreboardTags.add("targetshop")
             it.scoreboardTags.add("shaman")
-            it.equipment?.helmet = Give().colorLEATHER(Material.LEATHER_HELMET, "GREEN")
-            it.equipment?.chestplate = Give().colorLEATHER(Material.LEATHER_CHESTPLATE, "GREEN")
-            it.equipment?.leggings = Give().colorLEATHER(Material.LEATHER_LEGGINGS, "GREEN")
-            it.equipment?.boots = Give().colorLEATHER(Material.LEATHER_BOOTS, "GREEN")
+            it.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
+            it.equipment?.chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
+            it.equipment?.leggings = ItemStack(Material.LEATHER_LEGGINGS)
+            it.equipment?.boots = ItemStack(Material.LEATHER_BOOTS)
         }
     }
     fun Frozen(zombie: Zombie?) {

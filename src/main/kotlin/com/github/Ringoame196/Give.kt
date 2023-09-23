@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Color
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
@@ -95,5 +96,13 @@ class Give {
         itemMeta.isUnbreakable = true // 不破壊
         item.setItemMeta(itemMeta)
         return item
+    }
+    fun knockbackSword(): ItemStack {
+        // ダイヤモンドの剣を作成
+        val knockbackSword = ItemStack(Material.IRON_SWORD)
+
+        // ノックバックエンチャントを付ける
+        knockbackSword.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1)
+        return knockbackSword
     }
 }
