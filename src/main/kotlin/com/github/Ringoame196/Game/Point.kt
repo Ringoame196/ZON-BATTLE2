@@ -3,10 +3,12 @@ package com.github.Ringoame196.Game
 import com.github.Ringoame196.data.GET
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import org.bukkit.event.Cancellable
 import org.bukkit.plugin.Plugin
 
 class Point {
@@ -46,6 +48,9 @@ class Point {
         GameSystem().adventure(e, player)
         val coolTime = GET().cooltime(blockType, team)
         val point = GET().orePoint(blockType) ?: return
+        if (player.gameMode == GameMode.CREATIVE && e is Cancellable) {
+            e.isCancelled = true
+        }
         add(player, point, true)
         com.github.Ringoame196.Block().revival(plugin, block.location, coolTime, blockType, blockData)
     }
