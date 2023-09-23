@@ -30,10 +30,11 @@ class Map {
             "tutorialmap",
             "motimotimap",
             "timanmap",
+            "apartmentmap"
         )
     }
     fun resetMapName() {
-        if (mapNamber() > 3) {
+        if (mapNamber() > getMapName().size - 1) {
             Scoreboard().set("gameData", "map", 0)
         }
     }
@@ -53,7 +54,7 @@ class Map {
             Data.DataManager.gameData.randomChestTitle.add(armorStand2)
         }
 
-        if (mapNamber() == 3) {
+        if (mapNamber() == 3 || mapNamber() == 4) {
             Scoreboard().set("gameData", "timeLimit", 15 * 60)
         }
     }
@@ -62,6 +63,7 @@ class Map {
             1 -> Zombie().glassSummon(player, function, plugin)
             2 -> Zombie().randomSummon(player, function, plugin)
             3 -> Zombie().randomSummon(player, function, plugin)
+            4 -> Zombie().randomSummon(player, function, plugin)
         }
     }
     fun randomChest() {

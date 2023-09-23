@@ -59,7 +59,7 @@ class Timer {
                 Data.DataManager.gameData.bossBar.setTitle("${ChatColor.YELLOW}ゾンビ解放まで${GET().minutes(remaining)}")
             } else if (time <= 1200) {
                 val remaining = 1200 - time
-                if (Scoreboard().getValue("gameData", "map") == 3) {
+                if (Scoreboard().getValue("gameData", "map") == 3 || Scoreboard().getValue("gameData", "map") == 4) {
                     Data.DataManager.gameData.bossBar.setTitle("${ChatColor.RED}制限時間${GET().minutes(timeLimit - time)}")
                 } else {
                     Data.DataManager.gameData.bossBar.setTitle("${ChatColor.AQUA}ポイント2倍まで${GET().minutes(remaining)}")
@@ -76,7 +76,7 @@ class Timer {
             Map().randomChest()
         }
         if (time % 90 == 0) {
-            if (Scoreboard().getValue("gameData", "map") == 3) {
+            if (Scoreboard().getValue("gameData", "map") == 3 || Scoreboard().getValue("gameData", "map") == 4) {
                 Mission().set("red", plugin)
             }
         }
